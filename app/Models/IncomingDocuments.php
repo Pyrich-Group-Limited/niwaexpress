@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Auditable as AuditingAuditable;
+use OwenIt\Auditing\Contracts\Auditable;
+
+class IncomingDocuments extends Model implements Auditable
+{
+    use SoftDeletes;
+    use AuditingAuditable;
+    use HasFactory;
+    public $table = 'incoming_documents_manager';
+
+    public $fillable = [
+        'title',
+        'description',
+        'created_by',
+        'category_id',
+        'document_url',
+        'status',
+        'approved_date_time',
+        'full_name',
+        'email',
+        'phone',
+        'department_id',
+        'branch_id',
+    ];
+
+    protected $casts = [
+        'title' => 'string',
+        'description' => 'string',
+        'created_by' => 'integer',
+        'category_id' => 'integer',
+        'department_id' => 'integer',
+        'branch_id' => 'integer',
+    ];
+
+    public static array $rules = [
+        'title' => 'required',
+        'file' => 'required|file|max:2048',
+        'description' => 'required',
+        'department_id' => 'required',
+        'email' => 'required',
+        'branch_id' => 'required',
+    ];
+
+
+
+}
