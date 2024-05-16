@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Employer Documents</title>
+    <title>Applicant Documents</title>
 </head>
 <body>
-    <p>Dear Employer,</p>
+    <p>Dear Applicant,</p>
 
     <p>This is to notify you of a new client document from NIWA portal.</p>
 
@@ -24,6 +24,6 @@
     <p><a href="https://ebs.eniwa.com.ng/documents/index">View Documents Status</a></p>
 
     <p>Best regards,</p>
-    <p>NIWA EROM Portal</p>
+    <p>NIWA Express Portal</p>
 </body>
 </html>

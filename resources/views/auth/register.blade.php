@@ -328,7 +328,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         {{-- <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <label class="form-label" for="contact_position">Designation
@@ -355,10 +355,10 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="nk-stepper-step" id="company_hide-content">
                                                     <div class="" id="company_hide-content1">
                                                         <h5 class="title mb-3" id="comp">NIN / Personal Address</h5>
@@ -386,9 +386,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
-                                                            
-                                                        </div>     
+
+
+                                                        </div>
                                                     </div>
                                                  <div id="company_hide-content2" style="display: none;">
                                                     <h5 class="title mb-3" id="comp">Company Details</h5>
@@ -404,7 +404,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="col-sm-6" id="company_rcnumber1">
                                                             <div class="form-group">
                                                                 <label class="form-label" for="company_rcnumber">RC
@@ -430,7 +430,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="col-sm-6" id="company_address1">
                                                             <div class="form-group">
                                                                 <label class="form-label" for="company_address">Company
@@ -478,7 +478,7 @@
                                                  </div>
                                                 </div>
                                                     </div>
-                                                
+
                                                 <div class="nk-stepper-step">
                                                     <h5 class="title mb-3">Passwords</h5>
                                                     <p>Set account access.</p>
@@ -556,8 +556,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
-                                                
+
+
                                                 </div>
                                                 <div class="nk-stepper-step text-center">
                                                     <h5 class="title mb-2">You Are Almost Done!</h5>
@@ -2985,7 +2985,7 @@
         </div>
     </div>
     {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> --}}
-    
+
 
 @endsection
 
