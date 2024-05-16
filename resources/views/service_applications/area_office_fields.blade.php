@@ -1,6 +1,6 @@
 <!-- Select Area Office -->
 <div class="form-group col-sm-12 mb-3">
-    <label for="branch_id">Select Area Office:</label>
+    <label for="branch_id">Select Location:</label>
     <select id="branch_id" name="branch_id" class="form-select" required>
         @foreach($branches as $key => $value)
             <option value="{{ $key }}">{{ $value }}</option>
@@ -12,7 +12,7 @@
 {{-- <div class="form-group col-sm-12 mb-3">
     <label for="title">Input Service Type:</label>
     <input type="text" id="title" name="title" class="form-control" required>
-</div> --}}
+</div> --}} 
 
 <div class="form-group col-sm-12 mb-3">
     <label for="service_id">Service Type:</label>

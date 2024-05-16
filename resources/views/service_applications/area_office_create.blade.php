@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12 text-center">
                     <h2>
-                        Submit Letter Of Intent
+                        Upload Letter Of Intent
                     </h2>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             </div>
 
             <div class="card-footer" style="">
-                <button type="submit" class="btn btn-primary">SUBMIT</button>
+                <button type="submit" class="btn btn-primary">NEXT</button>
                 {{-- <a href="{{ route('incoming_documents_manager.index') }}" class="btn btn-default"> Cancel </a> --}}
             </div>
 
