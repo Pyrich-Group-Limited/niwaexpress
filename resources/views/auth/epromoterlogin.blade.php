@@ -12,13 +12,13 @@
                         <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
                     </a>
                 </div>
-                <h4>Welcome back!</h4>
+                <h4>Welcome e-Promota Portal!</h4>
                 <h6 class="font-weight-light">Happy to see you again!</h6>
                 @include('auth.messages')
-                <form class="pt-3" method="POST" action="{{ route('login') }}">
+                <form class="pt-3" method="POST" action="{{ route('loginprom') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="exampleInputEmail"> Email</label>
+                        <label for="exampleInputEmail"> Email Address</label>
                         <div class="input-group">
                             <div class="input-group-prepend bg-transparent">
                                 <span class="input-group-text bg-transparent border-right-0">

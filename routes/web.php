@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('landing.index'); //Redirect on load to login or home
 })->name('landing');
 
-Route::get('login', function () {
+Route::get('loginpromot', function () {
     //return view('welcome');
     return view('auth.login'); //Redirect on load to login or home
 });
@@ -206,3 +206,13 @@ Route::get('bookpage/{id}/tv/{amount}',[BookingController::class,'bookpage'])->n
 Route::post('paybook',[BookingController::class,'create'])->name('paybook');
 Route::post('storepayment',[BookingController::class,'store'])->name('storepayment');
 Route::post('savedapplicant',[RegisterController::class,'saveregidtrationform'])->name('saverecordofapplicant');
+
+
+Route::get('epromoter',function(){
+    return view('auth.epromoterlogin');
+})->name('promoterlogin');
+
+Route::post('loginpromoter',[RegisterController::class,'loginaspromoter'])->name('loginprom');
+Route::any('epromoterview',[RegisterController::class,'epromoterapplicant'])->name('thenewapplicant');
+
+
