@@ -97,7 +97,7 @@
                 </div>
                 <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4 ms-3">REGISTER</a>
                 {{-- <a href="https://seaexpresstransit.com" target="_blank" class="btn btn-primary py-2 px-4 ms-3">Buy Ferry Ticket</a> --}}
-                <a class="btn btn-primary py-2 px-4 ms-3" href="{{ route('promoterlogin') }}">e-Promota</a>
+                {{-- <a class="btn btn-primary py-2 px-4 ms-3" href="{{ route('promoterlogin') }}">e-Promota</a> --}}
 
             </div>
         </nav>

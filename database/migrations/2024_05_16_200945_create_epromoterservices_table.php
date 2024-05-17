@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('employers', function (Blueprint $table) {
-            //
-            $table->string('promotercode')->nullable();
+        Schema::create('epromoterservices', function (Blueprint $table) {
+            $table->id();
+            $table->string('applicant_code')->nullable();
+            $table->integer('service_id')->nullable();
+            $table->integer('areaoffice_id')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('employers', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('epromoterservices');
     }
 };

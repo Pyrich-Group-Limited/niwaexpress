@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
-use Illuminate\Http\Request;
+use App\Models\Branch;
 use App\Models\Payment;
+use App\Models\Employee;
+use App\Models\Employer;
+use Illuminate\Http\Request;
 use App\Models\RegistrationFee;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-       
+
         $metrics = [
             'app_fee' => Payment::where('payment_type',1)->where('employer_id', auth()->user()->id)->sum('amount'),
             'services' => Payment::where('payment_type',4)->where('employer_id', auth()->user()->id)->where('service_id','!=', null)->count(),
@@ -50,7 +52,15 @@ class HomeController extends Controller
         }else{
             return view('home', compact(['metrics']));
         } */
-        return view('home', compact(['metrics']));
+
+        $branches=Branch::get();
         
+
+        $applicants=Employer::where('promotercode',auth()->user()->applicant_code)->get();
+        $total=Employer::where('promotercode',auth()->user()->applicant_code)->count();
+        return view('home', compact(['metrics','applicants','branches','total']));
+
     }
+
+
 }
