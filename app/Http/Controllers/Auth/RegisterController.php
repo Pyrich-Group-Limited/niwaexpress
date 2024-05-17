@@ -1,13 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-<<<<<<< HEAD
-=======
 
 use App\Models\Epromoterservices;
 use App\Models\Epromoteruser;
 use Illuminate\Http\Request;
->>>>>>> origin/main
 
 use App\Http\Controllers\Controller;
 use App\Mail\EmployerRegisteredMail;
@@ -188,12 +185,6 @@ $data['contact_number'] = $data['company_phone'];
     {
         //$region = Region::all();
         $branches = Branch::all();
-<<<<<<< HEAD
-        $states = State::all();
-      
-        return view('auth.sign_up', compact('branches', 'states'));
-    }
-=======
 
         $allOption = new Branch();
         $allOption->id = 0; // Use an ID that signifies "All" or whatever is appropriate for your logic.
@@ -414,5 +405,4 @@ $data['contact_number'] = $data['company_phone'];
 
         return redirect()->back()->with('success', 'SUBMITTED , AWAITING APPROVAL');
     }
->>>>>>> origin/main
 }

@@ -3,7 +3,7 @@
     <label for="branch_id">Select Area Office:</label>
     <select id="branch_id" name="branch_id" class="form-select" required>
         @foreach($branches as $key => $value)
-            <option value="{{ $key }}">{{ $value }}</option>
+            <option value="{{ $key }}" {{ $key == $branch_id ? 'selected' : '' }}>{{ $value }}</option>
         @endforeach
     </select>
 </div>
@@ -16,14 +16,13 @@
 
 <div class="form-group col-sm-12 mb-3">
     <label for="service_id">Service Type:</label>
-    <select class="form-control" id="service_id" name="title" required>
+    <select class="form-control" id="service_id" name="service_id" required>
         <option value="">Select Service Type</option>
         @foreach($services as $service)
-            <option value="{{ $service->id }}">{{ $service->name }}</option>
+            <option value="{{ $service->id }}" @if($service->id == $service_id) selected @endif>{{ $service->name }}</option>
         @endforeach
     </select>
 </div>
-
 <!-- Sender Full Name -->
 <div class="form-group col-sm-12 mb-3">
     <label for="full_name">Sender Full Name:</label>
