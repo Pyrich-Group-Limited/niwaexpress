@@ -9,12 +9,14 @@
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-<link href="{{ asset(get_settings()['company_favicon']) }}" rel="icon">
+    <link href="{{ asset(get_settings()['company_favicon']) }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -33,7 +35,8 @@
 
 <body>
     <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner"></div>
     </div>
     <!-- Spinner End -->
@@ -44,18 +47,26 @@
         <div class="row gx-0">
             <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
                 <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>{{ get_settings()['company_address'].' '.get_settings()['company_city'].' '.get_settings()['company_state'] }}</small>
-                    <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>{{ get_settings()['company_telephone'] }}</small>
-                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>{{ get_settings()['company_email'] }}</small>
+                    <small class="me-3 text-light"><i
+                            class="fa fa-map-marker-alt me-2"></i>{{ get_settings()['company_address'] . ' ' . get_settings()['company_city'] . ' ' . get_settings()['company_state'] }}</small>
+                    <small class="me-3 text-light"><i
+                            class="fa fa-phone-alt me-2"></i>{{ get_settings()['company_telephone'] }}</small>
+                    <small class="text-light"><i
+                            class="fa fa-envelope-open me-2"></i>{{ get_settings()['company_email'] }}</small>
                 </div>
             </div>
             <div class="col-lg-4 text-center text-lg-end">
                 <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i class="fab fa-twitter fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i class="fab fa-facebook-f fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i class="fab fa-linkedin-in fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i class="fab fa-instagram fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href=""><i class="fab fa-youtube fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                            class="fab fa-twitter fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                            class="fab fa-facebook-f fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                            class="fab fa-linkedin-in fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                            class="fab fa-instagram fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href=""><i
+                            class="fab fa-youtube fw-normal"></i></a>
                 </div>
             </div>
         </div>
@@ -76,14 +87,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="{{ url('/') }}" class="nav-item nav-link active" onclick="scrollToSection('homeSection')">Home</a>
+                    <a href="{{ url('/') }}" class="nav-item nav-link active"
+                        onclick="scrollToSection('homeSection')">Home</a>
                     <a href="#" class="nav-item nav-link" onclick="scrollToSection('aboutSection')">About</a>
-                    <a href="#" class="nav-item nav-link" onclick="scrollToSection('servicesSection')">Services</a>
+                    <a href="#" class="nav-item nav-link"
+                        onclick="scrollToSection('servicesSection')">Services</a>
                     {{-- <a href="#" class="nav-item nav-link">Contact</a> --}}
                     <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
                 </div>
                 <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4 ms-3">REGISTER</a>
-                <a href="https://seaexpresstransit.com" target="_blank" class="btn btn-primary py-2 px-4 ms-3">Buy Ferry Ticket</a>
+                {{-- <a href="https://seaexpresstransit.com" target="_blank" class="btn btn-primary py-2 px-4 ms-3">Buy Ferry Ticket</a> --}}
+                {{-- <a class="btn btn-primary py-2 px-4 ms-3" href="{{ route('promoterlogin') }}">e-Promota</a> --}}
+
             </div>
         </nav>
 
@@ -93,16 +108,21 @@
                     <img class="w-100" src="./img/pexels.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
-                            <h5 class="text-white text-uppercase mb-3 animated slideInDown"><span class="faded" style="">Welcome to</span></h5>
-                            <h1 class="display-1 text-main mb-md-4 animated zoomIn faded1">National Inland Waterways Authority</h1>
-                            <a href="#" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" onclick="scrollToSection('servicesSection')">View Services</a>
-                            <a href="{{ route('register') }}" class="btn btn-outline-light py-md-3 px-md-5 animated slideInRight" style="background: #fff;color: #6B6A75;">Register</a>
+                            <h5 class="text-white text-uppercase mb-3 animated slideInDown"><span class="faded"
+                                    style="">Welcome to</span></h5>
+                            <h1 class="display-1 text-main mb-md-4 animated zoomIn faded1">National Inland Waterways
+                                Authority</h1>
+                            <a href="#" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
+                                onclick="scrollToSection('servicesSection')">View Services</a>
+                            <a href="{{ route('register') }}"
+                                class="btn btn-outline-light py-md-3 px-md-5 animated slideInRight"
+                                style="background: #fff;color: #6B6A75;">Register</a>
                         </div>
                     </div>
                 </div>
-    
+
             </div>
-          
+
         </div>
     </div>
     <!-- Navbar & Carousel End -->
@@ -113,11 +133,13 @@
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
                 <div class="modal-header border-0">
-                    <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex align-items-center justify-content-center">
                     <div class="input-group" style="max-width: 600px;">
-                        <input type="text" class="form-control bg-transparent border-primary p-3" placeholder="Type search keyword">
+                        <input type="text" class="form-control bg-transparent border-primary p-3"
+                            placeholder="Type search keyword">
                         <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
                     </div>
                 </div>
@@ -132,8 +154,10 @@
         <div class="container py-5 pt-lg-0">
             <div class="row gx-0">
                 <div class="col-lg-4 wow zoomIn" data-wow-delay="0.1s">
-                    <div class="bg-primary shadow d-flex align-items-center justify-content-center p-4" style="height: 150px;">
-                        <div class="bg-white d-flex align-items-center justify-content-center rounded mb-2" style="width: 60px; height: 60px;">
+                    <div class="bg-primary shadow d-flex align-items-center justify-content-center p-4"
+                        style="height: 150px;">
+                        <div class="bg-white d-flex align-items-center justify-content-center rounded mb-2"
+                            style="width: 60px; height: 60px;">
                             <i class="fa fa-users text-primary"></i>
                         </div>
                         <div class="ps-4">
@@ -143,8 +167,10 @@
                     </div>
                 </div>
                 <div class="col-lg-4 wow zoomIn" data-wow-delay="0.3s">
-                    <div class="bg-light shadow d-flex align-items-center justify-content-center p-4" style="height: 150px;">
-                        <div class="bg-primary d-flex align-items-center justify-content-center rounded mb-2" style="width: 60px; height: 60px;">
+                    <div class="bg-light shadow d-flex align-items-center justify-content-center p-4"
+                        style="height: 150px;">
+                        <div class="bg-primary d-flex align-items-center justify-content-center rounded mb-2"
+                            style="width: 60px; height: 60px;">
                             <i class="fa fa-check text-white"></i>
                         </div>
                         <div class="ps-4">
@@ -154,8 +180,10 @@
                     </div>
                 </div>
                 <div class="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
-                    <div class="bg-primary shadow d-flex align-items-center justify-content-center p-4" style="height: 150px;">
-                        <div class="bg-white d-flex align-items-center justify-content-center rounded mb-2" style="width: 60px; height: 60px;">
+                    <div class="bg-primary shadow d-flex align-items-center justify-content-center p-4"
+                        style="height: 150px;">
+                        <div class="bg-white d-flex align-items-center justify-content-center rounded mb-2"
+                            style="width: 60px; height: 60px;">
                             <i class="fa fa-award text-primary"></i>
                         </div>
                         <div class="ps-4">
@@ -179,7 +207,11 @@
                         <h5 class="fw-bold text-primary text-uppercase">About Us</h5>
                         <h1 class="mb-0">E-NIWA, Renewed NIWA</h1>
                     </div>
-                    <p class="mb-4">The National Inland Waterways Authority (NIWA), hitherto Inland Waterways Department (IWD) of the Federal Ministry of Transport, metamorphosed into an Authority vide an act of the National Assembly, CAP 47, Laws of the Federation of Nigeria (LFN), 2004 (Decree No. 13 of 1997), established with the primary responsibility to improve and develop Nigeria’s inland waterways for navigation.</p>
+                    <p class="mb-4">The National Inland Waterways Authority (NIWA), hitherto Inland Waterways
+                        Department (IWD) of the Federal Ministry of Transport, metamorphosed into an Authority vide an
+                        act of the National Assembly, CAP 47, Laws of the Federation of Nigeria (LFN), 2004 (Decree No.
+                        13 of 1997), established with the primary responsibility to improve and develop Nigeria’s inland
+                        waterways for navigation.</p>
                     <div class="row g-0 mb-3">
                         <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
                             <h5 class="mb-3"><i class="fa fa-check text-primary me-3"></i>Award Winning</h5>
@@ -191,7 +223,8 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-4 wow fadeIn" data-wow-delay="0.6s">
-                        <div class="bg-primary d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
+                        <div class="bg-primary d-flex align-items-center justify-content-center rounded"
+                            style="width: 60px; height: 60px;">
                             <i class="fa fa-phone-alt text-white"></i>
                         </div>
                         <div class="ps-4">
@@ -199,11 +232,13 @@
                             <h4 class="text-primary mb-0">{{ get_settings()['company_telephone'] }}</h4>
                         </div>
                     </div>
-                    <a href="{{ route('register') }}" class="btn btn-primary py-3 px-5 mt-3 wow zoomIn" data-wow-delay="0.9s">Register A Service</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary py-3 px-5 mt-3 wow zoomIn"
+                        data-wow-delay="0.9s">Register A Service</a>
                 </div>
                 <div class="col-lg-5" style="min-height: 500px;">
                     <div class="position-relative h-100">
-                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.9s" src="./img/abt.jpg" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.9s"
+                            src="./img/abt.jpg" style="object-fit: cover;">
                     </div>
                 </div>
             </div>
@@ -223,41 +258,49 @@
                 <div class="col-lg-4">
                     <div class="row g-5">
                         <div class="col-12 wow zoomIn" data-wow-delay="0.2s">
-                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3"
+                                style="width: 60px; height: 60px;">
                                 <i class="fa fa-cubes text-white"></i>
                             </div>
                             <h4>Time Efficiency</h4>
-                            <p class="mb-0">Streamline tasks, allowing you allocate more time to business operations.</p>
+                            <p class="mb-0">Streamline tasks, allowing you allocate more time to business operations.
+                            </p>
                         </div>
                         <div class="col-12 wow zoomIn" data-wow-delay="0.6s">
-                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3"
+                                style="width: 60px; height: 60px;">
                                 <i class="fa fa-award text-white"></i>
                             </div>
                             <h4>Transparency</h4>
-                            <p class="mb-0">Track the progress of your requests ensuring you're always in the loop</p>
+                            <p class="mb-0">Track the progress of your requests ensuring you're always in the loop
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4  wow zoomIn" data-wow-delay="0.9s" style="min-height: 350px;">
                     <div class="position-relative h-100">
-                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.1s" src="./img/choose.jpg" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.1s"
+                            src="./img/choose.jpg" style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="row g-5">
                         <div class="col-12 wow zoomIn" data-wow-delay="0.4s">
-                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3"
+                                style="width: 60px; height: 60px;">
                                 <i class="fa fa-users-cog text-white"></i>
                             </div>
                             <h4>Communication</h4>
                             <p class="mb-0">Stay informed through real-time updates related to your submissions.</p>
                         </div>
                         <div class="col-12 wow zoomIn" data-wow-delay="0.8s">
-                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3"
+                                style="width: 60px; height: 60px;">
                                 <i class="fa fa-phone-alt text-white"></i>
                             </div>
                             <h4>24/7 Support</h4>
-                            <p class="mb-0">Magna sea eos sit dolor, ipsum amet lorem diam dolor eos et diam dolor</p>
+                            <p class="mb-0">Magna sea eos sit dolor, ipsum amet lorem diam dolor eos et diam dolor
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -276,7 +319,8 @@
             </div>
             <div class="row g-5">
                 <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.3s">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
                         <div class="service-icon">
                             <i class="fa fa-shield-alt text-white"></i>
                         </div>
@@ -288,7 +332,8 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.6s">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
                         <div class="service-icon">
                             <i class="fa fa-chart-pie text-white"></i>
                         </div>
@@ -300,7 +345,8 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.9s">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
                         <div class="service-icon">
                             <i class="fa fa-home text-white"></i>
                         </div>
@@ -312,7 +358,8 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.3s">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
                         <div class="service-icon">
                             <i class="fa fa-wrench text-white"></i>
                         </div>
@@ -324,7 +371,8 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.6s">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
                         <div class="service-icon">
                             <i class="fa fa-search text-white"></i>
                         </div>
@@ -350,7 +398,8 @@
                 <div class="col-lg-4 col-md-6 wow zoomIn mx-auto" data-wow-delay="0.9s">
                     <div class="position-relative bg-primary rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-5">
                         <h3 class="text-white mb-3">For All Services</h3>
-                        <p class="text-white mb-3">Kindly visit the official niwa website or call the phone number below</p>
+                        <p class="text-white mb-3">Kindly visit the official niwa website or call the phone number
+                            below</p>
                         <h2 class="text-white mb-0">{{ get_settings()['company_telephone'] }}</h2>
                     </div>
                 </div>
@@ -369,7 +418,8 @@
             <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.6s">
                 <div class="testimonial-item bg-light my-4">
                     <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
-                        <img class="img-fluid rounded" src="{{ asset('assets/images/download.png') }}" style="width: 60px; height: 60px;" >
+                        <img class="img-fluid rounded" src="{{ asset('assets/images/download.png') }}"
+                            style="width: 60px; height: 60px;">
                         <div class="ps-4">
                             <h4 class="text-primary mb-1">Joseph Yobo</h4>
                             <small class="text-uppercase">Engineer</small>
@@ -381,7 +431,8 @@
                 </div>
                 <div class="testimonial-item bg-light my-4">
                     <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
-                        <img class="img-fluid rounded" src="{{ asset('assets/images/download.png') }}" style="width: 60px; height: 60px;" >
+                        <img class="img-fluid rounded" src="{{ asset('assets/images/download.png') }}"
+                            style="width: 60px; height: 60px;">
                         <div class="ps-4">
                             <h4 class="text-primary mb-1">Mary Jabob</h4>
                             <small class="text-uppercase">Engineer</small>
@@ -393,19 +444,21 @@
                 </div>
                 <div class="testimonial-item bg-light my-4">
                     <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
-                        <img class="img-fluid rounded" src="{{ asset('assets/images/download.png') }}" style="width: 60px; height: 60px;" >
+                        <img class="img-fluid rounded" src="{{ asset('assets/images/download.png') }}"
+                            style="width: 60px; height: 60px;">
                         <div class="ps-4">
                             <h4 class="text-primary mb-1">Sarah Logan</h4>
                             <small class="text-uppercase">Profession</small>
                         </div>
                     </div>
                     <div class="pt-4 pb-5 px-5">
-                       What a wonderful technology.
+                        What a wonderful technology.
                     </div>
                 </div>
                 <div class="testimonial-item bg-light my-4">
                     <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
-                        <img class="img-fluid rounded" src="{{ asset('assets/images/download.png') }}" style="width: 60px; height: 60px;" >
+                        <img class="img-fluid rounded" src="{{ asset('assets/images/download.png') }}"
+                            style="width: 60px; height: 60px;">
                         <div class="ps-4">
                             <h4 class="text-primary mb-1">Ngozi Edwin</h4>
                             <small class="text-uppercase">Engineer</small>
@@ -419,18 +472,20 @@
         </div>
     </div>
     <!-- Testimonial End -->
-    
+
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
         <div class="container">
             <div class="row gx-5">
                 <div class="col-lg-4 col-md-6 footer-about">
-                    <div class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-primary p-4">
+                    <div
+                        class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-primary p-4">
                         <a href="#" class="navbar-brand">
                             <h1 class="m-0 text-white"><i class="fa fa-user-tie me-2"></i>E-NIWA</h1>
                         </a>
-                        <p class="mt-3 mb-4">Experience the transformational power of NIWA. We are committed to continuously enhancing your journey</p>
+                        <p class="mt-3 mb-4">Experience the transformational power of NIWA. We are committed to
+                            continuously enhancing your journey</p>
                         <form action="">
                             <div class="input-group">
                                 <input type="text" class="form-control border-white p-3" placeholder="Your Email">
@@ -447,7 +502,9 @@
                             </div>
                             <div class="d-flex mb-2">
                                 <i class="bi bi-geo-alt text-primary me-2"></i>
-                                <p class="mb-0">{{ get_settings()['company_address'].' '.get_settings()['company_city'].' '.get_settings()['company_state'] }}</p>
+                                <p class="mb-0">
+                                    {{ get_settings()['company_address'] . ' ' . get_settings()['company_city'] . ' ' . get_settings()['company_state'] }}
+                                </p>
                             </div>
                             <div class="d-flex mb-2">
                                 <i class="bi bi-envelope-open text-primary me-2"></i>
@@ -458,10 +515,14 @@
                                 <p class="mb-0">{{ get_settings()['company_telephone'] }}</p>
                             </div>
                             <div class="d-flex mt-4">
-                                <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                                <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                                <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                                <a class="btn btn-primary btn-square" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square me-2" href="#"><i
+                                        class="fab fa-twitter fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square me-2" href="#"><i
+                                        class="fab fa-facebook-f fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square me-2" href="#"><i
+                                        class="fab fa-linkedin-in fw-normal"></i></a>
+                                <a class="btn btn-primary btn-square" href="#"><i
+                                        class="fab fa-instagram fw-normal"></i></a>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
@@ -506,10 +567,13 @@
             <div class="row justify-content-end">
                 <div class="col-lg-8 col-md-6">
                     <div class="d-flex align-items-center justify-content-center" style="height: 75px;">
-                        <p class="mb-0">&copy; <a class="text-white border-bottom" href="#">NIWA</a>. All Rights Reserved. 
-						
-						<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-						Designed by <a class="text-white border-bottom" href="#">P2E Technologies Nigeria</a></p>
+                        <p class="mb-0">&copy; <a class="text-white border-bottom" href="#">NIWA</a>. All
+                            Rights Reserved.
+
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                            Designed by <a class="text-white border-bottom" href="#">P2E Technologies
+                                Nigeria</a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -519,7 +583,8 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i
+            class="bi bi-arrow-up"></i></a>
 
 
     <!-- JavaScript Libraries -->
@@ -534,32 +599,32 @@
     <!-- Template Javascript -->
     <script src="./js/main.js"></script>
     <!-- Include jQuery (you can download it or use a CDN) -->
-{{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
+    {{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
 
-<!-- Smooth Scroll Script -->
-<script>
-    // Function to handle smooth scroll to the about section
-    /* function scrollToAbout() {
-        $('html, body').animate({
-            scrollTop: $('#aboutSection').offset().top
-        }, 1000); // Adjust the duration as needed
-    }
-    function scrollToServices() {
-        $('html, body').animate({
-            scrollTop: $('#servicesSection').offset().top
-        }, 1000); // Adjust the duration as needed
-    } */
-    function scrollToSection(sectionId) {
-        $('html, body').animate({
-            scrollTop: $('#' + sectionId).offset().top
-        }, 1000);
-        
-        // Remove 'active' class from all nav links
-        $('.navbar-nav a').removeClass('active');
-        // Add 'active' class to the clicked nav link
-        $('.navbar-nav a[href="#' + sectionId + '"]').addClass('active');
-    }
-</script>
+    <!-- Smooth Scroll Script -->
+    <script>
+        // Function to handle smooth scroll to the about section
+        /* function scrollToAbout() {
+            $('html, body').animate({
+                scrollTop: $('#aboutSection').offset().top
+            }, 1000); // Adjust the duration as needed
+        }
+        function scrollToServices() {
+            $('html, body').animate({
+                scrollTop: $('#servicesSection').offset().top
+            }, 1000); // Adjust the duration as needed
+        } */
+        function scrollToSection(sectionId) {
+            $('html, body').animate({
+                scrollTop: $('#' + sectionId).offset().top
+            }, 1000);
+
+            // Remove 'active' class from all nav links
+            $('.navbar-nav a').removeClass('active');
+            // Add 'active' class to the clicked nav link
+            $('.navbar-nav a[href="#' + sectionId + '"]').addClass('active');
+        }
+    </script>
 </body>
 
 </html>

@@ -3,7 +3,13 @@
 use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
+=======
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\EmployerController;
+>>>>>>> origin/main
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +27,7 @@ Route::get('/', function () {
     return view('landing.index'); //Redirect on load to login or home
 })->name('landing');
 
-Route::get('login', function () {
+Route::get('loginpromot', function () {
     //return view('welcome');
     return view('auth.login'); //Redirect on load to login or home
 });
@@ -87,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('payment', App\Http\Controllers\PaymentController::class);
 
     Route::get('my/payments', [App\Http\Controllers\PaymentController::class, 'myPayments'])->name('my.payments');
+
 
 
     /**
@@ -204,3 +211,21 @@ Route::get('bookpage/{id}/tv/{amount}',[BookingController::class,'bookpage'])->n
 
 Route::post('paybook',[BookingController::class,'create'])->name('paybook');
 Route::post('storepayment',[BookingController::class,'store'])->name('storepayment');
+<<<<<<< HEAD
+=======
+Route::post('savedapplicant',[RegisterController::class,'saveregidtrationform'])->name('saverecordofapplicant');
+
+
+Route::get('epromoter',function(){
+    return view('auth.epromoterlogin');
+})->name('promoterlogin');
+
+// Route::post('loginpromoter',[RegisterController::class,'loginaspromoter'])->name('loginprom');
+// Route::any('epromoterview',[RegisterController::class,'epromoterapplicant'])->name('thenewapplicant');
+
+// Route::get('epromoter/create',[App\Http\Controllers\HomeController::class,'createepropter'])->name('my.prom');
+
+
+Route::get('proomoter/creater',[EmployerController::class,'createpage'])->name('the.create');
+Route::post('proomoter/store',[EmployerController::class,'storepage'])->name('the.store');
+>>>>>>> origin/main

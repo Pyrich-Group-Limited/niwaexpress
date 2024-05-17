@@ -1,6 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+<<<<<<< HEAD
+=======
+
+use App\Models\Epromoterservices;
+use App\Models\Epromoteruser;
+use Illuminate\Http\Request;
+>>>>>>> origin/main
 
 use App\Http\Controllers\Controller;
 use App\Mail\EmployerRegisteredMail;
@@ -8,6 +15,7 @@ use App\Models\Branch;
 use App\Models\State;
 use App\Providers\RouteServiceProvider;
 use App\Models\Employer;
+use App\Models\Service;
 //use App\Notifications\EmployerRegistrationNotification;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -180,8 +188,231 @@ $data['contact_number'] = $data['company_phone'];
     {
         //$region = Region::all();
         $branches = Branch::all();
+<<<<<<< HEAD
         $states = State::all();
       
         return view('auth.sign_up', compact('branches', 'states'));
     }
+=======
+
+        $allOption = new Branch();
+        $allOption->id = 0; // Use an ID that signifies "All" or whatever is appropriate for your logic.
+        $allOption->branch_name = 'All'; // Adjust this field name according to your branch model's field.
+
+        // Prepend the "All" option to the collection
+        $branches->prepend($allOption);
+        // dd($branches);
+        $states = State::all();
+        // dd($branches);
+        $services = Service::all();
+
+        $allservices = new Service();
+        $allservices->id=0;
+        $allservices->name='ALL';
+        $services->prepend($allservices);
+        // $services->prepend('All Services','')
+        // dd($services);
+        return view('auth.sign_up', compact('branches', 'services', 'states'));
+    }
+
+
+    public function loginaspromoter(Request $request)
+    {
+        // Retrieve the user by email
+        $user = Epromoteruser::where('email', $request->username)->first();
+        // Check if the user exists and the password matches
+        if ($user && Hash::check($request->password, $user->password)) {
+            // dd($user);
+
+            $branches = Branch::all();
+
+
+            $applicants = Employer::where('promotercode', $user->promotercode)->get();
+
+
+
+            return view('promota.index')
+                ->with('user', $user)
+                ->with('applicants',  $applicants)
+                ->with('branches', $branches);
+        } else {
+
+            return redirect()->back()->with('error', 'Wrong Credentials');
+        }
+    }
+
+
+    public function saveregidtrationform(Request $request)
+    {
+
+        $existingEmployer = Employer::where('company_email', $request->company_email)->first();
+
+        if ($existingEmployer) {
+            return redirect()->back()->with('error', 'User already exists');
+        }
+
+
+        $code = 'NIRC' . date('Y') . '-' . substr(rand(0, time()), 0, 5);
+        $password = $request->password;
+
+
+
+        $employer = new Employer();
+
+        $employer->user_type = $request->user_type;
+
+
+        $employer->contact_firstname = $request->contact_firstname;
+        $employer->contact_surname = $request->contact_surname;
+        $employer->company_phone = $request->company_phone;
+        $employer->company_email = $request->company_email;
+        $employer->password = Hash::make($password);
+
+        $employer->status = $request->status;
+        $employer->applicant_code = $code;
+        if ($request->promotercode) {
+            $employer->promotercode = $request->promotercode;
+        }
+
+        $employer->save();
+        if ($request->user_type == 'e-promoter') {
+
+            $service = $request->service_type;
+
+            $office = $request->areaoffice;
+            foreach ($service as $key => $value) {
+
+                $type = new Epromoterservices();
+                $type->applicant_code = $employer->applicant_code;
+                $type->service_id = $service[$key];
+                $type->areaoffice_id = $office[$key];
+                $type->save();
+            }
+
+            # code...
+        }
+        return redirect()->route('login')->with('success', 'SUBMITTED , AWAITING APPROVAL');
+
+
+        //for the service e those
+
+
+
+
+        // $employer->password_confirmation=Hash::make($request->password_confirmation) ;
+
+
+        // if ($request->service_type !== null) {
+        //     //the code should be different
+        //     $promotercode = 'NIPR-' . substr(rand(0, time()), 0, 5);
+        //     $promoter = new Epromoteruser();
+        //     $promoter->promotercode = $promotercode;
+        //     $promoter->first_name = $request->contact_firstname;
+        //     $promoter->other_name = $request->contact_surname;
+        //     $promoter->phone_number = $request->company_phone;
+        //     $promoter->email = $request->company_email;
+        //     $promoter->office_id = $request->areaoffice;
+        //     $promoter->service_id = $request->service_type;
+        //     $promoter->status = $request->status;
+
+
+
+        //     $promoter->password = Hash::make($request->password);
+        //     $promoter->password_confirmation = Hash::make($request->password_confirmation);
+
+        //     $promoter->save();
+        //     return redirect()->back()->with('success', 'Registration Successful, Awaiting Approval');
+        // } else {
+
+        //     $employer = new Employer();
+        //     if ($request->company_name) {
+        //         $employer->company_name = $request->company_name;
+        //     }
+        //     if ($request->company_address) {
+        //         $employer->company_address = $request->company_address;
+        //     }
+        //     if ($request->promotercode) {
+        //         $employer->promotercode = $request->promotercode;
+        //     }
+        //     if ($request->contact_number) {
+        //         $employer->contact_number = $request->contact_number;
+        //     }
+        //     if ($request->company_email) {
+        //         $employer->company_email = $request->company_email;
+        //     }
+        //     $employer->user_type = $request->user_type;
+        //     $employer->contact_firstname = $request->contact_firstname;
+        //     $employer->contact_surname = $request->contact_surname;
+        //     $employer->company_phone = $request->company_phone;
+        //     $employer->company_email = $request->company_email;
+        //     $employer->password = Hash::make($request->password);
+        //     $employer->status = $request->status;
+        //     // $employer->password_confirmation=Hash::make($request->password_confirmation) ;
+
+        //     $employer->applicant_code = $code;
+        //     $employer->save();
+        //     try {
+        //         Mail::to($employer->company_email)->send(new EmployerRegisteredMail($employer, $password));
+        //         // Your success logic here
+        //     } catch (\Exception $e) {
+        //         // Handle the exception
+        //         // For example, you can log the error, redirect the user, or display a friendly error message
+        //         //return redirect()->back()->with('error', 'Failed to send registration email: ' . $e->getMessage());
+        //     }
+
+        //     // return $employer;
+
+        //     return redirect()->route('login')->with('success', 'SUBMITTED , AWAITING APPROVAL');
+        // }
+    }
+
+
+    public function epromoterapplicant(Request $request)
+    {
+        // dd('ss');
+        // dd($request->all());
+        $code = 'NIRC' . date('Y') . '-' . substr(rand(0, time()), 0, 5);
+        $password = $request->password;
+        $employer = new Employer();
+        if ($request->company_name) {
+            $employer->company_name = $request->company_name;
+        }
+        if ($request->company_address) {
+            $employer->company_address = $request->company_address;
+        }
+        if ($request->promotercode) {
+            $employer->promotercode = $request->promotercode;
+        }
+        if ($request->contact_number) {
+            $employer->contact_number = $request->contact_number;
+        }
+        if ($request->company_email) {
+            $employer->company_email = $request->company_email;
+        }
+        $employer->user_type = $request->user_type;
+        $employer->contact_firstname = $request->contact_firstname;
+        $employer->contact_surname = $request->contact_surname;
+        $employer->company_phone = $request->company_phone;
+        $employer->company_email = $request->company_email;
+        $employer->password = Hash::make($request->password);
+        $employer->status = $request->status;
+        // $employer->password_confirmation=Hash::make($request->password_confirmation) ;
+
+        $employer->applicant_code = $code;
+        $employer->save();
+        try {
+            Mail::to($employer->company_email)->send(new EmployerRegisteredMail($employer, $password));
+            // Your success logic here
+        } catch (\Exception $e) {
+            // Handle the exception
+            // For example, you can log the error, redirect the user, or display a friendly error message
+            //return redirect()->back()->with('error', 'Failed to send registration email: ' . $e->getMessage());
+        }
+
+        // return $employer;
+
+
+        return redirect()->back()->with('success', 'SUBMITTED , AWAITING APPROVAL');
+    }
+>>>>>>> origin/main
 }
