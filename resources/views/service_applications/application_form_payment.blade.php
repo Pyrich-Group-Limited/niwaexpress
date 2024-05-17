@@ -135,10 +135,15 @@
         var pubKey = "{{ env('REMITA_PUBLIC_KEY') }}";
 
         function makePayment() {
-            var form = document.querySelector("#payment-form");
-            window.location.href = cUrl + 'ref=' + form.querySelector('input[name="rrr"]').value +
-                        '&tid=' + {{ $pending_payment->id }};
-        }
+    var form = document.querySelector("#payment-form");
+    var tidParam = '';
+    
+    @if(!empty($pending_payment) && $pending_payment->id)
+        tidParam = '&tid={{ $pending_payment->id }}';
+    @endif
+    
+    window.location.href = cUrl + 'ref=' + form.querySelector('input[name="rrr"]').value + tidParam;
+}
          /* function makePaymentOld() {
             var form = document.querySelector("#payment-form");
             var paymentEngine = RmPaymentEngine.init({

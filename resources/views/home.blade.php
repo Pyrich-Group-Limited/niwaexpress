@@ -281,7 +281,7 @@
         <div class="nk-block">
             <div class="row g-gs">
 
-                <div class="col-xxl-6">
+                {{-- <div class="col-xxl-6">
                     <div class="card card-full">
                         <div class="nk-ecwg nk-ecwg8 h-100">
                             <div class="card-inner">
@@ -308,42 +308,26 @@
                             </div><!-- .card-inner -->
                         </div>
                     </div><!-- .card -->
-                </div><!-- .col -->
+                </div> --}}<!-- .col -->
                 <div class="col-xxl-3 col-md-6">
-                    <div class="card card-full overflow-hidden">
-                        <div class="nk-ecwg nk-ecwg7 h-100">
-                            <div class="card-inner flex-grow-1">
-                                <div class="card-title-group mb-4">
-                                    <div class="card-title">
-                                        <h6 class="title">Compensation Distribution</h6>
-                                    </div>
-                                </div>
-                                <div class="nk-ecwg7-ck">
-                                    <canvas class="ecommerce-doughnut-s1" id="orderStatistics"></canvas>
-                                </div>
-                                <ul class="nk-ecwg7-legends">
-                                    <li>
-                                        <div class="title">
-                                            <span class="dot dot-lg sq" data-bg="#0fac81"></span>
-                                            <span>Inspection</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="title">
-                                            <span class="dot dot-lg sq" data-bg="#816bff"></span>
-                                            <span>License</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="title">
-                                            <span class="dot dot-lg sq" data-bg="#e85347"></span>
-                                            <span>Report</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div><!-- .card-inner -->
-                        </div>
-                    </div><!-- .card -->
+                    @foreach ($service_applications as $application)
+                    <table id="myTable" class="table data-table">
+                        <thead>
+                            <tr>
+                                <th>Applicant Code</th>
+                                <th>Applicant Type</th>
+                                <th>Date Applied</th>
+                                <th>Applicant Name</th>
+
+                                <th>Applicant Email</th>
+                                <th>Applicant Address</th>
+
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    @endforeach
                 </div><!-- .col -->
                 <div class="col-xxl-3 col-md-6">
                     <div class="card h-100">
