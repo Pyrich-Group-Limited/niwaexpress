@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('dev/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('dev/css/font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('dev/css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 </head>
 
@@ -76,39 +77,44 @@
                                 <select class="form-control" id="user_type" name="user_type" required>
                                     <option value="company">Registered Company</option>
                                     <option value="private">Private</option>
-                                    <option value="e-promoter">e-Promota</option>
+                                    <option value="e-promota">e-Promota</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group " id="servicerow">
+                            <label class="form-label" for="services">Select Services<span
+                                    class="text-danger">*</span></label>
+                            <div class="form-control-wrap">
+
+                                <select class="form-control" id="service" multiple name="service_type[]">
+                                    @foreach ($services as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+
                                 </select>
                             </div>
                         </div>
 
-                        <div class="row" id="forthepromoter">
-                            <div class="form-group col-6 ">
-                                <label class="form-label" for="services">Select Services<span
-                                        class="text-danger">*</span></label>
-                                <div class="form-control-wrap">
+                        <div class="form-group my-3" id="areaofficerow">
+                            <label class="form-label" for="user_type">Select Area Office<span
+                                    class="text-danger">*</span></label>
+                            <div class="form-control-wrap">
+                                <select multiple class="form-control" id="areaoffice" name="areaoffice[]">
+                                    @foreach ($branches as $item)
+                                        <option value="{{ $item->id }}">{{ $item->branch_name }}</option>
+                                    @endforeach
 
-                                    <select class="form-control" id="service" name="service_type">
-                                        @foreach ($services as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
+                                </select>
                             </div>
-                            <div class="form-group col-6">
-                                <label class="form-label" for="user_type">Select Area Office<span
-                                        class="text-danger">*</span></label>
-                                <div class="form-control-wrap">
-                                    <select class="form-control" id="areaoffice" name="areaoffice">
-                                        @foreach ($branches as $item)
-                                            <option value="{{ $item->id }}">{{ $item->branch_name }}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-
                         </div>
+                        {{-- <div class="row" id="forthepromoter">
+
+
+
+
+                        </div> --}}
+
+
                         <div class="row">
 
                             <div class="form-group col-6">
@@ -196,11 +202,11 @@
                                 type="submit">Signup</button>
                         </div>
                         <div class="text-center login-link">
-                            Already have an account? <a href="{{ route('login') }}">Login As An Applicant</a>
+                            Already have an account? <a href="{{ route('login') }}">Login </a>
                         </div>
-                        <div class="text-center login-link">
+                        {{-- <div class="text-center login-link">
                             Already have an account? <a href="{{ route('promoterlogin') }}">Login As e-Promota</a>
-                        </div>
+                        </div> --}}
                     </form>
                 </div>
             </div>
@@ -210,8 +216,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="{{ asset('dev/js/popper.min.js') }}"></script>
     <script src="{{ asset('dev/js/bootstrap.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('dev/js/app.js') }}"></script>
 
     <script>
@@ -220,15 +228,30 @@
             var row = $('#forthepromoter')
             var office = $('#areaoffice')
             var service = $('#service')
+            var servicerow = $('#servicerow')
+            var officerow = $('#areaofficerow')
+
+
+            officerow.hide(1000)
+            servicerow.hide(1000)
             office.val('')
             service.val('')
-            row.hide();
+            // row.hide();
+            office.select2()
+            service.select2()
 
             type.on('change', function() {
-                if (this.value == 'e-promoter') {
-                    row.show(1000)
+                if (this.value == 'e-promota') {
+                    // row.show(1000)
+                    officerow.show(1000)
+                    servicerow.show(2000)
+
+                    // office.select2()
+                    service.select2()
                 } else {
-                    row.hide(1000)
+                    officerow.hide(1000)
+                    servicerow.hide(2000)
+                    // row.hide(1000)
                     office.val('')
                     service.val('')
                 }

@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LGA;
+use App\Models\Branch;
+use App\Models\Employer;
+use Illuminate\Http\Request;
+use App\Models\Epromoterservices;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\OTPNotification;
+use function PHPUnit\Framework\isEmpty;
+
 use App\Http\Requests\StoreEmployerRequest;
 use App\Http\Requests\UpdateEmployerRequest;
-use App\Models\Employer;
-use App\Models\LGA;
-use App\Notifications\OTPNotification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-use function PHPUnit\Framework\isEmpty;
 
 class EmployerController extends Controller
 {
@@ -40,7 +43,63 @@ class EmployerController extends Controller
     {
         //
     }
+    public function createpage(){
+        $branches= Branch::all();
+        return view('promota.create',compact('branches'));
+    }
 
+    public function storepage(Request $request){
+        // dd($request->all());
+        $existingEmployer = Employer::where('company_email', $request->company_email)->first();
+
+        if ($existingEmployer) {
+            return redirect()->back()->with('error', 'User already exists');
+        }
+
+
+        $code = 'NIRC' . date('Y') . '-' . substr(rand(0, time()), 0, 5);
+        $password = $request->password;
+
+
+
+        $employer = new Employer();
+
+        $employer->user_type = $request->user_type;
+
+
+        $employer->company_name = $request->company_name;
+        $employer->contact_firstname = $request->contact_firstname;
+        $employer->contact_surname = $request->contact_surname;
+        $employer->company_phone = $request->company_phone;
+        $employer->company_email = $request->company_email;
+        $employer->company_address = $request->company_address;
+        $employer->password = Hash::make($password);
+
+        $employer->status = $request->status;
+        $employer->applicant_code = $code;
+        if ($request->promotercode) {
+            $employer->promotercode = $request->promotercode;
+        }
+
+        $employer->save();
+        if ($request->user_type == 'e-promoter') {
+
+            $service = $request->service_type;
+
+            $office = $request->areaoffice;
+            foreach ($service as $key => $value) {
+
+                $type = new Epromoterservices();
+                $type->applicant_code = $employer->applicant_code;
+                $type->service_id = $service[$key];
+                $type->areaoffice_id = $office[$key];
+                $type->save();
+            }
+
+            # code...
+        }
+        return redirect()->route('login')->with('success', 'SUBMITTED , AWAITING APPROVAL');
+    }
     /**
      * Show the form for creating a new resource.
      */

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\EmployerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,6 +89,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('payment', App\Http\Controllers\PaymentController::class);
 
     Route::get('my/payments', [App\Http\Controllers\PaymentController::class, 'myPayments'])->name('my.payments');
+
 
 
     /**
@@ -212,7 +214,11 @@ Route::get('epromoter',function(){
     return view('auth.epromoterlogin');
 })->name('promoterlogin');
 
-Route::post('loginpromoter',[RegisterController::class,'loginaspromoter'])->name('loginprom');
-Route::any('epromoterview',[RegisterController::class,'epromoterapplicant'])->name('thenewapplicant');
+// Route::post('loginpromoter',[RegisterController::class,'loginaspromoter'])->name('loginprom');
+// Route::any('epromoterview',[RegisterController::class,'epromoterapplicant'])->name('thenewapplicant');
+
+// Route::get('epromoter/create',[App\Http\Controllers\HomeController::class,'createepropter'])->name('my.prom');
 
 
+Route::get('proomoter/creater',[EmployerController::class,'createpage'])->name('the.create');
+Route::post('proomoter/store',[EmployerController::class,'storepage'])->name('the.store');

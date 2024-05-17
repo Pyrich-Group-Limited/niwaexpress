@@ -52,7 +52,26 @@
 <body>
     <div class="main-wrapper">
         @include('layouts.navbar')
-        @include('layouts.sidebar')
+
+
+        @php
+            $userType = auth()->user()->user_type;
+
+            $status = intval(auth()->user()->status);
+            echo "User Type: $userType, Status: $status";
+        @endphp
+
+
+
+        @if ($userType == 'e-promota' && $status < 2)
+            <!-- Do nothing, sidebar will not be included -->
+        @else
+            @include('layouts.sidebar')
+        @endif
+
+
+
+
         <div class="page-wrapper">
             <div class="content">
                 @if (session('success') || session('info') || session('warning') || session('error') || $errors->any())
