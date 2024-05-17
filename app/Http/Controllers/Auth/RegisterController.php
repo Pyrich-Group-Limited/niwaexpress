@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+<<<<<<< HEAD
+=======
 
 use App\Models\Epromoterservices;
 use App\Models\Epromoteruser;
 use Illuminate\Http\Request;
+>>>>>>> origin/main
 
 use App\Http\Controllers\Controller;
 use App\Mail\EmployerRegisteredMail;
@@ -69,16 +72,16 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            // 'branch_id' => ['required'],
+           // 'branch_id' => ['required'],
             'contact_surname' => ['required', 'string', 'max:255'],
             'contact_firstname' => ['required', 'string', 'max:255'],
             //'contact_middlename' => ['nullable', 'string', 'max:255'],
-            // 'contact_position' => ['required', 'string', 'max:255'],
+           // 'contact_position' => ['required', 'string', 'max:255'],
             'company_phone' => ['required', 'string', 'max:255', 'unique:employers'],
             'user_type' => ['required', 'string', 'max:255'],
             //'contact_number' => ['nullable', 'string', 'max:255'],
 
-            // 'company_state' => ['nullable', 'string', 'max:255'],
+           // 'company_state' => ['nullable', 'string', 'max:255'],
             //'company_localgovt' => ['nullable', 'string', 'max:255'],
             //'company_name' => ['nullable', 'string', 'max:255'],
 
@@ -113,24 +116,24 @@ class RegisterController extends Controller
         $data['password'] = Hash::make($data['password']);
 
         //if ($data['employer_status'] == "new") {
-        $last_ecs = Employer::get()->last();
+            $last_ecs = Employer::get()->last();
 
-        if ($last_ecs) {
-            //if selected ecs belongs to another employer
-            do {
-                $ecs = $last_ecs['ecs_number'] + 1;
-                $employer_exists = Employer::where('ecs_number', $ecs)->get()->last();
-            } while ($employer_exists);
-        } else {
-            $ecs = '1000000001';
-        }
+            if ($last_ecs) {
+                //if selected ecs belongs to another employer
+                do {
+                    $ecs = $last_ecs['ecs_number'] + 1;
+                    $employer_exists = Employer::where('ecs_number', $ecs)->get()->last();
+                } while ($employer_exists);
+            } else {
+                $ecs = '1000000001';
+            }
 
-        $data['ecs_number'] = $ecs;
+            $data['ecs_number'] = $ecs;
         //}
 
         //record ECS registration payment for OLD Employers
         //if($data['employer_status'] != "new") {
-        $data['paid_registration'] = 1;
+            $data['paid_registration'] = 1;
         //}
         // Randomly select a user_id from the staff table in the same branch
         /* $randomUserId = DB::table('staff')
@@ -138,7 +141,7 @@ class RegisterController extends Controller
         ->inRandomOrder()
         ->value('user_id'); */
 
-        /*  if ($randomUserId) {
+       /*  if ($randomUserId) {
             // Do something with the $randomUserId
         } else {
             // No user found in the same branch
@@ -152,16 +155,16 @@ class RegisterController extends Controller
          // Upload the file to the S3 bucket
          $documentUrl = Storage::disk('s3')->putFileAs($path, $file, $fileName); */
 
-        $data['certificate_of_incorporation'] =  "0"; //$documentUrl;
+         $data['certificate_of_incorporation'] =  "0";//$documentUrl;
 
         $data['account_officer_id'] = "0";
         $data['company_rcnumber'] = "0";
-        /*  $data['company_name'] = $data['company_name'] ? $data['company_name'] : $data['contact_firstname'] .' '.$data['contact_surname'];
+       /*  $data['company_name'] = $data['company_name'] ? $data['company_name'] : $data['contact_firstname'] .' '.$data['contact_surname'];
         $data['company_address'] = $data['company_address'] ? $data['company_address'] : $data['personal_address'];
         $data['contact_number'] = $data['contact_number'] ? $data['contact_number'] : $data['company_phone'];
  */
-        $data['company_name'] = $data['contact_firstname'] . ' ' . $data['contact_surname'];
-        $data['contact_number'] = $data['company_phone'];
+$data['company_name'] = $data['contact_firstname'] .' '.$data['contact_surname'];
+$data['contact_number'] = $data['company_phone'];
 
         $employer = Employer::updateOrCreate(['ecs_number' => $data['ecs_number']], $data); //new employer
 
@@ -185,6 +188,12 @@ class RegisterController extends Controller
     {
         //$region = Region::all();
         $branches = Branch::all();
+<<<<<<< HEAD
+        $states = State::all();
+      
+        return view('auth.sign_up', compact('branches', 'states'));
+    }
+=======
 
         $allOption = new Branch();
         $allOption->id = 0; // Use an ID that signifies "All" or whatever is appropriate for your logic.
@@ -405,4 +414,5 @@ class RegisterController extends Controller
 
         return redirect()->back()->with('success', 'SUBMITTED , AWAITING APPROVAL');
     }
+>>>>>>> origin/main
 }

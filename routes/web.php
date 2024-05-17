@@ -1,11 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+<<<<<<< HEAD
+use Illuminate\Support\Facades\Auth;
+=======
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EmployerController;
+>>>>>>> origin/main
 
 /*
 |--------------------------------------------------------------------------
@@ -207,6 +211,8 @@ Route::get('bookpage/{id}/tv/{amount}',[BookingController::class,'bookpage'])->n
 
 Route::post('paybook',[BookingController::class,'create'])->name('paybook');
 Route::post('storepayment',[BookingController::class,'store'])->name('storepayment');
+<<<<<<< HEAD
+=======
 Route::post('savedapplicant',[RegisterController::class,'saveregidtrationform'])->name('saverecordofapplicant');
 
 
@@ -222,3 +228,4 @@ Route::get('epromoter',function(){
 
 Route::get('proomoter/creater',[EmployerController::class,'createpage'])->name('the.create');
 Route::post('proomoter/store',[EmployerController::class,'storepage'])->name('the.store');
+>>>>>>> origin/main
