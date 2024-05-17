@@ -137,8 +137,8 @@
                             <i class="fa fa-users text-primary"></i>
                         </div>
                         <div class="ps-4">
-                            <h5 class="text-white mb-0">Happy Clients</h5>
-                            <h1 class="text-white mb-0" data-toggle="counter-up">56000</h1>
+                            <h5 class="text-white mb-0">Area Offices</h5>
+                            <h1 class="text-white mb-0" data-toggle="counter-up">21</h1>
                         </div>
                     </div>
                 </div>
@@ -148,8 +148,8 @@
                             <i class="fa fa-check text-white"></i>
                         </div>
                         <div class="ps-4">
-                            <h5 class="text-primary mb-0">Projects Done</h5>
-                            <h1 class="mb-0" data-toggle="counter-up">450000</h1>
+                            <h5 class="text-primary mb-0">Act Mandated Services</h5>
+                            <h1 class="mb-0" data-toggle="counter-up">20</h1>
                         </div>
                     </div>
                 </div>
@@ -159,8 +159,8 @@
                             <i class="fa fa-award text-primary"></i>
                         </div>
                         <div class="ps-4">
-                            <h5 class="text-white mb-0">Awards Won</h5>
-                            <h1 class="text-white mb-0" data-toggle="counter-up">65</h1>
+                            <h5 class="text-white mb-0">Regulatory Measures</h5>
+                            <h1 class="text-white mb-0" data-toggle="counter-up">50</h1>
                         </div>
                     </div>
                 </div>
@@ -177,7 +177,7 @@
                 <div class="col-lg-7">
                     <div class="section-title position-relative pb-3 mb-5">
                         <h5 class="fw-bold text-primary text-uppercase">About Us</h5>
-                        <h1 class="mb-0">A platform for vessels online registration & management</h1>
+                        <h1 class="mb-0">E-NIWA, Renewed NIWA</h1>
                     </div>
                     <p class="mb-4">The National Inland Waterways Authority (NIWA), hitherto Inland Waterways Department (IWD) of the Federal Ministry of Transport, metamorphosed into an Authority vide an act of the National Assembly, CAP 47, Laws of the Federation of Nigeria (LFN), 2004 (Decree No. 13 of 1997), established with the primary responsibility to improve and develop Nigeria’s inland waterways for navigation.</p>
                     <div class="row g-0 mb-3">
@@ -217,7 +217,7 @@
         <div class="container py-5">
             <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
                 <h5 class="fw-bold text-primary text-uppercase">Why Choose Us</h5>
-                <h1 class="mb-0">Experience a new level of convenience with NIWA's array of benefits</h1>
+                <h1 class="mb-0">Experience a new level of convenience with NIWA's array services</h1>
             </div>
             <div class="row g-5">
                 <div class="col-lg-4">
@@ -280,8 +280,8 @@
                         <div class="service-icon">
                             <i class="fa fa-shield-alt text-white"></i>
                         </div>
-                        <h4 class="mb-3">Dredging</h4>
-                        <p class="m-0">A dredger is a type of boat that is equipped with a tool, called a dredge...</p>
+                        <h4 class="mb-3">Capital and Maintenance Dredging</h4>
+                        {{-- <p class="m-0">A dredger is a type of boat that is equipped with a tool, called a dredge...</p> --}}
                         {{-- <a class="btn btn-lg btn-primary rounded" href="">
                             <i class="bi bi-arrow-right"></i>
                         </a> --}}
@@ -293,7 +293,7 @@
                             <i class="fa fa-chart-pie text-white"></i>
                         </div>
                         <h4 class="mb-3">Reclamation</h4>
-                        <p class="m-0">Land reclamation is the process of creating new land from oceans, seas, riverbeds or lake beds.</p>
+                        {{-- <p class="m-0">Land reclamation is the process of creating new land from oceans, seas, riverbeds or lake beds.</p> --}}
                         {{-- <a class="btn btn-lg btn-primary rounded" href="">
                             <i class="bi bi-arrow-right"></i>
                         </a> --}}
@@ -304,8 +304,8 @@
                         <div class="service-icon">
                             <i class="fa fa-home text-white"></i>
                         </div>
-                        <h4 class="mb-3">Warehouse</h4>
-                        <p class="m-0">A warehouse is basically a place that is built for storing some goods used for distribution</p>
+                        <h4 class="mb-3">Right of Way</h4>
+                        {{-- <p class="m-0">A warehouse is basically a place that is built for storing some goods used for distribution</p> --}}
                         {{-- <a class="btn btn-lg btn-primary rounded" href="">
                             <i class="bi bi-arrow-right"></i>
                         </a> --}}
@@ -317,7 +317,7 @@
                             <i class="fa fa-wrench text-white"></i>
                         </div>
                         <h4 class="mb-3">Equipments and property leasing</h4>
-                        <p class="m-0">Rental Equipment means tangible personal property sold, rented, leased, or licensed to customers</p>
+                        {{-- <p class="m-0">Rental Equipment means tangible personal property sold, rented, leased, or licensed to customers</p> --}}
                         {{-- <a class="btn btn-lg btn-primary rounded" href="">
                             <i class="bi bi-arrow-right"></i>
                         </a> --}}
@@ -328,14 +328,26 @@
                         <div class="service-icon">
                             <i class="fa fa-search text-white"></i>
                         </div>
-                        <h4 class="mb-3">Landed properties</h4>
-                        <p class="m-0">a property that generates income for the owner without the owner having to do the actual work</p>
+                        <h4 class="mb-3">Approved Jetties Dockyards and Piers</h4>
+                        {{-- <p class="m-0">a property that generates income for the owner without the owner having to do the actual work</p> --}}
                         {{-- <a class="btn btn-lg btn-primary rounded" href="">
                             <i class="bi bi-arrow-right"></i>
                         </a> --}}
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.9s">
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.6s">
+                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fa fa-check text-white"></i>
+                        </div>
+                        <h4 class="mb-3">Approved Jetties Dockyards and Piers</h4>
+                        {{-- <p class="m-0">a property that generates income for the owner without the owner having to do the actual work</p> --}}
+                        {{-- <a class="btn btn-lg btn-primary rounded" href="">
+                            <i class="bi bi-arrow-right"></i>
+                        </a> --}}
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn mx-auto" data-wow-delay="0.9s">
                     <div class="position-relative bg-primary rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-5">
                         <h3 class="text-white mb-3">For All Services</h3>
                         <p class="text-white mb-3">Kindly visit the official niwa website or call the phone number below</p>
@@ -350,9 +362,9 @@
     <!-- Testimonial Start -->
     <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
         <div class="container py-5">
-            <div class="section-title text-center position-relative pb-3 mb-4 mx-auto" style="max-width: 600px;">
-                <h5 class="fw-bold text-primary text-uppercase">Testimonial</h5>
-                <h1 class="mb-0">What Our Clients Say About Our Services</h1>
+            <div class="section-title text-center position-relative pb-3 mb-4 mx-auto" style="max-width: 700px;">
+                <h5 class="fw-bold text-primary text-uppercase">Transforming Lives</h5>
+                <h1 class="mb-0">People Benefitting from our services</h1>
             </div>
             <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.6s">
                 <div class="testimonial-item bg-light my-4">
@@ -416,7 +428,7 @@
                 <div class="col-lg-4 col-md-6 footer-about">
                     <div class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-primary p-4">
                         <a href="#" class="navbar-brand">
-                            <h1 class="m-0 text-white"><i class="fa fa-user-tie me-2"></i>NIWA</h1>
+                            <h1 class="m-0 text-white"><i class="fa fa-user-tie me-2"></i>E-NIWA</h1>
                         </a>
                         <p class="mt-3 mb-4">Experience the transformational power of NIWA. We are committed to continuously enhancing your journey</p>
                         <form action="">
@@ -460,16 +472,28 @@
                                 <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
                                 <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>About Us</a>
                                 <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Our Services</a>
+                                {{-- <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Locate us</a> --}}
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                        {{-- <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
                             <div class="section-title section-title-sm position-relative pb-3 mb-4">
                                 <h3 class="text-light mb-0">Popular Links</h3>
                             </div>
                             <div class="link-animated d-flex flex-column justify-content-start">
                                 <a class="text-light mb-2" href="{{ route('login') }}"><i class="bi bi-arrow-right text-primary me-2"></i>Login</a>
                                 <a class="text-light" href="{{ route('register') }}"><i class="bi bi-arrow-right text-primary me-2"></i>Register</a>
+                                <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
+                            </div>
+                        </div> --}}
+                        <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">FAQ's</h3>
+                            </div>
+                            <div class="link-animated d-flex flex-column justify-content-start">
+                                {{-- <a class="text-light mb-2" href="{{ route('login') }}"><i class="bi bi-arrow-right text-primary me-2"></i>Login</a>
+                                <a class="text-light" href="{{ route('register') }}"><i class="bi bi-arrow-right text-primary me-2"></i>Register</a> --}}
                                 {{-- <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a> --}}
+                                <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>FAQ's</a>
                             </div>
                         </div>
                     </div>
