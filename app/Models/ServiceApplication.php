@@ -42,7 +42,7 @@ class ServiceApplication extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id');
     }
-    public function epromota(){
-        return $this->belongsTo(Employer::class,'promotacode','applicant_code');
-    }
+    // public function epromota(){
+    //     return $this->belongsTo(Employer::class,'promotacode','applicant_code');
+    // }
 }
