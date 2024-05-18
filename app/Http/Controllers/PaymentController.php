@@ -365,7 +365,7 @@ if ($lastInvoice) {
             }
 
             if ($payment->payment_type == 5) {
-                $service_application->current_step = 12;
+                $service_application->current_step = 14;
                 $service_application->status_summary = 'Waiting for equipment and monitoring fee verification and approval';
                 $service_application->save();
             }
@@ -459,7 +459,7 @@ if ($lastInvoice) {
 
             //if already processed
             if (isset($payment->payment_status) && $payment->payment_status == 1) {
-                return redirect()->route('payment.index')->with('info', 'Payment already processed!');
+                return redirect()->route('service-applications.index')->with('info', 'Payment already processed!');
             }
 
             //update payments
@@ -510,6 +510,9 @@ if ($lastInvoice) {
                 $service_application->current_step = 14;
                 $service_application->status_summary = 'Waiting for equipment and monitoring fee verification and approval';
                 $service_application->save();
+
+                $payment->approval_status = 0;
+                $payment->save();
             }
 
             if ($payment->payment_type == 2) {

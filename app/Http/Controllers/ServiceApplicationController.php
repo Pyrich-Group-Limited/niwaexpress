@@ -56,8 +56,6 @@ class ServiceApplicationController extends Controller
     public function area_office_document()
     {
 
-
-
         $branches = Branch::get()->pluck('branch_name', 'id');
         $branches = $branches->prepend('Select Area Office', '');
         $services = Service::where('branch_id', 1)->get();
@@ -65,7 +63,6 @@ class ServiceApplicationController extends Controller
         $branch_id = Session::get('branch_id');
         $service_id = Session::get('service_id');
         // dd($service_id);
-
 
         return view('service_applications.area_office_create', compact(['branches', 'services', 'branch_id', 'service_id']));
     }
@@ -139,6 +136,90 @@ class ServiceApplicationController extends Controller
         DB::table('incoming_documents_manager')->insert($document_input);
 
 
+    // Validate the request
+$validatedData = $request->validate([
+    'service_id' => 'required',
+    'full_name' => 'required',
+    'email' => 'required|email',
+    'phone' => 'required|numeric',
+    'department_id' => 'required|numeric',
+    'branch_id' => 'required|numeric',
+    'status' => 'required|numeric',
+    'description' => 'required',
+    'file' => 'required|mimes:pdf,doc,docx,jpeg,png,gif|max:1024',
+], [
+    'file.mimes' => 'Please select a valid file format (PDF, DOC, DOCX, JPEG, PNG, GIF).',
+    'file.max' => 'File size exceeds the maximum limit of 1MB.',
+]);
+
+// Prepare document input
+$document_input = [
+    'title' => $validatedData['service_id'],
+    'description' => $validatedData['description'],
+    'full_name' => $validatedData['full_name'],
+    'email' => $validatedData['email'],
+    'phone' => $validatedData['phone'],
+    'category_id' => 1,
+    'created_by' => 0,
+    'status' => $validatedData['status'],
+    'department_id' => $validatedData['department_id'],
+    'branch_id' => $validatedData['branch_id']
+];
+
+// Save file
+$path = "documents";
+$file = $request->file('file');
+$fileExtension = $file->getClientOriginalExtension();
+$title = str_replace(' ', '', $validatedData['service_id']);
+$file_name = $title . '_v1_' . uniqid() . '.' . $fileExtension;
+$file->move(public_path($path), $file_name);
+$document_input['document_url'] = $path . "/" . $file_name;
+
+// Create IncomingDocument
+//IncomingDocuments::create($document_input);
+DB::table('incoming_documents_manager')->insert($document_input);
+
+// start
+$userID = Auth::user()->id;
+
+// Create an array with session values
+$input = [
+    'user_id' => $userID,
+    'branch_id' => Session::get('branch_id'),
+    'service_id' => Session::get('service_id'),
+    'axis_id' => Session::get('axis_id'),
+    'service_type_id' => Session::get('service_type_id'),
+    'latitude1' => Session::get('latitude1'),
+    'longitude1' => Session::get('longitude1'),
+    'latitude2' => Session::get('latitude2'),
+    'longitude2' => Session::get('longitude2')
+];
+
+// Create a new ServiceApplication instance and save it
+$serviceApplication = ServiceApplication::create($input);
+
+// Update employer's branch_id
+$employer = Employer::findOrFail($userID);
+$employer->branch_id = $input['branch_id']; // Assuming branch_id is one of the session values
+$employer->save();
+
+Session::forget('branch_id');
+Session::forget('service_id');
+Session::forget('axis_id');
+Session::forget('service_type_id');
+Session::forget('latitude1');
+Session::forget('longitude1');
+Session::forget('latitude2');
+Session::forget('longitude2');
+
+return redirect(route('service-applications.index'))->with('success', 'Document sent and application created successfully.');
+// Removing an item from the session
+// Session::forget('key');
+// end
+       
+
+
+        //return redirect()->back()->with('success', 'Document sent successfully. We will get back to you later. Thank you');
 
 
 
@@ -435,10 +516,25 @@ class ServiceApplicationController extends Controller
         $input = $request->all();
         $userID = Auth::user()->id;
 
+        Session::put('branch_id', $input['branch_id']);
+        Session::put('service_id', $input['service_id']);
+        Session::put('axis_id', $input['axis_id']);
+        Session::put('service_type_id', $input['service_type_id']);
+        Session::put('latitude1', $input['latitude1']);
+        Session::put('longitude1', $input['longitude1']);
+        Session::put('latitude2', $input['latitude2']);
+        Session::put('longitude2', $input['longitude2']);
+
         $find = IncomingDocuments::where('email', Auth::user()->company_email)->where('branch_id', $input['branch_id'])->where('title', $input['service_id'])->first();
 
         if ($find) {
             $path = 'documents/';
+
+
+        
+        // Removing an item from the session
+        // Session::forget('key');
+        $serviceApplication = ServiceApplication::create($input);
 
 
             $input['user_id'] = $userID;

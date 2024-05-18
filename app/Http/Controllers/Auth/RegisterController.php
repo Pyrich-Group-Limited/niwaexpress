@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Epromoterservices;
 use App\Models\Epromoteruser;
 use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use App\Mail\EmployerRegisteredMail;
 use App\Models\Branch;
@@ -87,7 +88,9 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $branches = Branch::all();
+
         $states = State::all();
+
 
         // $allOption = new Branch();
         // $allOption->id = 0;

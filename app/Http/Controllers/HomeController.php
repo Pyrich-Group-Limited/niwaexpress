@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\Employer;
 use Illuminate\Http\Request;
 use App\Models\RegistrationFee;
+use App\Models\ServiceApplication;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -58,7 +59,11 @@ class HomeController extends Controller
 
         $applicants=Employer::where('promotercode',auth()->user()->applicant_code)->get();
         $total=Employer::where('promotercode',auth()->user()->applicant_code)->count();
-        return view('home', compact(['metrics','applicants','branches','total']));
+        $my_payment = Payment::where('employer_id', auth()->user()->id)->get();
+        $user = Auth::user();
+        
+        $service_applications = ServiceApplication::orderBy('id', 'desc')->where('user_id', $user->id)->limit(1)->get();
+        return view('home', compact(['metrics','applicants','branches','total','my_payment','service_applications']));
 
     }
 

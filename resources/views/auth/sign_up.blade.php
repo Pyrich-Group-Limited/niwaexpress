@@ -198,7 +198,9 @@
                             </label>
                         </div>
                         <div class="form-group text-center">
+
                             <button class="btn btn-success account-btn" name="status" value="1" type="submit">Signup</button>
+
                         </div>
                         <div class="text-center login-link">
                             Already have an account? <a href="{{ route('login') }}">Login </a>
