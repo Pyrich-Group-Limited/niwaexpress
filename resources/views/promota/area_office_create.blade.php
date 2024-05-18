@@ -1,4 +1,41 @@
-<!-- Select Area Office -->
+@extends('layouts.app')
+
+@section('content')
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12 text-center">
+                    <h2>
+                        Submit Letter Of Intent
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content px-3">
+       {{--  @if(session()->has('success'))
+        <div class="alert alert-success" style="color: green; font-weight:bold">
+        {{ session()->get('success') }}
+        </div>
+        @endif
+        @if(session()->has('error'))
+        <div class="alert alert-error" style="color: red; font-weight:bold">
+        {{ session()->get('error') }}
+        </div>
+        @endif --}}
+
+
+        <div class="card">
+
+            <form action="{{ route('incoming_store') }}" method="POST" enctype="multipart/form-data">
+
+            @csrf
+
+            <div class="card-body">
+
+                <div class="row">
+                  <!-- Select Area Office -->
 <div class="form-group col-sm-12 mb-3">
     <label for="branch_id">Select Area Office:</label>
     <select id="branch_id" name="branch_id" class="form-select" required>
@@ -24,22 +61,23 @@
     </select>
 </div>
 
+
 <!-- Sender Full Name -->
 <div class="form-group col-sm-12 mb-3">
     <label for="full_name">Sender Full Name:</label>
-    <input type="text" id="full_name" name="full_name" value="{{ auth()->user()->contact_firstname.' '.auth()->user()->contact_surname }}" class="form-control" readonly required>
+    <input type="text" id="full_name" name="full_name" value="{{$user->contact_firstname.' '.$user->contact_surname }}" class="form-control" required readonly >
 </div>
 
 <!-- Sender Email -->
 <div class="form-group col-sm-6 mb-3">
     <label for="email">Sender Email:</label>
-    <input type="email" id="email" name="email" class="form-control" value="{{ auth()->user()->company_email }}" readonly required>
+    <input type="email" id="email" name="email" class="form-control" value="{{$user->company_email }}" readonly required>
 </div>
 
 <!-- Sender Phone -->
 <div class="form-group col-sm-6 mb-3">
     <label for="phone">Sender Phone:</label>
-    <input type="tel" id="phone" name="phone" class="form-control" value="{{ auth()->user()->contact_number }}" readonly required>
+    <input type="tel" id="phone" name="phone" class="form-control" value="{{$user->contact_number }}" readonly required>
     <input type="hidden" name="department_id" value="16" class="form-control" required>
     <input type="hidden" name="status" value="1" class="form-control" required>
 </div>
@@ -111,3 +149,21 @@
     }); */
     </script>
 @endpush
+
+
+
+
+                </div>
+
+            </div>
+
+            <div class="card-footer" style="">
+                <button type="submit" class="btn btn-primary">SUBMIT</button>
+                {{-- <a href="{{ route('incoming_documents_manager.index') }}" class="btn btn-default"> Cancel </a> --}}
+            </div>
+
+            </form>
+
+        </div>
+    </div>
+@endsection

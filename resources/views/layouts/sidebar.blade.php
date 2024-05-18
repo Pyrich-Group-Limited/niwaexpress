@@ -33,7 +33,7 @@
         </li> --}}
         <?php
         //}
-        
+
         //if(empty($reg_setup)){
         ?>
         {{-- <li>
@@ -51,6 +51,14 @@
         <li>
             <a href="{{ route('switch.area.office') }}"><i class="fa fa-globe"></i> <span>Switch Area Office</span></a>
         </li>
+        @if (auth()->user()->user_type == 'e-promota')
+
+        <li>
+            <a  href="{{ route('the.create') }}"><i class="fa fa-globe"></i>   <span> Register Applicant </span></a>
+        </li>
+        @endif
+
+
         <li>
             <a href="{{ route('my.payments') }}"><i class="fa fa-globe"></i> <span>My Payments</span></a>
         </li>
@@ -70,7 +78,7 @@
         {{-- <li>
             <a href="{{ route('payment.steps') }}"><i class="fa fa-user-circle"></i> <span>Service Registration Status</span></a>
         </li> --}}
-        
+
             </ul>
         </div>
     </div>

@@ -24,7 +24,7 @@
         <div class="account-page">
             <div class="account-center">
                 <div class="account-box">
-                    <form action="{{ route('register') }}" method="POST" class="form-signin">
+                    <form action="{{ route('saverecordofapplicant') }}" method="POST" class="form-signin">
                         @csrf
                         <div class="account-logo">
                             <a href="{{ url('/') }}"><img src="{{ asset('assets/images/logo.png') }}"
@@ -99,7 +99,7 @@
                             <label class="form-label" for="user_type">Select Area Office<span
                                     class="text-danger">*</span></label>
                             <div class="form-control-wrap">
-                                <select multiple class="form-control" id="areaoffice" name="areaoffice[]">
+                                <select  class="form-control" id="areaoffice" name="areaoffice">
                                     @foreach ($branches as $item)
                                         <option value="{{ $item->id }}">{{ $item->branch_name }}</option>
                                     @endforeach
@@ -198,12 +198,7 @@
                             </label>
                         </div>
                         <div class="form-group text-center">
-<<<<<<< HEAD
-                            <button class="btn btn-success account-btn" type="submit">Signup</button>
-=======
-                            <button class="btn btn-success account-btn" name="status" value="1"
-                                type="submit">Signup</button>
->>>>>>> origin/main
+                            <button class="btn btn-success account-btn" name="status" value="1" type="submit">Signup</button>
                         </div>
                         <div class="text-center login-link">
                             Already have an account? <a href="{{ route('login') }}">Login </a>
@@ -347,9 +342,4 @@
 
 
 <!-- register24:03-->
-<<<<<<< HEAD
 </html>
-=======
-
-</html>
->>>>>>> origin/main

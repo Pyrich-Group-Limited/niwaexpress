@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-sm-7 col-8 text-right m-b-30">
                     <div class="btn-group btn-group-sm">
-                        
+
                         <form onsubmit="makePayment()" id="payment-form">
                             <input type="hidden" class="form-control" id="js-rrr"
                                 name="rrr" value="{{ $pending_payment->rrr }}"
@@ -107,7 +107,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-lg-6 m-b-20">
-                                    
+
                                         <h5>Invoice to:</h5>
                                         <ul class="list-unstyled">
                                             @if(!empty(auth()->user()->contact_firstname) || !empty(auth()->user()->contact_surname))
@@ -115,24 +115,24 @@
                                                     <h5><strong>{{ auth()->user()->contact_firstname.' '.auth()->user()->contact_surname }}</strong></h5>
                                                 </li>
                                             @endif
-                                        
+
                                             @if(!empty(auth()->user()->company_name))
                                                 <li><span>{{ auth()->user()->company_name }}</span></li>
                                             @endif
-                                        
+
                                             @if(!empty(auth()->user()->company_address))
                                                 <li>{{ auth()->user()->company_address }}</li>
                                             @endif
-                                        
+
                                             @if(!empty(auth()->user()->company_phone))
                                                 <li>{{ auth()->user()->company_phone }}</li>
                                             @endif
-                                        
+
                                             @if(!empty(auth()->user()->company_email))
                                                 <li><a href="#">{{ auth()->user()->company_email }}</a></li>
                                             @endif
-                                        </ul>                            
-                                    
+                                        </ul>
+
                                 </div>
                                 <div class="col-sm-6 col-lg-6 m-b-20">
                                     <div class="invoices-view">
@@ -217,7 +217,7 @@
             </div>
      @else
         <div class="row g-gs">
-           
+
             <div class="col-xxl-6 col-sm-12">
                 <div class="card h-100">
                     <div class="nk-ecwg nk-ecwg6">
@@ -232,14 +232,14 @@
                                     <div class="data-group">
                                         <div class="form-group w-100">
                                             {{-- @if (!$pending_payment || $paid_months != 0) --}}
-                                            <?php 
+                                            <?php
                                             //$pending_payments = Payment::where('payment_status',4)->where('employer_id', auth()->user()->id)->where('service_id','!=', null)->first();
                                             ?>
                                             {{-- @if (!$pending_payment || $paid_months != 0) --}}
                                                 {{-- <div class="form-group"> --}}
-                                           
+
                                                 {{--  </div> --}}
-                                            
+
                                             <form method="POST" action="{{ route('payment.remita') }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row">
@@ -264,16 +264,16 @@
                                                             @endif
                                                             <option>Monthly</option>
                                                         </select> --}}
-                                                        <?php 
+                                                        <?php
                                                         $branches = \App\Models\Branch::get();
                                                         ?>
                                                         {{-- <label for="branch_id">Area Offices:</label>
                                                         <select name="branch_id" id="branch_id"
                                                             class="form-select">
                                                             @foreach ($branches as $branch)
-                                                            <option value="{{ $branch->id }}">{{ $branch->branch_name }}</option>  
+                                                            <option value="{{ $branch->id }}">{{ $branch->branch_name }}</option>
                                                             @endforeach
-                                                            
+
                                                         </select> --}}
                                                         {{-- <label for="applicant_type">Applicant:</label>
                                                         <select name="applicant_type" id="applicant_type"
@@ -289,9 +289,9 @@
                                                         <input type="hidden" name="contribution_period" id="contribution_period"
                                                         value="Annually">
                                                             <?php $services = \App\Models\Service::all();
-                                                            
+
                                                             ?>
-                                                            
+
                                                             <label for="service_id">Select Service:</label>
                                                                   <select class="form-select"  id="service_id"
                                                                         name="service_id" required>
@@ -307,7 +307,7 @@
                                                                         <option value="mechanical">Mechanical</option>
                                                                         <option value="manual">Manual</option>
                                                                     </select>
-                                                            
+
                                                                <label class="form-label" for="default-06">Upload letter of intent (pdf only: .pdf)
                                                                 </label>
                                                                 <div class="form-control-wrap">
@@ -317,7 +317,7 @@
                                                                         <label class="form-file-label" for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
-                                                            
+
 
                                                         <div id="nom_div" class="d-none">
                                                             <label for="number_of_months">Number of months</label>
@@ -382,11 +382,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
-                           
+
                         </div><!-- .card-inner -->
                     </div><!-- .nk-ecwg -->
                 </div><!-- .card -->
@@ -530,15 +530,15 @@
             var appFees = 25000.00;
             var serviceType = document.getElementById('service_type_id').value;
             var processingFee = 0.00;
-    
+
             if (serviceType === 'mechanical') {
                 processingFee = 150000.00;
             } else if (serviceType === 'manual') {
                 processingFee = 7500.00;
             }
-    
+
             var totalFees = appFees + processingFee;
-    
+
             document.getElementById('processing_fee').textContent = '₦' + processingFee.toFixed(2);
             document.getElementById('total_fees').textContent = '₦' + totalFees.toFixed(2);
             document.getElementById('total_fees1').textContent = totalFees.toFixed(2);

@@ -45,11 +45,12 @@ class EmployerController extends Controller
     }
     public function createpage(){
         $branches= Branch::all();
+
         return view('promota.create',compact('branches'));
     }
 
     public function storepage(Request $request){
-        // dd($request->all());
+
         $existingEmployer = Employer::where('company_email', $request->company_email)->first();
 
         if ($existingEmployer) {
@@ -71,8 +72,10 @@ class EmployerController extends Controller
         $employer->contact_firstname = $request->contact_firstname;
         $employer->contact_surname = $request->contact_surname;
         $employer->company_phone = $request->company_phone;
+        $employer->contact_number=$request->company_phone;
         $employer->company_email = $request->company_email;
         $employer->company_address = $request->company_address;
+        
         $employer->password = Hash::make($password);
 
         $employer->status = $request->status;

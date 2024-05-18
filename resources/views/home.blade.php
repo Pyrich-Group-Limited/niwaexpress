@@ -12,9 +12,9 @@
     <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between">
             <div class="nk-block-head-content">
-                <h3 class="nk-block-title page-title text-center">Welcome <span
+                {{-- <h3 class="nk-block-title page-title text-center">Welcome <span
                         class=" text-primary">{{ auth()->user()->contact_surname . ',' . auth()->user()->contact_firstname }}
-                    </span></h3>
+                    </span></h3> --}}
                 <div class="nk-block-des text-soft">
                     {{-- <p>Welcome to the NIWA Dashboard.</p> --}}
                 </div>
@@ -79,7 +79,7 @@
             <div class="nk-block">
                 {{-- @dd(auth()->user()); --}}
                 <div class="row g-gs">
-                    <a class="btn  btn-primary " href="{{route('the.create')}}"> Register New Applicant</a>
+
                     {{-- <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
                         Register New Applicant
@@ -89,39 +89,69 @@
                         <button type="submit" >Go</button>
                     </form> --}}
                     {{-- <a href="{{route('promotercreate')}}">R</a> --}}
-                    <table id="myTable" class="table data-table">
-                        <thead>
-                            <tr>
-                                <th>Applicant Code</th>
-                                <th>Applicant Type</th>
-                                <th>Date Applied</th>
-                                <th>Applicant Name</th>
+                    <div class="card card-bordered card-preview mt-4">
+                        <div class="card-inner">
+                            <table class="datatable-init-export nowrap table" data-export-title="Export">
+                                <thead>
+                                    <tr>
+                                        <th>Applicant Code</th>
+                                        <th>Applicant Type</th>
+                                        <th>Date Applied</th>
+                                        <th>Applicant Name</th>
+                                        <th>Applicant Email</th>
+                                        <th>Applicant Address</th>
 
-                                <th>Applicant Email</th>
-                                <th>Applicant Address</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($applicants as $item)
+                                        <tr>
+                                            <td>{{ $item->applicant_code }}</td>
+                                            <td>{{ $item->user_type }}</td>
+                                            <td>{{ date('l, d, Y', strtotime($item->created_at)) }}</td>
 
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                                            <td>{{ $item->company_name }}</td>
+                                            <td>{{ $item->company_email }}</td>
+                                            <td>{{ $item->company_address }}</td>
+                                            <td>
+
+                                                <a href="{{route('eprotoma_apply_for_a_service',[$item->id])}}" class="btn btn-secondary">Apply</a>
+                                                <a href="{{route('eprotoma_apply_for_a_service',[$item->id])}}" class="btn btn-secondary">View History</a>
+
+                                            </td>
 
 
-                            @foreach ($applicants as $item)
-                                <tr>
-                                    {{-- @dd($item); --}}
-                                    <td>{{ $item->applicant_code }}</td>
-                                    <td>{{ $item->user_type }}</td>
-                                    <td>{{ date('l, d, Y', strtotime($item->created_at)) }}</td>
+                                            {{-- <td>
+                                                @if (!empty($payment->letter_of_intent))
+                                                    <a href="{{ 'storage/' . $payment->letter_of_intent }}" target="_blank">
+                                                        View PDF
+                                                    </a>
+                                                @else
+                                                    {{ 'NILL' }}
+                                                @endif
+                                            </td>
+                                            <td><span
+                                                    class="tb-status text-warning">{{ $payment->approval_status == 0 ? 'Awaiting Approval' : '' }}</span>
+                                            </td>
+                                            <td>
 
-                                    <td>{{ $item->company_name }}</td>
-                                    <td>{{ $item->company_email }}</td>
-                                    <td>{{ $item->company_address }}</td>
-                                    <td><a href="#" class="btn btn-secondary">View</a></td>
-                                </tr>
-                            @endforeach
+                                                <a href="{{ route('payment.invoice', $payment->id) }}" target="_blank" title="Print"><span
+                                                        class="nk-menu-icon text-secondary"><em class="icon ni ni-printer"></em></span></a>
+                                                @if ($payment->payment_status == 1)
+                                                    <a href="{{ route('payment.invoice.download', $payment->id) }}" target="_blank"
+                                                        title="Download Receipt"><span class="nk-menu-icon text-secondary"><em
+                                                                class="icon ni ni-download text-teal"></em></span></a>
+                                                @endif
+                                            </td> --}}
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!-- .card-preview -->
 
-                        </tbody>
-                    </table>
+
                     <!-- Modal -->
 
                     {{-- <div class="col-xxl-6">
@@ -236,7 +266,8 @@
         @else
             <h4>Hello {{ auth()->user()->contact_surname }}</h4>
             {{-- @dd(auth()->user()->contact_surname); --}}
-            <span>You Account is not Yet Activated,</span>
+
+            <span>Your Account is not Yet Activated, Kindly Wait For Approval,if Your Account is Not Yet Activated Within The Next 5 Working Days, Kindly Contact <b>support@niwa.gov.ng</b></span>
         @endif
     @else
         <div class="row">
@@ -398,6 +429,7 @@
 
 @push('scripts')
     <!-- JavaScript -->
+    <script src="./assets/js/libs/datatable-btns.js?ver=3.1.3"></script>
     <script>
         //for doughnut chart
         var claims = [
@@ -407,4 +439,14 @@
         ];
     </script>
     <script src="./assets/js/charts/chart-ecommerce.js?ver=3.1.3"></script>
-@endpush
+    <script>
+        function printDiv(divId) {
+            var content = document.getElementById(divId).innerHTML;
+            var printWindow = window.open('', '', 'fullscreen=yes,scrollbars=no');
+            printWindow.document.open();
+            printWindow.document.write('<html><head><title>NIWA_Application_and_Processing_Fees</title></head><body>' + content + '</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+    @endpush
