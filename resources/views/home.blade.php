@@ -309,66 +309,83 @@
                         </div>
                     </div><!-- .card -->
                 </div> --}}<!-- .col -->
-                <div class="col-xxl-3 col-md-6">
-                    @foreach ($service_applications as $application)
-                    <table id="myTable" class="table data-table">
-                        <thead>
-                            <tr>
-                                <th>Applicant Code</th>
-                                <th>Applicant Type</th>
-                                <th>Date Applied</th>
-                                <th>Applicant Name</th>
-
-                                <th>Applicant Email</th>
-                                <th>Applicant Address</th>
-
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    @endforeach
+                <div class="col-md-12">
+                    <div class="card-title-group mb-2">
+                        <div class="card-title">
+                            <h6 class="title">Latest 10 Transaction History</h6>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="datatable-init-export1 nowrap table" data-export-title="Export">
+                            <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Area Office</th>
+                                    <th>Service Type</th>
+                                    <th>Date of Inspection</th>
+                                    <th>Inspection Message</th>
+                                    <th>Status Summary</th>
+                                    <th>Date Applied</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($service_applications as $application)
+                                <tr>
+                                    <td>{{ $application->service ? $application->service->name : '' }}</td>
+                                    <td>{{ $application->branch ? $application->branch->branch_name : '' }}</td>
+                                    <td>{{ $application->processingType ? $application->processingType->name : '' }}</td>
+                                    <td>{{ $application->date_of_inspection }}</td>
+                                    <td>{{ $application->comments_on_inspection }}</td>
+                                    <td>{{ $application->status_summary }}</td>
+                                    <td>{{ $application->created_at }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div><!-- .col -->
-                <div class="col-xxl-3 col-md-6">
+                <div class="col-md-12">
                     <div class="card h-100">
                         <div class="card-inner">
                             <div class="card-title-group mb-2">
                                 <div class="card-title">
-                                    <h6 class="title"> Statistics</h6>
+                                    <h6 class="title">Latest 10 Payment History</h6>
                                 </div>
                             </div>
-                            <ul class="nk-store-statistics">
-                                <li class="item">
-                                    <div class="info">
-                                        <div class="title">Inspection</div>
-                                        <div class="count">{{ $metrics['accident_claims']['number'] }}</div>
-                                    </div>
-                                    <em class="icon bg-primary-dim ni ni-user-add"></em>
-                                </li>
-                                <li class="item">
-                                    <div class="info">
-                                        <div class="title">License</div>
-                                        <div class="count">{{ $metrics['disease_claims']['number'] }}</div>
-                                    </div>
-                                    <em class="icon bg-purple-dim ni ni-user-list"></em>
-                                </li>
-                                <li class="item">
-                                    <div class="info">
-                                        <div class="title">Report</div>
-                                        <div class="count">{{ $metrics['death_claims']['number'] }}</div>
-                                    </div>
-                                    <em class="icon bg-danger-dim ni ni-user-cross"></em>
-                                </li>
-                                <li class="item">
-                                    <div class="info">
-                                        <div class="title">Total</div>
-                                        <div class="count">
-                                            {{ $metrics['accident_claims']['number'] + $metrics['disease_claims']['number'] + $metrics['death_claims']['number'] }}
-                                        </div>
-                                    </div>
-                                    <em class="icon bg-info-dim ni ni-users"></em>
-                                </li>
-                            </ul>
+                            <table class="datatable-init-export1 nowrap table" data-export-title="Export">
+                                <thead>
+                                    <tr>
+                                        <th>Payment Type</th>
+                                        <th>Invoice Number</th>
+                                        <th>Remita RR</th>
+                                        <th>Amount</th>
+                                        <th>Payment Status</th>
+                                        <th>Payment Date</th>
+                                        <th>Confirmation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($my_payments as $payment)
+                                        <tr>
+                                            <td>{{ enum_payment_types()[$payment->payment_type] }}
+                                            </td>
+                                            <td>{{ $payment->invoice_number }}</td>
+                                            <td>{{ $payment->rrr }}</td>
+                                            <td>&#8358;{{ number_format($payment->amount, 2) }}</td>
+                                            <td><span
+                                                    class="tb-status text-{{ $payment->payment_status != 1 ? 'warning' : 'success' }}">{{ $payment->payment_status != 1 ? 'PENDING' : 'PAID' }}</span>
+                                            </td>
+                                            <td>{{ $payment->paid_at }}</td>
+                                            
+                                            <td><span
+                                                    class="tb-status text-warning">{{ $payment->approval_status == 0 ? 'Awaiting Approval' : '' }}</span>
+                                            </td>
+                                            
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                      
                         </div><!-- .card-inner -->
                     </div><!-- .card -->
                 </div><!-- .col -->
