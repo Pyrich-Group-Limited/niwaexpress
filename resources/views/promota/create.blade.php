@@ -69,7 +69,7 @@
                 <input type="tel" name="contact_number" required class=" form-control">
             </div>
             <div class="form-group col-6">
-                <label for="phone_number">Company Stae</label>
+                <label for="phone_number">Company State</label>
                 {{-- <input type="password" name="company_state" required
             class=" form-control"> --}}
                 <select class=" form-control form-select" name="company_state" id="">

@@ -72,8 +72,8 @@ class ServiceApplicationController extends Controller
     public function epromotaarea_office_document($id)
     {
 
-$user=Employer::findOrFail($id);
-
+        $user = Employer::findOrFail($id);
+// dd($user);
         $branches = Branch::get()->pluck('branch_name', 'id');
         $branches = $branches->prepend('Select Area Office', '');
         $services = Service::where('branch_id', 1)->get();
@@ -82,12 +82,12 @@ $user=Employer::findOrFail($id);
         $service_id = Session::get('service_id');
 
 
-        return view('promota.area_office_create', compact(['branches','user', 'services', 'branch_id', 'service_id']));
+        return view('promota.area_office_create', compact(['branches', 'user', 'services', 'branch_id', 'service_id']));
     }
 
     public function storeIncoming(Requests $request)
     {
-
+// dd($request->all());
         // Validate the request
         $validatedData = $request->validate([
             'title' => 'required',
@@ -169,8 +169,7 @@ $user=Employer::findOrFail($id);
     public function Epromoterserviceapplication($id)
     {
         // $user = Auth::user();
-        $user = Employer::findOrFail($id);
-        // dd($user);
+        $user = Employer::findOrFail($id);;
         //$services = Service::where('branch_id', $user->branch->id)->get();
 
 
@@ -190,7 +189,7 @@ $user=Employer::findOrFail($id);
 
         $axis = Axis::all();
 
-        return view('promota.applyforaservice', compact('service_applications','user', 'service_app', 'branches', 'services', 'axis'));
+        return view('promota.applyforaservice', compact('service_applications', 'user', 'service_app', 'branches', 'services', 'axis'));
     }
 
     public function switchAreaOffice()
@@ -447,11 +446,11 @@ $user=Employer::findOrFail($id);
     public function Epromotastore(StoreServiceApplicationRequest $request)
     {
         $input = $request->all();
+// dd($input);
+        $user = Employer::find($request->user_id);
 
-        $user=Employer::find($request->user_id);
-
-$userID=$user->id;
-// dd($userID);
+        $userID = $user->id;
+        // dd($userID);
         // $user= Employer::where('promotercode',$request->promotercode)->first();
         // dd($input);
         // $userID = Auth::user()->id;
@@ -475,7 +474,7 @@ $userID=$user->id;
             return redirect(route('service-applications.index'))->with('success', 'Application created successfully.');
         } else {
 
-            return redirect(route('epromotaadd.new.incoming.documente',[$userID]));
+            return redirect(route('epromotaadd.new.incoming.documente', [$userID]));
         }
     }
 
