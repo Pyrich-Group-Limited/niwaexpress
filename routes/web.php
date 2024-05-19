@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EmployerController;
+use App\Models\ServiceApplication;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,6 +106,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('certificate', App\Http\Controllers\CertificateController::class);
 
     Route::get('/new/incoming', 'App\Http\Controllers\ServiceApplicationController@area_office_document')->name('add.new.incoming.document');
+    Route::get('/new/incoming/{id}/epromota', 'App\Http\Controllers\ServiceApplicationController@epromotaarea_office_document')->name('epromotaadd.new.incoming.documente');
+
     Route::post('/add/new/incoming/store/', 'App\Http\Controllers\ServiceApplicationController@storeIncoming')->name('incoming_store');
 
 
@@ -126,14 +129,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('permit-document/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'downloadPermit'])->name('download_permit');
     Route::get('apply/for/a/service', [App\Http\Controllers\ServiceApplicationController::class, 'ServiceApplication'])->name('apply_for_a_service');
 
+
+    Route::get('epromota/{id}/serviceapply/', [App\Http\Controllers\ServiceApplicationController::class, 'Epromoterserviceapplication'])->name('eprotoma_apply_for_a_service');
+    Route::post('storeepromotaservice_app', [App\Http\Controllers\ServiceApplicationController::class, 'Epromotastore'])->name('epro_service_app_store');
+
     Route::get('/services/{service}/processing-types', 'App\Http\Controllers\ServiceApplicationController@getProcessingTypes');
     Route::get('/services/{service}/services-types', 'App\Http\Controllers\ServiceApplicationController@getServicesByBranch');
     Route::get('/switch/area/office', 'App\Http\Controllers\ServiceApplicationController@switchAreaOffice')->name('switch.area.office');
     Route::post('/switch/area/office/save', 'App\Http\Controllers\ServiceApplicationController@switchAreaOfficeSave')->name('switch.area.office.save');
-
-
-
-
 });
 
 Route::get('/notification', function () {
@@ -199,18 +202,18 @@ Route::get('/pdf', function () {
     return $pdf->stream('invoice.pdf');
 });
 
-Route::resource('booking',BookingController::class);
-Route::post('showbooking',[BookingController::class,'showbooking'])->name('showbooking');
+Route::resource('booking', BookingController::class);
+Route::post('showbooking', [BookingController::class, 'showbooking'])->name('showbooking');
 
 //atp you can remove tne tv if you encounter issues later
-Route::get('bookpage/{id}/tv/{amount}',[BookingController::class,'bookpage'])->name('bookingpage');
+Route::get('bookpage/{id}/tv/{amount}', [BookingController::class, 'bookpage'])->name('bookingpage');
 
-Route::post('paybook',[BookingController::class,'create'])->name('paybook');
-Route::post('storepayment',[BookingController::class,'store'])->name('storepayment');
-Route::post('savedapplicant',[RegisterController::class,'saveregidtrationform'])->name('saverecordofapplicant');
+Route::post('paybook', [BookingController::class, 'create'])->name('paybook');
+Route::post('storepayment', [BookingController::class, 'store'])->name('storepayment');
+Route::post('savedapplicant', [RegisterController::class, 'saveregidtrationform'])->name('saverecordofapplicant');
 
 
-Route::get('epromoter',function(){
+Route::get('epromoter', function () {
     return view('auth.epromoterlogin');
 })->name('promoterlogin');
 
@@ -220,5 +223,5 @@ Route::get('epromoter',function(){
 // Route::get('epromoter/create',[App\Http\Controllers\HomeController::class,'createepropter'])->name('my.prom');
 
 
-Route::get('proomoter/creater',[EmployerController::class,'createpage'])->name('the.create');
-Route::post('proomoter/store',[EmployerController::class,'storepage'])->name('the.store');
+Route::get('proomoter/creater', [EmployerController::class, 'createpage'])->name('the.create');
+Route::post('proomoter/store', [EmployerController::class, 'storepage'])->name('the.store');
