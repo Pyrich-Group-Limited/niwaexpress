@@ -138,7 +138,7 @@
                                                 <div class="row col-12">
                                                     <input type="hidden" name="promotacode"
                                                         value="{{ auth()->user()->applicant_code }}">
-                                                        <input type="hidden" value="{{$user}}" name="applicant_id">
+                                                        <input type="hidden" value="{{$user->id}}" name="user_id">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label class="form-label" for="cp1-team-size">Select
