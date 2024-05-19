@@ -9,7 +9,6 @@
                     <th>Amount</th>
                     <th>Payment Status</th>
                     <th>Payment Date</th>
-                    <th>Letter Of Intent</th>
                     <th>Confirmation</th>
                     <th>Action</th>
                 </tr>
@@ -26,15 +25,6 @@
                                 class="tb-status text-{{ $payment->payment_status != 1 ? 'warning' : 'success' }}">{{ $payment->payment_status != 1 ? 'PENDING' : 'PAID' }}</span>
                         </td>
                         <td>{{ $payment->paid_at }}</td>
-                        <td>
-                            @if (!empty($payment->letter_of_intent))
-                                <a href="{{ 'storage/' . $payment->letter_of_intent }}" target="_blank">
-                                    View PDF
-                                </a>
-                            @else
-                                {{ 'NILL' }}
-                            @endif
-                        </td>
                         <td><span
                                 class="tb-status text-warning">{{ $payment->approval_status == 0 ? 'Awaiting Approval' : '' }}</span>
                         </td>
