@@ -109,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/new/incoming/{id}/epromota', 'App\Http\Controllers\ServiceApplicationController@epromotaarea_office_document')->name('epromotaadd.new.incoming.documente');
 
     Route::post('/add/new/incoming/store/', 'App\Http\Controllers\ServiceApplicationController@storeIncoming')->name('incoming_store');
+    // Route::post('/add/new/incoming/store/', 'App\Http\Controllers\ServiceApplicationController@epromotastoreIncoming')->name('epromotaincoming_store');
 
 
     /**
