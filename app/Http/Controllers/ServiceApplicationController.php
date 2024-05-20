@@ -66,6 +66,69 @@ class ServiceApplicationController extends Controller
         return view('service_applications.area_office_create', compact(['branches', 'services', 'branch_id', 'service_id']));
     }
 
+    public function epromotaarea_office_document($id)
+    {
+
+        $user = Employer::findOrFail($id);
+// dd($user);
+        $branches = Branch::get()->pluck('branch_name', 'id');
+        $branches = $branches->prepend('Select Area Office', '');
+        $services = Service::where('branch_id', 1)->get();
+        // Getting an item from the session
+        $branch_id = Session::get('branch_id');
+        $service_id = Session::get('service_id');
+
+
+        return view('promota.area_office_create', compact(['branches', 'user', 'services', 'branch_id', 'service_id']));
+    }
+
+    public function storeIncoming(Requests $request)
+    {
+// dd($request->all());
+        // Validate the request
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'full_name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+            'department_id' => 'required|numeric',
+            'branch_id' => 'required|numeric',
+            'status' => 'required|numeric',
+            'description' => 'required',
+            'file' => 'required|mimes:pdf,doc,docx,jpeg,png,gif|max:1024',
+        ], [
+            'file.mimes' => 'Please select a valid file format (PDF, DOC, DOCX, JPEG, PNG, GIF).',
+            'file.max' => 'File size exceeds the maximum limit of 1MB.',
+        ]);
+
+        // Prepare document input
+        $document_input = [
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'full_name' => $validatedData['full_name'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'category_id' => 1,
+            'created_by' => 0,
+            'status' => $validatedData['status'],
+            'department_id' => $validatedData['department_id'],
+            'branch_id' => $validatedData['branch_id']
+        ];
+
+        // Save file
+        $path = "documents";
+        $file = $request->file('file');
+        $fileExtension = $file->getClientOriginalExtension();
+        $title = str_replace(' ', '', $validatedData['title']);
+        $file_name = $title . '_v1_' . uniqid() . '.' . $fileExtension;
+        $file->move(public_path($path), $file_name);
+        $document_input['document_url'] = $path . "/" . $file_name;
+
+        // Create IncomingDocument
+        //IncomingDocuments::create($document_input);
+        DB::table('incoming_documents_manager')->insert($document_input);
+
+
     public function storeIncoming(Requests $request)
     {
 
@@ -154,6 +217,7 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
 
         //return redirect()->back()->with('success', 'Document sent successfully. We will get back to you later. Thank you');
 
+
     }
 
 
@@ -184,6 +248,33 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
 
         return view('service_applications.service_application', compact('service_applications', 'service_app', 'branches', 'services', 'axis'));
     }
+
+    public function Epromoterserviceapplication($id)
+    {
+        // $user = Auth::user();
+        $user = Employer::findOrFail($id);;
+        //$services = Service::where('branch_id', $user->branch->id)->get();
+
+
+        $branches = Branch::all();
+
+        //$service_applications = ServiceApplication::where('user_id', $user->id)->paginate(10);
+        $service_applications = ServiceApplication::with('processingType')->where('user_id', $user->id)
+            ->select('service_applications.*', 'processing_types.name as pname')
+            ->join('processing_types', 'service_applications.service_type_id', '=', 'processing_types.id')
+            ->paginate(10);
+
+        $service_app = ServiceApplication::where('user_id', $user->id)->first();
+        /* if($service_app){
+        $pro_type = ProcessingType::where('service_id', $service_app->service_id)->get();
+        } */
+        $services = Service::where('branch_id', 1)->get();
+
+        $axis = Axis::all();
+
+        return view('promota.applyforaservice', compact('service_applications', 'user', 'service_app', 'branches', 'services', 'axis'));
+    }
+
 
     public function switchAreaOffice()
     {
@@ -448,6 +539,41 @@ public function getServicesByBranch($id)
 
         return redirect(route('add.new.incoming.document'));
 
+        }
+
+    }
+    public function Epromotastore(StoreServiceApplicationRequest $request)
+    {
+        $input = $request->all();
+// dd($input);
+        $user = Employer::find($request->user_id);
+
+        $userID = $user->id;
+        // dd($userID);
+        // $user= Employer::where('promotercode',$request->promotercode)->first();
+        // dd($input);
+        // $userID = Auth::user()->id;
+        // $userID=$request->applicant_id;
+        // dd($user);
+
+        $find = IncomingDocuments::where('email',  $user->company_email)->where('branch_id', $input['branch_id'])->where('title', $input['service_id'])->first();
+
+        if ($find) {
+            $path = 'documents/';
+
+
+            $input['user_id'] = $userID;
+
+            $serviceApplication = ServiceApplication::create($input);
+
+            $employer = Employer::findOrFail($userID);
+            $employer->branch_id = $input['branch_id'];
+            $employer->save();
+
+            return redirect(route('service-applications.index'))->with('success', 'Application created successfully.');
+        } else {
+
+            return redirect(route('epromotaadd.new.incoming.documente', [$userID]));
         }
 
     }

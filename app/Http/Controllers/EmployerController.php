@@ -50,7 +50,7 @@ class EmployerController extends Controller
     }
 
     public function storepage(Request $request){
-
+// dd($request->all());
         $existingEmployer = Employer::where('company_email', $request->company_email)->first();
 
         if ($existingEmployer) {
@@ -75,7 +75,8 @@ class EmployerController extends Controller
         $employer->contact_number=$request->company_phone;
         $employer->company_email = $request->company_email;
         $employer->company_address = $request->company_address;
-        
+
+        $employer->branch_id=$request->company_state;
         $employer->password = Hash::make($password);
 
         $employer->status = $request->status;
