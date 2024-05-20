@@ -59,11 +59,11 @@ class HomeController extends Controller
 
         $applicants=Employer::where('promotercode',auth()->user()->applicant_code)->get();
         $total=Employer::where('promotercode',auth()->user()->applicant_code)->count();
-        $my_payment = Payment::where('employer_id', auth()->user()->id)->get();
+        $my_payments = Payment::orderBy('id', 'desc')->where('employer_id', auth()->user()->id)->limit(10)->get();
         $user = Auth::user();
         
-        $service_applications = ServiceApplication::orderBy('id', 'desc')->where('user_id', $user->id)->limit(1)->get();
-        return view('home', compact(['metrics','applicants','branches','total','my_payment','service_applications']));
+        $service_applications = ServiceApplication::orderBy('id', 'desc')->where('user_id', $user->id)->limit(10)->get();
+        return view('home', compact(['metrics','applicants','branches','total','my_payments','service_applications']));
 
     }
 
