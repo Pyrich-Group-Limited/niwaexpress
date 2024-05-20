@@ -28,7 +28,7 @@
 
         <div class="card">
 
-            <form action="{{ route('incoming_store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('epromotaincoming_store') }}" method="POST" enctype="multipart/form-data">
 
                 @csrf
 
@@ -40,7 +40,7 @@
                             <label for="branch_id">Select Area Office:</label>
                             <select id="branch_id" name="branch_id" class="form-select" required>
                                 @foreach ($branches as $key => $value)
-                                    <option value="{{ $key }}">{{ $value }}</option>
+                                    <option value="{{ $key }}" {{ $key == $branch_id ? 'selected' : '' }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -56,7 +56,7 @@
                             <select class="form-control" id="service_id" name="title" required>
                                 <option value="">Select Service Type</option>
                                 @foreach ($services as $service)
-                                    <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                    <option value="{{ $service->id }}" @if($service->id == $service_id) selected @endif>{{ $service->name }}>{{ $service->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -69,7 +69,7 @@
                                 value="{{ $user->contact_firstname . ' ' . $user->contact_surname }}" class="form-control"
                                 required readonly>
                         </div>
-
+                        <input type="hidden" value="{{ $user->id }}" name="user_id">
                         <!-- Sender Email -->
                         <div class="form-group col-sm-6 mb-3">
                             <label for="email">Sender Email:</label>
@@ -128,33 +128,33 @@
                             </script>
                             <script>
                                 /*  $(document).ready(function() {
-                                    $('#branch_id').change(function() {
-                                        var serviceId = $(this).val();
-                                        if (serviceId) {
-                                            $.ajax({
-                                                type: "GET",
-                                                url: "/services/" + serviceId + "/services-types",
-                                                success: function(data) {
-                                                    $('#service_id').empty();
-                                                    if (data.length > 0) {
-                                                        $('#service_id').append(
-                                                            '<option value="">Select A Service</option>');
-                                                        $.each(data, function(key, value) {
-                                                            $('#service_id').append('<option value="' + value
-                                                                .id + '">' + value.name + '</option>');
-                                                        });
-                                                    } else {
-                                                        $('#service_id').append(
-                                                            '<option value="0">No result</option>');
-                                                    }
-                                                }
-                                            });
-                                        } else {
-                                            $('#service_id').empty();
-                                        }
-                                    });
+                                                                $('#branch_id').change(function() {
+                                                                    var serviceId = $(this).val();
+                                                                    if (serviceId) {
+                                                                        $.ajax({
+                                                                            type: "GET",
+                                                                            url: "/services/" + serviceId + "/services-types",
+                                                                            success: function(data) {
+                                                                                $('#service_id').empty();
+                                                                                if (data.length > 0) {
+                                                                                    $('#service_id').append(
+                                                                                        '<option value="">Select A Service</option>');
+                                                                                    $.each(data, function(key, value) {
+                                                                                        $('#service_id').append('<option value="' + value
+                                                                                            .id + '">' + value.name + '</option>');
+                                                                                    });
+                                                                                } else {
+                                                                                    $('#service_id').append(
+                                                                                        '<option value="0">No result</option>');
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        $('#service_id').empty();
+                                                                    }
+                                                                });
 
-                                }); */
+                                                            }); */
                             </script>
                         @endpush
 
