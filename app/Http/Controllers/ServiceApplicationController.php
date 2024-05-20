@@ -37,6 +37,18 @@ class ServiceApplicationController extends Controller
 
         return view('service_applications.index', compact('service_applications', 'service_app'));
     }
+    public function epromoterindex($id)
+    {
+
+        // $user = Auth::user();
+        $user =Employer::find($id);
+
+        $service_applications = ServiceApplication::orderBy('id', 'desc')->where('user_id', $id)->paginate(10);
+        // dd($service_applications);
+        $service_app = ServiceApplication::where('user_id', $id)->first();
+
+        return view('promota.applied', compact('service_applications', 'service_app'));
+    }
 
     public function area_office_document()
     {
@@ -50,6 +62,7 @@ class ServiceApplicationController extends Controller
 
     public function epromotaarea_office_document($id)
     {
+
         $user = Employer::findOrFail($id);
         $branches = Branch::get()->pluck('branch_name', 'id')->prepend('Select Area Office', '');
         $services = Service::where('branch_id', 1)->get();
@@ -133,7 +146,8 @@ class ServiceApplicationController extends Controller
     }
     public function epromotastoreIncoming(Requests $request)
     {
-        dd($request->all());
+
+        $user_id= $request->user_id;
         // Validate the request
         $validatedData = $request->validate([
             'title' => 'required',
@@ -176,7 +190,7 @@ class ServiceApplicationController extends Controller
         // Create IncomingDocument
         DB::table('incoming_documents_manager')->insert($document_input);
 
-        $userID = Auth::user()->id;
+        $userID = $user_id;
 
         // Create an array with session values
         $input = [
@@ -201,7 +215,7 @@ class ServiceApplicationController extends Controller
 
         Session::forget(['branch_id', 'service_id', 'axis_id', 'service_type_id', 'latitude1', 'longitude1', 'latitude2', 'longitude2']);
 
-        return redirect(route('service-applications.index'))->with('success', 'Document sent and application created successfully.');
+        return redirect(route('epromota_service_application_index',[$user_id]))->with('success', 'Document sent and application created successfully.');
     }
 
     /*
