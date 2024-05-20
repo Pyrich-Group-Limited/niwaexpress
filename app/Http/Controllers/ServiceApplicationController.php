@@ -61,6 +61,79 @@ class ServiceApplicationController extends Controller
 
     public function storeIncoming(Requests $request)
     {
+        // dd($request->all());
+        // Validate the request
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'full_name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+            'department_id' => 'required|numeric',
+            'branch_id' => 'required|numeric',
+            'status' => 'required|numeric',
+            'description' => 'required',
+            'file' => 'required|mimes:pdf,doc,docx,jpeg,png,gif|max:1024',
+        ], [
+            'file.mimes' => 'Please select a valid file format (PDF, DOC, DOCX, JPEG, PNG, GIF).',
+            'file.max' => 'File size exceeds the maximum limit of 1MB.',
+        ]);
+
+        // Prepare document input
+        $document_input = [
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'full_name' => $validatedData['full_name'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'category_id' => 1,
+            'created_by' => 0,
+            'status' => $validatedData['status'],
+            'department_id' => $validatedData['department_id'],
+            'branch_id' => $validatedData['branch_id']
+        ];
+
+        // Save file
+        $path = "documents";
+        $file = $request->file('file');
+        $fileExtension = $file->getClientOriginalExtension();
+        $title = str_replace(' ', '', $validatedData['title']);
+        $file_name = $title . '_v1_' . uniqid() . '.' . $fileExtension;
+        $file->move(public_path($path), $file_name);
+        $document_input['document_url'] = $path . "/" . $file_name;
+
+        // Create IncomingDocument
+        DB::table('incoming_documents_manager')->insert($document_input);
+
+        $userID = Auth::user()->id;
+
+        // Create an array with session values
+        $input = [
+            'user_id' => $userID,
+            'branch_id' => Session::get('branch_id'),
+            'service_id' => Session::get('service_id'),
+            'axis_id' => Session::get('axis_id'),
+            'service_type_id' => Session::get('service_type_id'),
+            'latitude1' => Session::get('latitude1'),
+            'longitude1' => Session::get('longitude1'),
+            'latitude2' => Session::get('latitude2'),
+            'longitude2' => Session::get('longitude2')
+        ];
+
+        // Create a new ServiceApplication instance and save it
+        $serviceApplication = ServiceApplication::create($input);
+
+        // Update employer's branch_id
+        $employer = Employer::findOrFail($userID);
+        $employer->branch_id = $input['branch_id'];
+        $employer->save();
+
+        Session::forget(['branch_id', 'service_id', 'axis_id', 'service_type_id', 'latitude1', 'longitude1', 'latitude2', 'longitude2']);
+
+        return redirect(route('service-applications.index'))->with('success', 'Document sent and application created successfully.');
+    }
+    public function epromotastoreIncoming(Requests $request)
+    {
+        dd($request->all());
         // Validate the request
         $validatedData = $request->validate([
             'title' => 'required',
@@ -225,7 +298,7 @@ class ServiceApplicationController extends Controller
         $service_application->status_summary = 'Waiting for document and payment verification';
         $service_application->save();
 
-        
+
 
         return redirect(route('service-applications.index', $service_application->id))->with('success', 'Documents resubmitted for verification.');
     }
@@ -428,6 +501,14 @@ class ServiceApplicationController extends Controller
         $user = Employer::find($request->user_id);
 
         $userID = $user->id;
+        Session::put('branch_id', $input['branch_id']);
+        Session::put('service_id', $input['service_id']);
+        Session::put('axis_id', $input['axis_id']);
+        Session::put('service_type_id', $input['service_type_id']);
+        Session::put('latitude1', $input['latitude1']);
+        Session::put('longitude1', $input['longitude1']);
+        Session::put('latitude2', $input['latitude2']);
+        Session::put('longitude2', $input['longitude2']);
         // dd($userID);
         // $user= Employer::where('promotercode',$request->promotercode)->first();
         // dd($input);
