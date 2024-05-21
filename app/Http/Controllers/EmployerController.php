@@ -43,17 +43,27 @@ class EmployerController extends Controller
     {
         //
     }
-    public function createpage(){
-        $branches= Branch::all();
+    public function createpage()
+    {
+        $branches = Branch::all();
 
-        return view('promota.create',compact('branches'));
+        return view('promota.create', compact('branches'));
     }
 
-    public function storepage(Request $request){
-// dd($request->all());
-        $existingEmployer = Employer::where('company_email', $request->company_email)->first();
+    public function storepage(Request $request)
+    {
+        if ($request->user_type == 'private') {
+            // dd($request->all());
+
+            $existingEmployer = Employer::where('company_email', $request->contact_email)->first();
+        } else {
+
+            $existingEmployer = Employer::where('company_email', $request->company_email)->first();
+        }
+
 
         if ($existingEmployer) {
+            // dd($existingEmployer);
             return redirect()->back()->with('error', 'User already exists');
         }
 
@@ -68,16 +78,25 @@ class EmployerController extends Controller
         $employer->user_type = $request->user_type;
 
 
-        $employer->company_name = $request->company_name;
         $employer->contact_firstname = $request->contact_firstname;
         $employer->contact_surname = $request->contact_surname;
         $employer->company_phone = $request->company_phone;
-        $employer->contact_number=$request->company_phone;
-        $employer->company_email = $request->company_email;
-        $employer->company_address = $request->company_address;
+        $employer->contact_number = $request->company_phone;
+        $employer->contact_middlename = $request->contact_middle;
+        if ($request->user_type == 'private') {
+            $employer->company_email = $request->contact_email;
+            $employer->company_name =  $request->contact_firstname .''. $request->contact_surname;
 
-        $employer->branch_id=$request->company_state;
+            $employer->company_address = $request->contact_address;
+        } else {
+            $employer->company_address = $request->company_address;
+            $employer->company_email = $request->company_email;
+            $employer->company_name = $request->company_name;
+        }
+        $employer->branch_id = $request->company_state;
         $employer->password = Hash::make($password);
+
+        $employer->contact_number = $request->contact_number;
 
         $employer->status = $request->status;
         $employer->applicant_code = $code;
@@ -177,7 +196,7 @@ class EmployerController extends Controller
             DB::table('otps')->updateOrInsert([
                 'pinnable_type' => 'App\\Models\\Employer',
                 'pinnable_id' => $employer->id,
-                'expires_at'=>date('Y-m-d H:i:s', $fifteenMinTimestamp)
+                'expires_at' => date('Y-m-d H:i:s', $fifteenMinTimestamp)
             ], [
                 'otp' => $pin,
             ]);
@@ -199,7 +218,8 @@ class EmployerController extends Controller
         }
     }
 
-    public function verifyotp(Request $request){
+    public function verifyotp(Request $request)
+    {
         $employer = Employer::where('ecs_number', $request->ecs)->first();
 
         $rows = DB::table('otps')

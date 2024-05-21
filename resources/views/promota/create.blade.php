@@ -55,7 +55,7 @@
         <div class="row">
             <div class="form-group col-6">
                 <label for="phone_number">Contact Surname</label>
-                <input type="text" name="contact_surname"  class=" form-control">
+                <input type="text" name="contact_surname" class=" form-control">
             </div>
             <div class="form-group col-6">
                 <label for="phone_number">Contact First Name</label>
@@ -66,8 +66,8 @@
 
         <div class="row">
             <div class="form-group col-6">
-                <label for="phone_number">Contact Phone Number</label>
-                <input type="tel" name="contact_number" class=" form-control">
+                <label for="phone_number">Contact Middlename</label>
+                <input type="text" name="contact_middle" class=" form-control">
             </div>
             <div class="form-group col-6">
                 <label for="phone_number">Company State</label>
@@ -83,14 +83,32 @@
         </div>
         <div class="row">
             <div class="form-group col-6">
+                <label for="phone_number">Contact Person Email</label>
+                <input type="email" name="contact_email" class=" form-control">
+            </div>
+            <div class="form-group col-6">
+                <label for="phone_number">Contact Phone Number</label>
+                <input type="text" name="contact_number" class=" form-control">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-6">
                 <label for="phone_number">Password</label>
                 <input type="password" name="password" class=" form-control">
             </div>
             <div class="form-group col-6">
                 <label for="phone_number">Confirm Password</label>
-                <input type="password" name="password_confirmation"  class=" form-control">
+                <input type="password" name="password_confirmation" class=" form-control">
             </div>
         </div>
+        <div class="row my-2">
+            <div class="form-group col-12">
+                <label for="phone_number">Contact Addrees</label>
+                <input type="text" name="contact_address" class=" form-control">
+            </div>
+        </div>
+
         {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" value="1" name="status" class="btn btn-primary">Submit</button>
