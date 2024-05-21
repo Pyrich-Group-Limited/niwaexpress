@@ -58,7 +58,7 @@
                                 <option value="">Select Service Type</option>
                                 @foreach ($services as $service)
                                     <option value="{{ $service->id }}" @if ($service->id == $service_id) selected @endif>
-                                        {{ $service->name }}>{{ $service->name }}</option>
+                                        {{ $service->name }}</option>
                                 @endforeach
                             </select>
                         </div>
