@@ -10,7 +10,7 @@
 @section('content')
 
 
-    <form class=" form " method="POST" action="{{ route('the.store') }}">
+    <form class="form" method="POST" action="{{ route('the.store') }}">
         @csrf
 
 
