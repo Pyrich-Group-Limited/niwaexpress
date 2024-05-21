@@ -115,11 +115,17 @@
                                             <td>{{ $item->company_email }}</td>
                                             <td>{{ $item->company_address }}</td>
                                             <td>
-
-                                                <a href="{{route('eprotoma_apply_for_a_service',[$item->id])}}" class="btn btn-secondary">Apply</a>
-                                                <a href="{{route('eprotoma_apply_for_a_service',[$item->id])}}" class="btn btn-secondary">View History</a>
-
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Options
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="{{ route('eprotoma_apply_for_a_service', [$item->id]) }}">Apply</a>
+                                                        <a class="dropdown-item" href="{{ route('epromota_service_application_index', [$item->id]) }}">View History</a>
+                                                    </div>
+                                                </div>
                                             </td>
+
 
 
                                             {{-- <td>
@@ -407,16 +413,16 @@
                                                     class="tb-status text-{{ $payment->payment_status != 1 ? 'warning' : 'success' }}">{{ $payment->payment_status != 1 ? 'PENDING' : 'PAID' }}</span>
                                             </td>
                                             <td>{{ $payment->paid_at }}</td>
-                                            
+
                                             <td><span
                                                     class="tb-status text-warning">{{ $payment->approval_status == 0 ? 'Awaiting Approval' : '' }}</span>
                                             </td>
-                                            
+
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                      
+
                         </div><!-- .card-inner -->
                     </div><!-- .card -->
                 </div><!-- .col -->
