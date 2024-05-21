@@ -1,12 +1,13 @@
 <?php
 
+use App\Models\ServiceApplication;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EmployerController;
-use App\Models\ServiceApplication;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ServiceApplicationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/new/incoming/{id}/epromota', 'App\Http\Controllers\ServiceApplicationController@epromotaarea_office_document')->name('epromotaadd.new.incoming.documente');
 
     Route::post('/add/new/incoming/store/', 'App\Http\Controllers\ServiceApplicationController@storeIncoming')->name('incoming_store');
+    Route::post('/epromoter/add/new/incoming/store/', 'App\Http\Controllers\ServiceApplicationController@epromotastoreIncoming')->name('epromotaincoming_store');
+    // Route::post('/add/new/incoming/store/', 'App\Http\Controllers\ServiceApplicationController@epromotastoreIncoming')->name('epromotaincoming_store');
 
 
     /**
@@ -225,3 +228,4 @@ Route::get('epromoter', function () {
 
 Route::get('proomoter/creater', [EmployerController::class, 'createpage'])->name('the.create');
 Route::post('proomoter/store', [EmployerController::class, 'storepage'])->name('the.store');
+Route::get('epromota/{id}/serviceapplication',[ServiceApplicationController::class,'epromoterindex'])->name('epromota_service_application_index');

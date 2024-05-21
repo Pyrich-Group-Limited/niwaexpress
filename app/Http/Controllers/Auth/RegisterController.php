@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Epromoterservices;
-use App\Models\Epromoteruser;
-use Illuminate\Http\Request;
+use App\Models\State;
+use App\Models\Branch;
+use App\Models\Service;
 
+use App\Models\Employer;
+use Illuminate\Http\Request;
+use App\Models\Epromoteruser;
+use App\Models\Epromoterservices;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Mail\EmployerRegisteredMail;
-use App\Models\Branch;
-use App\Models\State;
-use App\Providers\RouteServiceProvider;
-use App\Models\Employer;
-use App\Models\Service;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -97,7 +98,7 @@ class RegisterController extends Controller
         // $allOption->branch_name = 'All';
         // $branches->prepend($allOption);
 
-        $services = Service::where('branch_id',1)->get();
+        $services = Service::where('branch_id', 1)->get();
 
         $allservices = new Service();
         $allservices->id = 0;
@@ -122,7 +123,7 @@ class RegisterController extends Controller
 
     public function saveregidtrationform(Request $request)
     {
-
+        // dd($request->all());
         $existingEmployer = Employer::where('company_email', $request->company_email)->first();
         if ($existingEmployer) {
             return redirect()->back()->with('error', 'User already exists');
@@ -138,11 +139,15 @@ class RegisterController extends Controller
         $employer->contact_surname = $request->contact_surname;
         $employer->company_phone = $request->company_phone;
         $employer->contact_number = $request->company_phone;
+        $employer->branch_id = $request->areaoffice;
         //put the company_phone into the contact_phone
         $employer->company_email = $request->company_email;
         if ($request->private) {
-            $employer->company_name=$request->contact_firstname.$request->contact_surname;
+            $employer->company_name = $request->contact_firstname . $request->contact_surname;
             # code...
+        } elseif($request->company){
+            $employer->company_name=$request->company_name;
+            $employer->company_address=$request->conpany_address;
         }
         $employer->password = Hash::make($password);
         $employer->status = $request->status;
@@ -165,12 +170,13 @@ class RegisterController extends Controller
                 $type->save();
             }
         }
-  try {
+        try {
             Mail::to($employer->company_email)->send(new EmployerRegisteredMail($employer, $password));
         } catch (\Exception $e) {
             // Log the exception or handle it as needed
         }
-        return redirect()->route('home')->with('success', 'SUBMITTED, AWAITING APPROVAL');
+        Auth::login($employer);
+        return redirect()->route('home')->with('success', 'Registration Successful, Awaiting Approval');
     }
 
     public function epromoterapplicant(Request $request)

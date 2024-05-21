@@ -10,7 +10,7 @@
 @section('content')
 
 
-    <form class=" form " method="POST" action="{{ route('the.store') }}">
+    <form class="form" method="POST" action="{{ route('the.store') }}">
         @csrf
 
 
@@ -20,17 +20,18 @@
                 <option value="company">Company</option>
             </select>
         </div>
+
         <div class="row" id="company_name_address_row">
 
             <div class="form-group col-6">
                 <label for="name">Company Name</label>
-                <input type="text" class="form-control" id="company_name" name="company_name" required
+                <input type="text" class="form-control" id="company_name" name="company_name"
                     placeholder="Enter Company Name">
             </div>
 
             <div class="form-group col-6">
                 <label for="address">Company Address</label>
-                <input type="text" class="form-control" id="comapny_address" name="company_address" required
+                <input type="text" class="form-control" id="comapny_address" name="company_address"
                     placeholder="Enter address">
             </div>
 
@@ -54,11 +55,11 @@
         <div class="row">
             <div class="form-group col-6">
                 <label for="phone_number">Contact Surname</label>
-                <input type="text" name="contact_surname" required class=" form-control">
+                <input type="text" name="contact_surname"  class=" form-control">
             </div>
             <div class="form-group col-6">
                 <label for="phone_number">Contact First Name</label>
-                <input type="text" name="contact_firstname" required class=" form-control">
+                <input type="text" name="contact_firstname" class=" form-control">
             </div>
         </div>
 
@@ -66,10 +67,10 @@
         <div class="row">
             <div class="form-group col-6">
                 <label for="phone_number">Contact Phone Number</label>
-                <input type="tel" name="contact_number" required class=" form-control">
+                <input type="tel" name="contact_number" class=" form-control">
             </div>
             <div class="form-group col-6">
-                <label for="phone_number">Company Stae</label>
+                <label for="phone_number">Company State</label>
                 {{-- <input type="password" name="company_state" required
             class=" form-control"> --}}
                 <select class=" form-control form-select" name="company_state" id="">
@@ -83,11 +84,11 @@
         <div class="row">
             <div class="form-group col-6">
                 <label for="phone_number">Password</label>
-                <input type="password" name="password" required class=" form-control">
+                <input type="password" name="password" class=" form-control">
             </div>
             <div class="form-group col-6">
                 <label for="phone_number">Confirm Password</label>
-                <input type="password" name="password_confirmation" required class=" form-control">
+                <input type="password" name="password_confirmation"  class=" form-control">
             </div>
         </div>
         {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
