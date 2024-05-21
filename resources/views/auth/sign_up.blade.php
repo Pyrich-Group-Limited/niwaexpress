@@ -75,8 +75,8 @@
                                     class="text-danger">*</span></label>
                             <div class="form-control-wrap">
                                 <select class="form-control" id="user_type" name="user_type" required>
+                                    <option value="private">Private </option>
                                     <option value="company">Registered Company</option>
-                                    <option value="private">Private</option>
                                     <option value="e-promota">e-Promota</option>
                                 </select>
                             </div>
@@ -99,7 +99,7 @@
                             <label class="form-label" for="user_type">Select Area Office<span
                                     class="text-danger">*</span></label>
                             <div class="form-control-wrap">
-                                <select  class="form-control" id="areaoffice" name="areaoffice">
+                                <select class="form-control" id="areaoffice" name="areaoffice">
                                     @foreach ($branches as $item)
                                         <option value="{{ $item->id }}">{{ $item->branch_name }}</option>
                                     @endforeach
@@ -115,10 +115,29 @@
                         </div> --}}
 
 
+                        <div class="row" id="companyrow">
+
+                            <div class="form-group col-6">
+                                <label class="form-label" for="contact_firstname">Company
+                                    Name <span class="text-danger">*</span></label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="contact_firstname"
+                                        name="company_name" placeholder="Name of Company">
+                                </div>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="form-label" for="contact_surname">Company
+                                    Address<span class="text-danger">*</span></label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control" id="company_address"
+                                        name="conpany_address" placeholder="Utako Abuja" required>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
 
                             <div class="form-group col-6">
-                                <label class="form-label" for="contact_firstname">First
+                                <label class="form-label" for="contact_firstname">Contact First
                                     Name <span class="text-danger">*</span></label>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" id="contact_firstname"
@@ -126,7 +145,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-6">
-                                <label class="form-label" for="contact_surname">Other
+                                <label class="form-label" for="contact_surname">Contact Other
                                     Name <span class="text-danger">*</span></label>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" id="contact_surname"
@@ -199,7 +218,8 @@
                         </div>
                         <div class="form-group text-center">
 
-                            <button class="btn btn-success account-btn" name="status" value="1" type="submit">Signup</button>
+                            <button class="btn btn-success account-btn" name="status" value="1"
+                                type="submit">Signup</button>
 
                         </div>
                         <div class="text-center login-link">
@@ -224,40 +244,50 @@
     <script src="{{ asset('dev/js/app.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            var type = $('#user_type')
-            var row = $('#forthepromoter')
-            var office = $('#areaoffice')
-            var service = $('#service')
-            var servicerow = $('#servicerow')
-            var officerow = $('#areaofficerow')
+       $(document).ready(function() {
+    // Cache jQuery selectors
+    var $type = $('#user_type');
+    var $row = $('#forthepromoter');
+    var $office = $('#areaoffice');
+    var $service = $('#service');
+    var $servicerow = $('#servicerow');
+    var $officerow = $('#areaofficerow');
+    var $companyrow = $('#companyrow');
 
+    // Initial state
+    $officerow.hide(1000);
+    $servicerow.hide(1000);
+    $companyrow.hide();
+    $office.val('');
+    $service.val('');
 
-            officerow.hide(1000)
-            servicerow.hide(1000)
-            office.val('')
-            service.val('')
-            // row.hide();
-            office.select2()
-            service.select2()
+    // Initialize select2 once
+    $office.select2();
+    $service.select2();
 
-            type.on('change', function() {
-                if (this.value == 'e-promota') {
-                    // row.show(1000)
-                    officerow.show(1000)
-                    servicerow.show(2000)
+    // Change event handler
+    $type.on('change', function() {
+        var userType = this.value;
 
-                    // office.select2()
-                    service.select2()
-                } else {
-                    officerow.hide(1000)
-                    servicerow.hide(2000)
-                    // row.hide(1000)
-                    office.val('')
-                    service.val('')
-                }
-            })
-        });
+        if (userType === 'e-promota') {
+            $officerow.show(1000);
+            $servicerow.show(2000);
+            $companyrow.hide(1000);
+        } else if (userType === 'company') {
+            $companyrow.show(2000);
+            $officerow.hide(1000);
+            $servicerow.hide(2000);
+            $office.val('');
+            $service.val('');
+        } else {
+            $officerow.hide(1000);
+            $servicerow.hide(2000);
+            $companyrow.hide(1000);
+            $office.val('');
+            $service.val('');
+        }
+    });
+});
 
 
 
@@ -344,4 +374,5 @@
 
 
 <!-- register24:03-->
+
 </html>

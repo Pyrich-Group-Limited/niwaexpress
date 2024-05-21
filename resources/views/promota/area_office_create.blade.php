@@ -40,7 +40,8 @@
                             <label for="branch_id">Select Area Office:</label>
                             <select id="branch_id" name="branch_id" class="form-select" required>
                                 @foreach ($branches as $key => $value)
-                                    <option value="{{ $key }}" {{ $key == $branch_id ? 'selected' : '' }}>{{ $value }}</option>
+                                    <option value="{{ $key }}" {{ $key == $branch_id ? 'selected' : '' }}>
+                                        {{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -56,7 +57,8 @@
                             <select class="form-control" id="service_id" name="title" required>
                                 <option value="">Select Service Type</option>
                                 @foreach ($services as $service)
-                                    <option value="{{ $service->id }}" @if($service->id == $service_id) selected @endif>{{ $service->name }}>{{ $service->name }}</option>
+                                    <option value="{{ $service->id }}" @if ($service->id == $service_id) selected @endif>
+                                        {{ $service->name }}>{{ $service->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -128,33 +130,33 @@
                             </script>
                             <script>
                                 /*  $(document).ready(function() {
-                                                                $('#branch_id').change(function() {
-                                                                    var serviceId = $(this).val();
-                                                                    if (serviceId) {
-                                                                        $.ajax({
-                                                                            type: "GET",
-                                                                            url: "/services/" + serviceId + "/services-types",
-                                                                            success: function(data) {
-                                                                                $('#service_id').empty();
-                                                                                if (data.length > 0) {
-                                                                                    $('#service_id').append(
-                                                                                        '<option value="">Select A Service</option>');
-                                                                                    $.each(data, function(key, value) {
-                                                                                        $('#service_id').append('<option value="' + value
-                                                                                            .id + '">' + value.name + '</option>');
-                                                                                    });
-                                                                                } else {
-                                                                                    $('#service_id').append(
-                                                                                        '<option value="0">No result</option>');
-                                                                                }
-                                                                            }
-                                                                        });
-                                                                    } else {
-                                                                        $('#service_id').empty();
-                                                                    }
-                                                                });
+                                                                                            $('#branch_id').change(function() {
+                                                                                                var serviceId = $(this).val();
+                                                                                                if (serviceId) {
+                                                                                                    $.ajax({
+                                                                                                        type: "GET",
+                                                                                                        url: "/services/" + serviceId + "/services-types",
+                                                                                                        success: function(data) {
+                                                                                                            $('#service_id').empty();
+                                                                                                            if (data.length > 0) {
+                                                                                                                $('#service_id').append(
+                                                                                                                    '<option value="">Select A Service</option>');
+                                                                                                                $.each(data, function(key, value) {
+                                                                                                                    $('#service_id').append('<option value="' + value
+                                                                                                                        .id + '">' + value.name + '</option>');
+                                                                                                                });
+                                                                                                            } else {
+                                                                                                                $('#service_id').append(
+                                                                                                                    '<option value="0">No result</option>');
+                                                                                                            }
+                                                                                                        }
+                                                                                                    });
+                                                                                                } else {
+                                                                                                    $('#service_id').empty();
+                                                                                                }
+                                                                                            });
 
-                                                            }); */
+                                                                                        }); */
                             </script>
                         @endpush
 
