@@ -145,6 +145,9 @@ class RegisterController extends Controller
         if ($request->private) {
             $employer->company_name = $request->contact_firstname . $request->contact_surname;
             # code...
+        } elseif($request->company){
+            $employer->company_name=$request->company_name;
+            $employer->company_address=$request->conpany_address;
         }
         $employer->password = Hash::make($password);
         $employer->status = $request->status;
