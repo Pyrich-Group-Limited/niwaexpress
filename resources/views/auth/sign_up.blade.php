@@ -74,7 +74,7 @@
                             <label class="form-label" for="user_type">Select User Type<span
                                     class="text-danger">*</span></label>
                             <div class="form-control-wrap">
-                                <select class="form-control" id="user_type" name="user_type" required>
+                                <select class="form-control" id="user_type" name="user_type" >
                                     <option value="private">Private </option>
                                     <option value="company">Registered Company</option>
                                     <option value="e-promota">e-Promota</option>
@@ -130,7 +130,7 @@
                                     Address<span class="text-danger">*</span></label>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" id="company_address"
-                                        name="conpany_address" placeholder="Utako Abuja" required>
+                                        name="conpany_address" placeholder="Utako Abuja">
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                                     Name <span class="text-danger">*</span></label>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" id="contact_firstname"
-                                        name="contact_firstname" placeholder="First name" required>
+                                        name="contact_firstname" placeholder="First name">
                                 </div>
                             </div>
                             <div class="form-group col-6">
