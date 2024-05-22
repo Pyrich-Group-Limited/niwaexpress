@@ -74,7 +74,7 @@
                                                 </div>
                                             </div>
                                         @else
-                                            <form method="POST" action="{{ route('payment.remita') }}"
+                                            <form method="POST" action="{{ route('epromotapayment.remita',[$user->id]) }}"
                                                 enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row">

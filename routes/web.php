@@ -85,6 +85,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('payment/remita', [App\Http\Controllers\PaymentController::class, 'callbackRemita'])->name('payment.callback');
     Route::get('payment/remitadata', [App\Http\Controllers\PaymentController::class, 'callbackRemitaData'])->name('payment.callbackdata');
     Route::post('payment/remita', [App\Http\Controllers\PaymentController::class, 'generateRemita'])->name('payment.remita');
+
+    Route::post('epromota/payment/{id}/remita', [App\Http\Controllers\PaymentController::class, 'epromotagenerateRemita'])->name('epromotapayment.remita');
     Route::get('payment/inspection', [App\Http\Controllers\PaymentController::class, 'inspection'])->name('payment.inspection');
     Route::get('payment/steps', [App\Http\Controllers\PaymentController::class, 'steps'])->name('payment.steps');
     Route::get('payment/reg', [App\Http\Controllers\PaymentController::class, 'regPayment'])->name('payment.reg');
@@ -126,6 +128,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('service-application-documents/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'documentStore'])->name('service-applications.documents.store');
     Route::post('resubmit-documents/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'resubmitDocuments'])->name('documents.resubmit');
     Route::get('application-form-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'applicationFormPayment'])->name('application_form_payment');
+    Route::get('epromota_application-form-payment/{id}/payment/{userid}/', [App\Http\Controllers\ServiceApplicationController::class, 'epromotaapplicationFormPayment'])->name('epromota_application_form_payment');
+
     Route::get('processing-fee-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'processingFeePayment'])->name('processing_fee_payment');
     Route::get('inspection-fee-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'inspectionFeePayment'])->name('inspection_fee_payment');
     Route::get('equipment-fee-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'equipmentFeePayment'])->name('equipment_fee_payment');
