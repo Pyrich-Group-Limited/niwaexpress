@@ -25,6 +25,11 @@ Route::get('/', function () {
     return view('landing.index'); //Redirect on load to login or home
 })->name('landing');
 
+Route::get('/faq', function () {
+    //return view('welcome');
+    return view('landing.faq'); //faq page
+})->name('faq');
+
 Route::get('loginpromot', function () {
     //return view('welcome');
     return view('auth.login'); //Redirect on load to login or home
