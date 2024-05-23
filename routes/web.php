@@ -82,7 +82,10 @@ Route::middleware(['auth'])->group(function () {
      */
     Route::get('payment/invoice/download/{payment}', [App\Http\Controllers\PaymentController::class, 'download'])->name('payment.invoice.download');
     Route::get('payment/invoice/{payment}', [App\Http\Controllers\PaymentController::class, 'invoice'])->name('payment.invoice');
+
     Route::get('payment/remita', [App\Http\Controllers\PaymentController::class, 'callbackRemita'])->name('payment.callback');
+    Route::get('epromota/payment/remita', [App\Http\Controllers\PaymentController::class, 'epromotacallbackRemita'])->name('payment.epromotacallback');
+
     Route::get('payment/remitadata', [App\Http\Controllers\PaymentController::class, 'callbackRemitaData'])->name('payment.callbackdata');
     Route::post('payment/remita', [App\Http\Controllers\PaymentController::class, 'generateRemita'])->name('payment.remita');
 
@@ -125,14 +128,33 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('service-applications', App\Http\Controllers\ServiceApplicationController::class);
     Route::get('service-application-documents/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'documentIndex'])->name('service-applications.documents.index');
+    // Route::get('service-application-documents/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'documentIndex'])->name('service-applications.documents.index');
+
+    // Route::get('epromota/{id}/service-app-documents/epromota/{user_id}', [App\Http\Controllers\ServiceApplicationController::class, 'EpromotadocumentIndex'])->name('epromota_service-applications.documents.index');
+    Route::get(
+        'epromota/{service_application_id}/documents/{user_id}',
+        [App\Http\Controllers\ServiceApplicationController::class, 'EpromotadocumentIndex']
+    )->name('epromota.documents.index');
+
+
     Route::post('service-application-documents/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'documentStore'])->name('service-applications.documents.store');
+    Route::post('epromota/service-application-documents/{id}/epromota/{user_id}', [App\Http\Controllers\ServiceApplicationController::class, 'epromotadocumentStore'])->name('epromota.service-applications.documents.store');
+
     Route::post('resubmit-documents/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'resubmitDocuments'])->name('documents.resubmit');
     Route::get('application-form-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'applicationFormPayment'])->name('application_form_payment');
     Route::get('epromota_application-form-payment/{id}/payment/{userid}/', [App\Http\Controllers\ServiceApplicationController::class, 'epromotaapplicationFormPayment'])->name('epromota_application_form_payment');
 
     Route::get('processing-fee-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'processingFeePayment'])->name('processing_fee_payment');
+    Route::get('epromota/processing-fee-payment/{id}/{userid}/', [App\Http\Controllers\ServiceApplicationController::class, 'epromotaprocessingFeePayment'])->name('epromota_processing_fee_payment');
+
     Route::get('inspection-fee-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'inspectionFeePayment'])->name('inspection_fee_payment');
+    // Route::get('epromota/inspection-fee-payment/{id}/{userid/', [App\Http\Controllers\ServiceApplicationController::class, 'epromotainspectionFeePayment'])->name('epromota_inspection_fee_payment');
+        Route::get('epromota/inspection-fee-payment/{service_application_id}/{user_id}',
+        [App\Http\Controllers\ServiceApplicationController::class, 'epromotainspectionFeePayment']
+    )->name('epromota.inspection_fee_payment');
+
     Route::get('equipment-fee-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'equipmentFeePayment'])->name('equipment_fee_payment');
+    Route::get('epromota/equipment-fee-payment/{service_application_id}/{userid}', [App\Http\Controllers\ServiceApplicationController::class, 'epromotaequipmentFeePayment'])->name('epromota.equipment_fee_payment');
     Route::get('permit-document/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'downloadPermit'])->name('download_permit');
     Route::get('apply/for/a/service', [App\Http\Controllers\ServiceApplicationController::class, 'ServiceApplication'])->name('apply_for_a_service');
 
@@ -232,4 +254,4 @@ Route::get('epromoter', function () {
 
 Route::get('proomoter/creater', [EmployerController::class, 'createpage'])->name('the.create');
 Route::post('proomoter/store', [EmployerController::class, 'storepage'])->name('the.store');
-Route::get('epromota/{id}/serviceapplication',[ServiceApplicationController::class,'epromoterindex'])->name('epromota_service_application_index');
+Route::get('epromota/{id}/serviceapplication', [ServiceApplicationController::class, 'epromoterindex'])->name('epromota_service_application_index');

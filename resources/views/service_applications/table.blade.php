@@ -25,6 +25,7 @@
             <div class="card-title">
                 <h4>Service: {{ $application->service ? $application->service->name : '' }}</h4>
             </div>
+            {{-- @dd($application->current_step); --}}
             <div class="row">
                 <div class="row col-6">
                     <div class="col-sm-6 col-md-4 col-lg-12 mb-3">
@@ -78,7 +79,7 @@
                                             Application form</span>
                                     </a>
                                 @endif
-                            
+
                             @endif
                             @if ($doc_upload)
                                {{--  @if ($app_fee) --}}
@@ -88,7 +89,7 @@
                                                 Documents</span></a>
                                     @endif
                                {{--  @endif --}}
-                            
+
                             @endif
                             @php
                                 $processing_fee_payment = $application
@@ -111,7 +112,7 @@
                                             Processing Fee</span>
                                     </a>
                                 @endif
-                            
+
                             @endif
 
                             @if ($ins_fee)
@@ -121,7 +122,7 @@
                                             Inspection Fee</span>
                                     </a>
                                 @endif
-                                
+
                                @endif
 
                             @if ($application->current_step == 13)

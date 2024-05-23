@@ -121,6 +121,7 @@
             </div>
         </div><!-- .row -->
         @foreach ($service_applications as $application)
+
             @php
                 // $user = Auth::user();
                 $app_form_fee = \App\Models\ApplicationFormFee::where('service_id', $application->service_id)
@@ -140,7 +141,7 @@
                     ->orderBy('created_at', 'desc')
                     ->first();
             @endphp
-
+ {{-- @dd($application->service_id); --}}
             <div class="card card-bordered card-preview mt-4 mb-3">
                 <div class="card-body">
                     <div class="card-title">
@@ -193,84 +194,83 @@
                                 <span>
                                     @if ($app_form_fee)
                                         @if ($application->current_step == 2)
-                                            <a href="{{ route('epromota_application_form_payment', [$application->id,$user->id]) }}"
+                                            <a href="{{ route('epromota_application_form_payment', [$application->id, $user->id]) }}"
                                                 title="Application form payment"><span class="nk-menu-icon text-danger">Pay
                                                     for
                                                     Application form</span>
                                             </a>
                                         @endif
                                     @endif
+                                    {{-- @dd($application->id); --}}
                                     @if ($doc_upload)
-                                        {{--  @if ($app_fee) --}}
-                                        @if ($application->current_step == 41)
-                                            <a href="{{ route('service-applications.documents.index', $application->id) }}"
-                                                title="Documents"><span class="nk-menu-icon text-danger">Add
-                                                    Documents</span></a>
-                                        @endif
-                                        {{--  @endif --}}
+                                    {{--  @if ($app_fee) --}}
+
+                                    @if ($application->current_step == 41)
+                                        <a href="{{ route('epromota.documents.index', [$application->id,$user->id]) }}"
+                                            title="Documents"><span class="nk-menu-icon text-danger">Add
+                                                Documents</span></a>
                                     @endif
-                                    @php
-                                        $processing_fee_payment = $application
-                                            ->payments()
-                                            ->where('payment_type', '=', 2)
-                                            ->first();
+                                    {{--  @endif --}}
+        @endif
+        @php
+            $processing_fee_payment = $application->payments()->where('payment_type', '=', 2)->first();
 
-                                        if ($processing_fee_payment) {
-                                            $is_processing_fee_paid = $processing_fee_payment->payment_status;
-                                        } else {
-                                            $is_processing_fee_paid = 0;
-                                        }
+            if ($processing_fee_payment) {
+                $is_processing_fee_paid = $processing_fee_payment->payment_status;
+            } else {
+                $is_processing_fee_paid = 0;
+            }
 
-                                    @endphp
-                                    {{--  @if ($application->current_step == 4 && !$is_processing_fee_paid) --}}
-                                    @if ($pro_fee)
-                                        @if ($application->current_step == 6)
-                                            <a href="{{ route('processing_fee_payment', $application->id) }}"
-                                                title="Processing fee payment"><span class="nk-menu-icon text-danger">Pay
-                                                    for
-                                                    Processing Fee</span>
-                                            </a>
-                                        @endif
-                                    @endif
+        @endphp
+        {{--  @if ($application->current_step == 4 && !$is_processing_fee_paid) --}}
+        @if ($pro_fee)
+            @if ($application->current_step == 6)
+                <a href="{{ route('epromota_processing_fee_payment', [$application->id,$user->id]) }}" title="Processing fee payment"><span
+                        class="nk-menu-icon text-danger">Pay
+                        for
+                        Processing Fee</span>
+                </a>
+            @endif
+        @endif
 
-                                    @if ($ins_fee)
-                                        @if ($application->current_step == 7)
-                                            <a href="{{ route('inspection_fee_payment', $application->id) }}"
-                                                title="Inspection fee payment"><span class="nk-menu-icon text-danger">Pay
-                                                    for
-                                                    Inspection Fee</span>
-                                            </a>
-                                        @endif
-                                    @endif
+        @if ($ins_fee)
+            @if ($application->current_step == 7)
+                <a href="{{ route('epromota.inspection_fee_payment', [$application->id,$user->id]) }}" title="Inspection fee payment"><span
+                        class="nk-menu-icon text-danger">Pay
+                        for
+                        Inspection Fee</span>
+                </a>
+            @endif
+        @endif
 
-                                    @if ($application->current_step == 13)
-                                        <a href="{{ route('equipment_fee_payment', $application->id) }}"
-                                            title="Equipment fee payment"><span class="nk-menu-icon text-danger">Pay for
-                                                Equipment and Monitoring Fees</span>
-                                        </a>
-                                    @endif
+        @if ($application->current_step == 13)
+            <a href="{{ route('epromota.equipment_fee_payment', [$application->id,$user->id]) }}" title="Equipment fee payment"><span
+                    class="nk-menu-icon text-danger">Pay for
+                    Equipment and Monitoring Fees</span>
+            </a>
+        @endif
 
-                                    @if ($application->current_step == 15)
-                                        <a href="{{ route('download_permit', $application->id) }}" title="Download Permit"
-                                            target="_blank"><span class="nk-menu-icon text-secondary">Download Permit</span>
-                                        </a>
-                                    @endif
-                                </span>
-                            </div>
-                        </div>
+        @if ($application->current_step == 15)
+            <a href="{{ route('download_permit', $application->id) }}" title="Download Permit" target="_blank"><span
+                    class="nk-menu-icon text-secondary">Download Permit</span>
+            </a>
+        @endif
+        </span>
+    </div>
+    </div>
 
 
-                    </div>
+    </div>
 
-                </div>
-            </div>
-        @endforeach
+    </div>
+    </div>
+    @endforeach
 
-        <div class="card">
-            {{ $service_applications->links() }}
-        </div>
+    <div class="card">
+        {{ $service_applications->links() }}
+    </div>
 
-        {{-- @include('service_applications.table') --}}
+    {{-- @include('service_applications.table') --}}
 
     </div> <!-- nk-block -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
