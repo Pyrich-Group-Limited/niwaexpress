@@ -92,7 +92,7 @@
                     <a href="#" class="nav-item nav-link" onclick="scrollToSection('aboutSection')">About</a>
                     <a href="#" class="nav-item nav-link"
                         onclick="scrollToSection('servicesSection')">Services</a>
-                    <a href="#" class="nav-item nav-link">FAQ's</a>
+                    <a href="{{ url('/faq') }}" class="nav-item nav-link">FAQ's</a>
                     <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
                 </div>
                 <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4 ms-3">REGISTER</a>
