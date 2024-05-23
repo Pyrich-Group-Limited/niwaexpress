@@ -40,7 +40,7 @@
                                 <p>{{ $service_application->employer()->contact_surname}}  {{$service_application->employer()->contact_firstname}} {{$service_application->employer()->contact_middlename ?? ''}}</p><br>
                             </div>
                             <div class="part-2">
-                                <label for="" class="grey-color">For {{ $service_application->service ? $service_application->service->name : '' }} Service</label><br>
+                                <label for="" class="grey-color">For {{ $service_application->service ? $service_application->service->name : '' }} Service at  {{ $service_application->branch ? $service_application->branch->branch_name : '' }}</label><br>
                                 {{-- <input type="text" name="vessel_num" id=""> --}}
                                 <div class="grey-container">
                                     <p class="grey-color">
