@@ -130,7 +130,7 @@
                                     Address<span class="text-danger">*</span></label>
                                 <div class="form-control-wrap">
                                     <input type="text" class="form-control" id="company_address"
-                                        name="conpany_address" placeholder="Utako Abuja">
+                                        name="company_address" placeholder="Utako Abuja">
                                 </div>
                             </div>
                         </div>
