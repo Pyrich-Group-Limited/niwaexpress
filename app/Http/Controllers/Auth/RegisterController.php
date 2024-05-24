@@ -142,10 +142,10 @@ class RegisterController extends Controller
         $employer->branch_id = $request->areaoffice;
         //put the company_phone into the contact_phone
         $employer->company_email = $request->company_email;
-        if ($request->private) {
-            $employer->company_name = $request->contact_firstname . $request->contact_surname;
+        if ($request->user_type =='private') {
+            $employer->company_name = $request->contact_firstname .' '. $request->contact_surname;
             # code...
-        } elseif($request->company){
+        } elseif($request->user_type=='company'){
             $employer->company_name=$request->company_name;
             $employer->company_address=$request->conpany_address;
         }
@@ -218,5 +218,5 @@ class RegisterController extends Controller
         }
 
         return redirect()->back()->with('success', 'SUBMITTED, AWAITING APPROVAL');
-    }
+}
 }
