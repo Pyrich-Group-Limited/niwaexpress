@@ -47,7 +47,7 @@ class ServiceApplicationController extends Controller
         // dd($service_applications);
         $service_app = ServiceApplication::where('user_id', $id)->first();
 
-        return view('promota.applied', compact('service_applications', 'service_app'));
+        return view('promota.applied', compact('service_applications', 'user','service_app'));
     }
 
     public function area_office_document()
@@ -91,7 +91,7 @@ $validatedData = $request->validate([
     'file.max' => 'File size exceeds the maximum limit of 1MB.',
 ]);
 
-// Prepare document input 
+// Prepare document input
 $document_input = [
     'title' => $validatedData['service_id'],
     'description' => $validatedData['description'],
@@ -155,7 +155,7 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
 // Removing an item from the session
 // Session::forget('key');
 // end
-       
+
 
 
         //return redirect()->back()->with('success', 'Document sent successfully. We will get back to you later. Thank you');
@@ -321,6 +321,27 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
 
         return view('service_applications.documents', compact('documents', 'service_application', 'doc_uploads'));
     }
+    public function EpromotadocumentIndex($service_application_id, $user_id)
+    {
+        // Fetch user and service application
+        $user = Employer::findOrFail($user_id);
+        $service_application = ServiceApplication::findOrFail($service_application_id);
+
+        // Get documents related to the service application
+        $documents = ServiceApplicationDocument::where('service_application_id', $service_application->id)->paginate(10);
+
+        // Fetch document uploads if service application exists
+        if ($service_application) {
+            $doc_uploads = DocumentUpload::select('id', 'name')
+                ->where('service_id', $service_application->service_id)
+                ->groupBy('id', 'name')
+                ->get();
+        }
+
+        // Return the view with the fetched data
+        return view('promota.documents', compact('documents', 'user', 'service_application', 'doc_uploads'));
+    }
+
 
     public function resubmitDocuments($id)
     {
@@ -400,6 +421,73 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
             return redirect(route('service-applications.index'))
             ->with('success', 'Documents saved successfully.');
     }
+    public function epromotadocumentStore(StoreServiceApplicationDocumentRequest $request, $service_application_id,$user_id)
+    {
+        // Retrieve all input data from the request
+        $input = $request->all();
+
+        // Define the documents array mapping input names to file input names
+        $documents = [
+            'title_document' => 'title_document_file',
+        ];
+
+        // Find the service application by ID
+        $service_application = ServiceApplication::findOrFail($service_application_id);
+
+        // Define the storage path and get the user ID
+        $path = 'documents/';
+
+        $userID =$user_id;
+
+        // Array to store file paths
+        $filePaths = [];
+
+        // Iterate through the documents array and process each file
+        //foreach ($documents as $titleInput => $fileInput) {
+        foreach ($request->file('title_document_file') as $index => $file) {
+            // Generate a unique file name
+            $name = $this->generateFileName($file);
+
+            // Move the file to the storage directory
+            $file->move(public_path('storage/' . $path), $name);
+
+            // Construct the file path
+            $filePath = $path . $name;
+
+            // Store the file path in the array
+            $filePaths[$request->title_document[$index]] = $filePath;
+
+            ServiceApplicationDocument::create([
+                'service_application_id' => $service_application->id,
+                'name' => $request->title_document[$index],
+                'path' => $filePath,
+            ]);
+
+        }
+
+        // Save the user ID to the input data
+        $input['user_id'] = $userID;
+
+        // Iterate through the file paths and create ServiceApplicationDocument records
+       /*  foreach ($filePaths as $title => $filePath) {
+            ServiceApplicationDocument::create([
+                'service_application_id' => $service_application->id,
+                'name' => $title,
+                'path' => $filePath,
+            ]);
+        } */
+
+        // Update the current step of the service application
+        $service_application->status_summary = 'Waiting for document and payment verification';
+        $service_application->current_step = 5;
+        $service_application->save();
+
+        // Redirect back with success message
+        /* return redirect(route('service-applications.documents.index', $service_application->id))
+            ->with('success', 'Documents saved successfully.'); */
+            return redirect(route('epromota_service_application_index',[$userID]))
+            ->with('success', 'Documents saved successfully.');
+    }
 
     // Function to generate a unique file name
     private function generateFileName($file)
@@ -423,6 +511,25 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
         return view('service_applications.application_form_payment', compact('payments', 'service_application_id', 'pending_payment'));
     }
 
+    public function epromotaapplicationFormPayment($service_application_id,$user_id)
+    {
+        // dd($user_id);
+        // dd($service_application_id);
+
+
+        //atp change the auth user to user_id
+        $user=Employer::find($user_id);
+
+        $payments = $payments =  $user->payments()->orderBy('created_at', 'DESC')->get();
+
+        $pending_payment =  $user->payments()
+            ->where('payment_type', 1)
+            ->where('payment_status', 0)
+            ->get()->last();
+
+        return view('promota.application_form_payment', compact('payments', 'user', 'service_application_id', 'pending_payment'));
+    }
+
     public function processingFeePayment($service_application_id)
     {
         $payments = auth()->user()->payments()->orderBy('created_at', 'DESC')->get();
@@ -435,6 +542,21 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
         $service_application = ServiceApplication::findOrFail($service_application_id);
 
         return view('service_applications.processing_fee_payment', compact('payments', 'pending_payment', 'service_application', 'service_application_id'));
+    }
+    public function epromotaprocessingFeePayment($service_application_id,$userid)
+    {
+        $user= Employer::findOrFail($userid);
+        $payments = $user->payments()->orderBy('created_at', 'DESC')->get();
+
+        $pending_payment = $user->payments()
+            ->where('payment_type', 2)
+            ->where('payment_status', 0)
+            ->get()->last();
+
+        $service_application = ServiceApplication::findOrFail($service_application_id);
+
+        // return view('service_applications.processing_fee_payment', compact('payments', 'pending_payment', 'service_application', 'service_application_id'));
+        return view('promota.processing_fee_payment', compact('payments','user', 'pending_payment', 'service_application', 'service_application_id'));
     }
 
     public function inspectionFeePayment($service_application_id)
@@ -450,6 +572,33 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
 
         return view('service_applications.inspection_fee_payment', compact('payments', 'pending_payment', 'service_application', 'service_application_id'));
     }
+    public function epromotainspectionFeePayment($service_application_id, $user_id)
+    {
+        // Fetch the user
+        $user = Employer::findOrFail($user_id);
+
+        // Fetch all payments in descending order
+        $payments = $user->payments()->orderBy('created_at', 'DESC')->get();
+
+        // Fetch the last pending payment of type 3
+        $pending_payment = $user->payments()
+            ->where('payment_type', 3)
+            ->where('payment_status', 0)
+            ->latest()
+            ->first();
+
+        // Fetch the service application
+        $service_application = ServiceApplication::findOrFail($service_application_id);
+
+        // Return the view with the fetched data
+        return view('promota.inspection_fee_payment', compact(
+            'payments',
+            'user',
+            'pending_payment',
+            'service_application',
+            'service_application_id'
+        ));
+    }
 
     public function equipmentFeePayment($service_application_id)
     {
@@ -463,6 +612,20 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
         $service_application = ServiceApplication::findOrFail($service_application_id);
 
         return view('service_applications.equipment_fee_payment', compact('payments', 'pending_payment', 'service_application'));
+    }
+    public function epromotaequipmentFeePayment($service_application_id,$userid)
+    {
+        $user= Employer::findOrFail($userid);
+        $payments = $user->payments()->orderBy('created_at', 'DESC')->get();
+
+        $pending_payment = $user->payments()
+            ->where('payment_type', 5)
+            ->where('payment_status', 0)
+            ->get()->last();
+
+        $service_application = ServiceApplication::findOrFail($service_application_id);
+
+        return view('promota.equipment_fee_payment', compact('payments','user', 'pending_payment', 'service_application'));
     }
 
     public function downloadPermit($service_application_id)
@@ -500,14 +663,14 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
         Session::put('longitude2', $input['longitude2']);
 
         $find = IncomingDocuments::where('email', Auth::user()->company_email)->where('branch_id', $input['branch_id'])->where('title', $input['service_id'])->first();
-        
+
         if($find) {
         $path = 'documents/';
-        
+
 
         $input['user_id'] = $userID;
 
-        
+
         // Removing an item from the session
         // Session::forget('key');
         $serviceApplication = ServiceApplication::create($input);
@@ -549,7 +712,7 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
         // dd($user);
 
         $find = IncomingDocuments::where('email',  $user->company_email)->where('branch_id', $input['branch_id'])->where('title', $input['service_id'])->first();
-
+// dd( $find );
         if ($find) {
             $path = 'documents/';
 
@@ -562,7 +725,7 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
             $employer->branch_id = $input['branch_id'];
             $employer->save();
 
-            return redirect(route('service-applications.index'))->with('success', 'Application created successfully.');
+            return redirect(route('epromota_service_application_index',[$user->id]))->with('success', 'Application created successfully.');
         } else {
 
             return redirect(route('epromotaadd.new.incoming.documente', [$userID]));

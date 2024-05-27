@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Application Form Payment')
+@section('title', 'Processing Fee Payment')
 
 
 @push('styles')
@@ -40,7 +40,7 @@
                             {{-- @if (auth()->user()->employees->count() > 0) --}}
                             <div class="card-title-group">
                                 <div class="card-title">
-                                    <h6 class="title">New Application Form Fees Payment</h6>
+                                    <h6 class="title">New Processing Fee Payment</h6>
                                 </div>
                             </div>
                             <div class="data">
@@ -74,7 +74,7 @@
                                                 </div>
                                             </div>
                                         @else
-                                            <form method="POST" action="{{ route('payment.remita') }}"
+                                            <form method="POST" action="{{ route('epromotapayment.remita',[$user->id]) }}"
                                                 enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row">
@@ -88,20 +88,45 @@
                                                     </div>
                                                     <div class="col-6">
                                                         @php $user = Auth::user();
-                                                            $service_app = \App\Models\ServiceApplication::findOrFail($service_application_id);
-                                                            $app_form_fee = \App\Models\ApplicationFormFee::where("service_id",$service_app->service_id)->where('processing_type_id', $service_app->service_type_id)->first();
-                                                            @endphp
+                                                        $service_app = \App\Models\ServiceApplication::findOrFail($service_application_id);
+                                                        if ($service_app) {
+    $app_form_fee_type = \App\Models\ProcessingFee::where("service_id", $service_app->service_id)->where("processing_type_id", $service_app->service_type_id)->first();
+    if ($app_form_fee_type && $app_form_fee_type->processing_type_id != 0) {
+        $app_form_fee = $app_form_fee_type;
+    } else {
+        $app_form_fee = \App\Models\ProcessingFee::where("service_id", $service_app->service_id)->first();
+    }
+} else {
+    // Handle the case when the ServiceApplication is not found
+    $app_form_fee = null;
+}
+
+                                                        @endphp
                                                         <label for="">Payment due for <b>{{ $service_app->service ? $service_app->service->name : 'NILL' }}</b> is:</label><br />
-                                                        <p>Application Form Fee:
+                                                        <p>Processing Fee:
                                                             <strong class="fs-3"
-                                                                id="application_form_fee">&#8358;{{ number_format($app_form_fee ? $app_form_fee->amount : '0', 2) }}</strong>
+                                                                    id="processing_fee">&#8358;{{ number_format($app_form_fee ? $app_form_fee->amount : '0', 2) }}</strong>
+                                                            {{-- @if ($service_application->service_type_id == 'mechanical')
+                                                                <strong class="fs-3"
+                                                                    id="processing_fee">&#8358;{{ number_format($app_form_fee ? $app_form_fee->amount : '0', 2) }}</strong>
+                                                            @else
+                                                                <strong class="fs-3"
+                                                                    id="processing_fee">&#8358;{{ number_format(7500.0, 2) }}</strong>
+                                                            @endif --}}
                                                         </p>
                                                         <input type="hidden" name="payment_type" id="payment_type"
-                                                            value="1">
-
-                                                        <input type="hidden" name="amount" id="amount" value="{{ $app_form_fee->amount }}">
+                                                            value="2">
+                                                        <input type="hidden" name="amount" id="amount"
+                                                            value="{{ $app_form_fee->amount }}">
+                                                        {{-- @if ($service_application->service_type_id == 'mechanical')
+                                                            <input type="hidden" name="amount" id="amount"
+                                                                value="150000">
+                                                        @else
+                                                            <input type="hidden" name="amount" id="amount"
+                                                                value="7500">
+                                                        @endif --}}
                                                         <input type="hidden" name="service_application_id"
-                                                            value="{{ $service_application_id }}">
+                                                            value="{{ $service_application->id }}">
                                                     </div>
                                                 </div>
 
@@ -144,7 +169,7 @@
 
     window.location.href = cUrl + 'ref=' + form.querySelector('input[name="rrr"]').value + tidParam;
 }
-         /* function makePaymentOld() {
+        /*  function makePaymentOld() {
             var form = document.querySelector("#payment-form");
             var paymentEngine = RmPaymentEngine.init({
                 key: pubKey,
@@ -173,10 +198,9 @@
                 }
             });
             paymentEngine.showPaymentWidget();
-        }  */
+        } */
         /* window.onload = function() {
             //setDemoData();
         }; */
     </script>
-
 @endpush

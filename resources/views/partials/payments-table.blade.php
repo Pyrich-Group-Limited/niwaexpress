@@ -26,10 +26,10 @@
                         </td>
                         <td>{{ $payment->paid_at }}</td>
                         <td><span
-                                class="tb-status text-warning">{{ $payment->approval_status == 0 ? 'Awaiting Approval' : '' }}</span>
+                                class="tb-status text-warning">{{ $payment->approval_status == 0 ? 'Awaiting Approval' : 'Approved' }}</span>
                         </td>
                         <td>
-                            
+
                             <a href="{{ route('payment.invoice', $payment->id) }}" target="_blank" title="Print"><span
                                     class="nk-menu-icon text-secondary"><em class="icon ni ni-printer"></em></span></a>
                             @if ($payment->payment_status == 1)
