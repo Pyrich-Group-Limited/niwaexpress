@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Application Form Payment')
+@section('title', 'Equipment Fee Payment')
 
 
 @push('styles')
@@ -40,7 +40,7 @@
                             {{-- @if (auth()->user()->employees->count() > 0) --}}
                             <div class="card-title-group">
                                 <div class="card-title">
-                                    <h6 class="title">New Application Form Fees Payment</h6>
+                                    <h6 class="title">New Equipment Fee Payment</h6>
                                 </div>
                             </div>
                             <div class="data">
@@ -62,50 +62,23 @@
                                                         &#8358;{{ number_format($pending_payment->amount, 2) }}</div>
                                                 </div>
                                                 <div>
-                                                    <form onsubmit="makePayment()" id="payment-form">
+                                                    <form onsubmit="makePayment(event)" id="payment-form">
+                                                        @csrf
                                                         <input type="hidden" class="form-control" id="js-rrr"
                                                             name="rrr" value="{{ $pending_payment->rrr }}"
                                                             placeholder="Enter RRR" />
-                                                        <button type="button" onclick="makePayment()"
-                                                            class="btn btn-primary btn-lg mt-2"><em
-                                                                class="icon ni ni-send me-2"></em> Click to pay online
-                                                            now!</button>
+                                                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                                        <input type="hidden" class="form-control" id="js-payment-id"
+                                                            name="payment_id" value="{{ $pending_payment->id }}"
+                                                            placeholder="Enter Payment ID" />
+                                                        <button type="submit" class="btn btn-primary btn-lg mt-2">
+                                                            <em class="icon ni ni-send me-2"></em> Click to pay online now!
+                                                        </button>
                                                     </form>
+
                                                 </div>
                                             </div>
                                         @else
-                                            <form method="POST" action="{{ route('payment.remita') }}"
-                                                enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="row">
-                                                    <div class="col-6">
-
-
-                                                        <button type="submit" class="btn btn-secondary btn-lg mt-2"><em
-                                                                class="icon ni ni-save me-2"></em> Generate Invoice
-                                                            (Remita
-                                                            RR)</button>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        @php $user = Auth::user();
-                                                            $service_app = \App\Models\ServiceApplication::findOrFail($service_application_id);
-                                                            $app_form_fee = \App\Models\ApplicationFormFee::where("service_id",$service_app->service_id)->where('processing_type_id', $service_app->service_type_id)->first();
-                                                            @endphp
-                                                        <label for="">Payment due for <b>{{ $service_app->service ? $service_app->service->name : 'NILL' }}</b> is:</label><br />
-                                                        <p>Application Form Fee:
-                                                            <strong class="fs-3"
-                                                                id="application_form_fee">&#8358;{{ number_format($app_form_fee ? $app_form_fee->amount : '0', 2) }}</strong>
-                                                        </p>
-                                                        <input type="hidden" name="payment_type" id="payment_type"
-                                                            value="1">
-
-                                                        <input type="hidden" name="amount" id="amount" value="{{ $app_form_fee->amount }}">
-                                                        <input type="hidden" name="service_application_id"
-                                                            value="{{ $service_application_id }}">
-                                                    </div>
-                                                </div>
-
-                                            </form>
                                         @endif
                                     </div>
                                 </div>
@@ -131,20 +104,23 @@
 
     {{-- <script type="text/javascript" src="https://demo.remita.net/payment/v1/remita-pay-inline.bundle.js"></script> --}}
     <script>
-        var cUrl = "{{ route('payment.callback') }}?";
+        var cUrl = "{{ route('payment.epromotacallback') }}?";
         var pubKey = "{{ env('REMITA_PUBLIC_KEY') }}";
 
-        function makePayment() {
+        function makePayment(event) {
+    event.preventDefault(); // Prevent form submission
     var form = document.querySelector("#payment-form");
     var tidParam = '';
+    var user_id = form.querySelector('input[name="user_id"]').value;
+    var rrr = form.querySelector('input[name="rrr"]').value;
 
     @if(!empty($pending_payment) && $pending_payment->id)
         tidParam = '&tid={{ $pending_payment->id }}';
     @endif
 
-    window.location.href = cUrl + 'ref=' + form.querySelector('input[name="rrr"]').value + tidParam;
+    window.location.href = cUrl + 'ref=' + rrr + '&user_id=' + user_id + tidParam;
 }
-         /* function makePaymentOld() {
+        /*  function makePaymentOld() {
             var form = document.querySelector("#payment-form");
             var paymentEngine = RmPaymentEngine.init({
                 key: pubKey,
@@ -173,10 +149,9 @@
                 }
             });
             paymentEngine.showPaymentWidget();
-        }  */
+        } */
         /* window.onload = function() {
             //setDemoData();
         }; */
     </script>
-
 @endpush

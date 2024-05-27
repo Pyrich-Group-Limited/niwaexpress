@@ -8,7 +8,7 @@
 
 
 @section('content')
-   
+
 
     <div class="nk-block nk-block-lg" >
         <div class="row g-gs">
@@ -41,7 +41,7 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    
+
                                                     <div class="col-sm-6 mb-3">
                                                         <label for="service_type_id">Service Type:</label>
                                                         <select class="form-select js-select2" data-ui="xl" id="service_type_id1" name="service_type_id" required>
@@ -82,7 +82,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                
+
 
                                                     <div class="col-sm-3">
                                                         <button type="submit"
@@ -98,8 +98,8 @@
                             </div> --}}
                             {{-- @endif
                             @if(!empty($service_app) && $service_app->current_step == 15) --}}
-                            
-                            
+
+
                            {{--  @endif --}}
 
 
@@ -174,7 +174,7 @@
             }
         });
     });
-        
+
     </script>
     {{-- </div><!-- .components-preview --> --}}
 @endsection

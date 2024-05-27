@@ -67,7 +67,7 @@
                             <div class="data">
                                 <div class="data-group">
                                     <div class="form-group w-100">
-                                        <form id="uploadForm" method="POST" action="{{ route('service-applications.documents.store', $service_application->id) }}" enctype="multipart/form-data">
+                                        <form id="uploadForm" method="POST" action="{{ route('epromota.service-applications.documents.store', [$service_application->id,$user->id]) }}" enctype="multipart/form-data">
                                             @csrf
                                             <div class="row">
                                                 <div class="row col-12">
@@ -154,7 +154,48 @@
             </div>
         </div><!-- .row -->
 
-        @include('service_applications.documents_table')
+        <div class="card card-bordered card-preview mt-4">
+            <div class="card-header">
+                @if ($documents->count() == 6)
+                    <form action="{{ route('documents.resubmit', $service_application->id) }}" method="post">
+                        @csrf
+                        <button class="btn">Resubmit for verification</button>
+                    </form>
+                @endif
+            </div>
+            <div class="card-inner">
+                <table class="nowrap table">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Document Name</th>
+                            <th>Document (PDF)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $no = 1;
+                        @endphp
+                        @foreach ($documents as $document)
+                            <tr>
+                                <td>
+                                    @php
+                                        echo $no++;
+                                    @endphp
+                                </td>
+                                <td>{{ $document->name }}</td>
+                                <td>
+                                    <a href="{{ 'storage/' . $document->path }}" target="_blank">
+                                        View File
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- .card-preview -->
+
 
     </div> <!-- nk-block -->
 
