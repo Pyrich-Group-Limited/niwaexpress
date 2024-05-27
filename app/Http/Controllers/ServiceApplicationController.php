@@ -22,6 +22,7 @@ use App\Models\IncomingDocuments;
 use Illuminate\Http\Request as Requests;
 use App\Models\Axis;
 use Illuminate\Support\Facades\Session;
+use App\Models\DeclinedDocument;
 
 
 class ServiceApplicationController extends Controller
@@ -321,6 +322,24 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
 
         return view('service_applications.documents', compact('documents', 'service_application', 'doc_uploads'));
     }
+    
+    public function documentAdd($id)
+    {
+        $user = Auth::user();
+        $service_application = ServiceApplication::findOrFail($id);
+        $documents = ServiceApplicationDocument::where('service_application_id', $service_application->id)->paginate(10);
+
+        if ($service_application) {
+            $doc_uploads = DeclinedDocument::select('id', 'name')
+                ->where('service_id', $service_application->id)
+                ->where('user_id', auth()->user()->id)
+                ->groupBy('id', 'name')
+                ->get();
+        }
+
+        return view('service_applications.add_documents', compact('documents', 'service_application', 'doc_uploads'));
+    }
+
     public function EpromotadocumentIndex($service_application_id, $user_id)
     {
         // Fetch user and service application

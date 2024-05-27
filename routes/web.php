@@ -133,6 +133,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('service-applications', App\Http\Controllers\ServiceApplicationController::class);
     Route::get('service-application-documents/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'documentIndex'])->name('service-applications.documents.index');
+
+    Route::get('service-application-documents-add/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'documentAdd'])->name('service-applications.documents.add');
     // Route::get('service-application-documents/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'documentIndex'])->name('service-applications.documents.index');
 
     // Route::get('epromota/{id}/service-app-documents/epromota/{user_id}', [App\Http\Controllers\ServiceApplicationController::class, 'EpromotadocumentIndex'])->name('epromota_service-applications.documents.index');

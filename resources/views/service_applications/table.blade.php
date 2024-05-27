@@ -48,6 +48,12 @@
                         <span class="sub-text">Service Type:</span>
                         <span>{{ $application->processingType ? ucwords($application->processingType->name) : '' }}</span>
                     </div>
+                    @if($application->mse_document_verification_comment)
+                    <div class="col-sm-6 col-md-4 col-lg-12 mb-3">
+                        <span class="sub-text">Comments On Declined Documents:</span>
+                        <span class="text-danger">{{ $application->mse_document_verification_comment }}</span>
+                    </div>
+                    @endif
                 </div>
                 <div class="row col-6">
                     <div class="col-sm-6 col-md-4 col-lg-12 mb-3">
@@ -85,6 +91,11 @@
                                {{--  @if ($app_fee) --}}
                                     @if ($application->current_step == 41)
                                         <a href="{{ route('service-applications.documents.index', $application->id) }}"
+                                            title="Documents"><span class="nk-menu-icon text-danger">Add
+                                                Documents</span></a>
+                                    @endif
+                                    @if ($application->current_step == 42)
+                                        <a href="{{ route('service-applications.documents.add', $application->id) }}"
                                             title="Documents"><span class="nk-menu-icon text-danger">Add
                                                 Documents</span></a>
                                     @endif
