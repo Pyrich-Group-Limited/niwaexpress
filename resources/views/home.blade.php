@@ -36,6 +36,11 @@
     @if (auth()->user()->user_type == 'e-promota')
 
         @if (auth()->user()->status > 1)
+        <div class="row">
+            {{-- <div class="text-center"> </div> --}}
+            <h4 class="text-center"> Welcome,  {{auth()->user()->contact_surname}}</h4>
+            <h1 class="text-center  mb-4 text-primary"> <span class=" text-success"> e-</span>Promota  Portal </h1>
+        </div>
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                     <div class="dash-widget">

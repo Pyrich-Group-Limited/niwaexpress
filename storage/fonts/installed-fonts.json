@@ -7,5 +7,17 @@
     },
     "tilt prism": {
         "normal": "tilt_prism_normal_d0597c8cdfd7511dd0978ec4e469423d"
+    },
+    "courgette": {
+        "normal": "courgette_normal_54708d1cfb4b6a7f19561ffd458bc21f"
+    },
+    "lora": {
+        "italic": "lora_italic_eb867052ad5e90ef245b07a22dbdaab7"
+    },
+    "noto sans": {
+        "500": "noto_sans_500_ccccc44f93909eea9aa2b6984ff77dae"
+    },
+    "roboto": {
+        "bold": "roboto_bold_8db5cb5d0586c1e891426d13097b1d04"
     }
 }

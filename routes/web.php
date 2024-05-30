@@ -7,6 +7,7 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ServiceApplicationController;
 
 /*
@@ -262,3 +263,4 @@ Route::get('epromoter', function () {
 Route::get('proomoter/creater', [EmployerController::class, 'createpage'])->name('the.create');
 Route::post('proomoter/store', [EmployerController::class, 'storepage'])->name('the.store');
 Route::get('epromota/{id}/serviceapplication', [ServiceApplicationController::class, 'epromoterindex'])->name('epromota_service_application_index');
+Route::get('downloadepromotacert',[CertificateController::class,'epromotacertificate'])->name('downloadepromotacert');

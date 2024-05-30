@@ -42,6 +42,8 @@ class HomeController extends Controller
             'death_claims' => ['amount' => 0, 'number'=> auth()->user()->death_claims()->count()],
             'disease_claims' => ['amount' => 0, 'number'=> auth()->user()->disease_claims()->count()],
         ];
+
+        
         /* $reg_setup = RegistrationFee::where('branch_id', auth()->user()->branch->id)->first();
         // Customize the redirect logic here
         if(isset($reg_setup) && $reg_setup->amount != null){
@@ -55,13 +57,13 @@ class HomeController extends Controller
         } */
 
         $branches=Branch::get();
-        
+
 
         $applicants=Employer::where('promotercode',auth()->user()->applicant_code)->get();
         $total=Employer::where('promotercode',auth()->user()->applicant_code)->count();
         $my_payments = Payment::orderBy('id', 'desc')->where('employer_id', auth()->user()->id)->limit(10)->get();
         $user = Auth::user();
-        
+
         $service_applications = ServiceApplication::orderBy('id', 'desc')->where('user_id', $user->id)->limit(10)->get();
         return view('home', compact(['metrics','applicants','branches','total','my_payments','service_applications']));
 
