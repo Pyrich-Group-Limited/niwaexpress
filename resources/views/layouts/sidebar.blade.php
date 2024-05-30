@@ -34,23 +34,32 @@
         <?php
         //}
 
+
         //if(empty($reg_setup)){
         ?>
         {{-- <li>
             <a href="{{ route('payment.index') }}"><i class="fa fa-bank"></i> <span>Apply For A Service</span></a>
         </li> --}}
+        @if (auth()->user()->user_type != 'e-promota')
         <li class="{{ Request::is('apply_for_a_service*') ? 'active' : '' }}">
             <a href="{{ route('apply_for_a_service') }}"><i class="fa fa-user-md"></i> <span>Apply For A Service</span></a>
         </li>
+        @endif 
+
+        @if (auth()->user()->user_type != 'e-promota')
         <li class="{{ Request::is('service-applications*') ? 'active' : '' }}">
             <a href="{{ route('service-applications.index') }}"><i class="fa fa-user-md"></i> <span>Transaction History</span></a>
         </li>
+        @endif
+
         <li>
             <a href="{{ route('download.niwa.act') }}"><i class="fa fa-download"></i> <span>Download NIWA Act</span></a>
         </li>
+        @if (auth()->user()->user_type != 'e-promota')
         <li>
             <a href="{{ route('switch.area.office') }}"><i class="fa fa-globe"></i> <span>Switch Area Office</span></a>
         </li>
+        @endif
         @if (auth()->user()->user_type == 'e-promota')
 
         <li>
@@ -59,9 +68,12 @@
         @endif
 
 
+        @if (auth()->user()->user_type != 'e-promota')
         <li>
             <a href="{{ route('my.payments') }}"><i class="fa fa-globe"></i> <span>My Payments</span></a>
         </li>
+        @endif
+
         <?php
        // }
 
