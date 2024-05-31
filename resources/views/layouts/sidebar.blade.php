@@ -57,7 +57,7 @@
         </li>
         @if (auth()->check() && auth()->user()->user_type == 'e-promota' && auth()->user()->status > 1)
         <li>
-            <a href="{{ route('downloadepromotacert') }}"><i class="fa fa-download"></i> <span>e-Promota CERT.</span></a>
+            <a href="{{ route('downloadepromotacert') }}"  target="_blank"><i class="fa fa-download"></i> <span>e-Promota CERT.</span></a>
         </li>
         @endif
 

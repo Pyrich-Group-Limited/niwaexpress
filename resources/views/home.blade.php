@@ -56,16 +56,17 @@
                         <span class="dash-widget-bg2"><i class="fa fa-check"></i></span>
                         <div class="dash-widget-info text-right">
                             <h3>{{ number_format($metrics['pro_fee'], 2) }}</h3>
-                            <span class="widget-title2">Processing Fee <i class="fa fa-check" aria-hidden="true"></i></span>
+                            <span class="widget-title2"> Total Permit Generated <i class="fa fa-check" aria-hidden="true"></i></span>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                     <div class="dash-widget">
                         <span class="dash-widget-bg3"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
                         <div class="dash-widget-info text-right">
                             <h3>{{ number_format($metrics['inspect'], 2) }}</h3>
-                            <span class="widget-title3">Inspection Fee <i class="fa fa-check-square-o"
+                            <span class="widget-title3">Pending Demand Notice <i class="fa fa-check-square-o"
                                     aria-hidden="true"></i></span>
                         </div>
                     </div>
@@ -75,7 +76,7 @@
                         <span class="dash-widget-bg4"><i class="fa fa-flag-o" aria-hidden="true"></i></span>
                         <div class="dash-widget-info text-right">
                             <h3>{{ number_format($metrics['demand'], 2) }}</h3>
-                            <span class="widget-title4">Demand Notice Fee <i class="fa fa-flag-o"
+                            <span class="widget-title4">Paid Demand Notice  <i class="fa fa-flag-o"
                                     aria-hidden="true"></i></span>
                         </div>
                     </div>
