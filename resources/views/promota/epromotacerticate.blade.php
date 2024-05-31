@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="content-div">
-                    <h1>e-Promota Operational License</h1>
+                    <h1>e-Promota Agent License</h1>
                     <div>
                         <form action="">
                             <div class="part-1">
