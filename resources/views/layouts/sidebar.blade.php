@@ -44,7 +44,7 @@
         <li class="{{ Request::is('apply_for_a_service*') ? 'active' : '' }}">
             <a href="{{ route('apply_for_a_service') }}"><i class="fa fa-user-md"></i> <span>Apply For A Service</span></a>
         </li>
-        @endif 
+        @endif
 
         @if (auth()->user()->user_type != 'e-promota')
         <li class="{{ Request::is('service-applications*') ? 'active' : '' }}">
@@ -55,6 +55,12 @@
         <li>
             <a href="{{ route('download.niwa.act') }}"><i class="fa fa-download"></i> <span>Download NIWA Act</span></a>
         </li>
+        @if (auth()->check() && auth()->user()->user_type == 'e-promota' && auth()->user()->status > 1)
+        <li>
+            <a href="{{ route('downloadepromotacert') }}"><i class="fa fa-download"></i> <span>e-Promota CERT.</span></a>
+        </li>
+        @endif
+
         @if (auth()->user()->user_type != 'e-promota')
         <li>
             <a href="{{ route('switch.area.office') }}"><i class="fa fa-globe"></i> <span>Switch Area Office</span></a>

@@ -344,4 +344,11 @@ class CertificateController extends Controller
 
         return $pdf->download('certificate_details.pdf');
     }
+
+    public function epromotacertificate()
+    {
+        return view('promota.epromotacerticate');
+        // $pdf=PDF::loadView('promota.epromotacerticate');
+        // return $pdf->download('e-promotacerticate.pdf');
+    }
 }
