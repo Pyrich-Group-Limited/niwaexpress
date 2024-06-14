@@ -81,10 +81,9 @@
                                                     <div class="col-6">
 
 
-                                                        <button type="submit" class="btn btn-secondary btn-lg mt-2"><em
-                                                                class="icon ni ni-save me-2"></em> Generate Invoice
-                                                            (Remita
-                                                            RR)</button>
+                                                        <button type="submit" id="generateInvoiceBtn" class="btn btn-secondary btn-lg mt-2" onclick="hideButton()">
+                                                            <em class="icon ni ni-save me-2"></em> Generate Invoice (Remita RR)
+                                                        </button>
                                                     </div>
                                                     <div class="col-6">
                                                         @php $user = Auth::user();
@@ -151,6 +150,12 @@
 
 
 @push('scripts')
+<script>
+    function hideButton() {
+        document.getElementById("generateInvoiceBtn").style.display = "none";
+        document.getElementById('loader').style.display = 'block';
+    }
+</script>
     <!-- JavaScript -->
     <script src="./assets/js/libs/datatable-btns.js?ver=3.1.3"></script>
 

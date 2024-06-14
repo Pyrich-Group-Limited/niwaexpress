@@ -11,10 +11,13 @@ use App\Mail\PaymentStatusMail;
 use App\Models\ServiceApplication;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+//use Barryvdh\DomPDF\PDF  as PDF;
+//use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 //use PDF;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use Illuminate\Support\Facades\DB;
 
 
 class PaymentController extends Controller
@@ -82,7 +85,7 @@ class PaymentController extends Controller
 
     public function myPayments(){
 
-        $payments = Payment::where('employer_id', auth()->user()->id)->get();
+        $payments = Payment::orderBy('created_at', 'desc')->where('employer_id', auth()->user()->id)->get();
         return view('payments.my_payments', compact('payments'));
 
     }
@@ -165,7 +168,7 @@ class PaymentController extends Controller
     public function generateRemita(Request $request)
     {
 
-        // dd($request->all());
+        
         //validation only for ECS payments
         $request->validate([
             'year' => 'required_with:contribution_period',
@@ -204,10 +207,10 @@ if ($lastInvoice) {
         //$serviceTypeId = $request->payment_type ==  1 ? env('ECS_REGISTRATION') : ($request->payment_type == 4 ? env('ECS_CONTRIBUTION') : env('ECS_CERTIFICATE'));
         $serviceTypeId = "4430731";
         $amount = $request->amount;
-        $orderId = round(microtime(true) * 1000);
-        $apiHash = hash('sha512', env('REMITA_MERCHANT_ID') . $serviceTypeId . $orderId . $amount . env('REMITA_API_KEY'));
+      //  $orderId = round(microtime(true) * 1000);
+       // $apiHash = hash('sha512', env('REMITA_MERCHANT_ID') . $serviceTypeId . $orderId . $amount . env('REMITA_API_KEY'));
 
-        $fields = [
+       /*  $fields = [
             "serviceTypeId" => $serviceTypeId,
             "amount" => $amount,
             "orderId" => $orderId,
@@ -233,7 +236,7 @@ if ($lastInvoice) {
                     "type" => "ALL",
                 ],
             ],
-        ];
+        ]; */
 
 
        /*  $curl = curl_init();
@@ -295,8 +298,7 @@ if ($lastInvoice) {
              if($getInvoice) {
                  return redirect()->back()->with('error', 'You cannot generate more than one invoice for a particular service fee. Contact the administrator for assistance.');
              } else { */
-
-
+             
              $payment = auth()->user()->payments()->create([
                  'payment_type' => $request->payment_type,
                  'payment_employee' => $request->employees,
@@ -304,10 +306,10 @@ if ($lastInvoice) {
                  'invoice_number' => $lastInvoice,
                  'invoice_generated_at' => date('Y-m-d H:i:s'),
                  'invoice_duration' => date('Y-m-d', strtotime('+1 year')),
-                 'payment_status' => 0,
+                 'payment_status' => 1,
                  'amount' => $amount,
                  'service_id' => $request->service_id ?? null,
-                 'letter_of_intent' => $path1 ?? null,
+                 'letter_of_intent' => null,
                  'branch_id' => auth()->user()->branch_id ?? null,
                  'applicant_type' => $request->applicant_type ?? null,
                  'applicant_name' => $request->applicant_name ?? null,
@@ -319,32 +321,29 @@ if ($lastInvoice) {
                  'employees' => $request->employees,
                  'service_application_id' => $request->service_application_id
              ]);
+            
         // }
+        $service_application = ServiceApplication::find($payment->service_application_id);
+        
+
+if (!empty($service_application) && $service_application->current_step != 41 && $service_application->current_step != 42) {
+     $payment->approval_status = 1;
+   
+}
 
             $payment->payment_status = 1;
             $payment->transaction_id = $request->tid;
             $payment->paid_at = date("Y-m-d H:i:s");
             $payment->document_uploads = 1;
+            $payment->service_id = $service_application->service_id;
             $payment->save();
 
+
             // Get Service Application and Update
-            $service_application = ServiceApplication::where('id', $payment->service_application_id)->first();
-            if (!empty($service_application)) {
-                $service_application->application_form_payment_status = 1;
-                $new_current_step = $service_application->current_step + 3;
-                $service_application->current_step = 4;
-                if ($new_current_step) {
-                    $service_application->status_summary = 'Waiting for payment approval';
-                } else if ($new_current_step == 12) {
-                    $service_application->status_summary = 'Payment for equipment has been made. Please wait for verification';
-                }
-                $service_application->save();
-            }
-
-
-            if ($payment->payment_type == 1) {
-                $service_application->current_step = 4;
-                $service_application->status_summary = 'Waiting for application fee verification and approval';
+          
+            if ($request->payment_type == 1) {
+                $service_application->current_step = 41; //4;
+                $service_application->status_summary = 'Application fee paid.';
                 $service_application->save();
                 //update employer
                 //$employer = Employer::where('id', $payment->employer_id)->first();
@@ -352,43 +351,59 @@ if ($lastInvoice) {
                 $payment->employer->save();
             }
 
-            if ($payment->payment_type == 2) {
-                $service_application->current_step = 61;
-                $service_application->status_summary = 'Waiting for processing fee verification and approval';
+            if ($request->payment_type == 2) {
+                $service_application->current_step = 7;//61;
+                $service_application->status_summary = 'Processing fee paid.';
                 $service_application->save();
             }
 
-            if ($payment->payment_type == 3) {
+            if ($request->payment_type == 3) {
                 $service_application->current_step = 8;
-                $service_application->status_summary = 'Waiting for inspection fee verification and approval';
+                $service_application->status_summary = 'Waiting for inspection status';
                 $service_application->save();
             }
 
-            if ($payment->payment_type == 5) {
-                $service_application->current_step = 14;
-                $service_application->status_summary = 'Waiting for equipment and monitoring fee verification and approval';
+            if ($request->payment_type == 23) {
+                $service_application->current_step = 8;
+                $service_application->status_summary = 'Waiting for inspection status';
                 $service_application->save();
+
+                $payment->approval_status = 0;
+                $payment->payment_type = 3;
+                $payment->save();
             }
 
-            if ($payment->payment_type == 2) {
-                auth()->user()->certificates()->where('payment_id', $payment->id)->update(['payment_status' => 1]);
+            
+            if ($request->payment_type == 5) {
+                $service_application->current_step = 15;
+                $service_application->status_summary = 'Equipment and monitoring fee paid';
+                $service_application->save();
             }
+        
 
             //generate invoice pdf
-            $pdf = PDF::setOptions(['dpi' => 150, 'defaultFont' => 'DejaVu Sans'])
-                //->loadView('emails.payment.status', ['pid' => $payment->id])
-                ->loadView('payments.invoice', ['pid' => $payment->id])
-                ->setPaper('a4', 'portrait');
+          //  $pdf = PDF::loadView('payments.invoice', ['pid' => $payment->id])
+            //    ->setPaper('a4', 'portrait');
 
-            $content = $pdf->download()->getOriginalContent();
+          //  $content = $pdf->download()->getOriginalContent();
 
             //$pdf->save(Storage::path('/invoices/invoice_' . $payment->id . '.pdf'))->stream('invoice_' . $payment->id . '.pdf');
-            Storage::put('public/invoices/invoice_' . $payment->id . '.pdf', $content);
+           // Storage::put('public/invoices/invoice_' . $payment->id . '.pdf', $content);
+        
+            $area_manager = DB::table('staff')
+                ->join('users', 'staff.user_id', '=', 'users.id')
+                ->where('staff.branch_id', auth()->user()->branch_id)
+                ->where('users.level_id', 3)
+                ->select('users.email','users.first_name')
+                ->first();
 
             try {
                 // Send mail with invoice notification
-                Mail::to($payment->employer->company_email)->send(new PaymentStatusMail($payment));
-
+                Mail::to($payment->employer->company_email)->send(new PaymentStatusMail($payment, $area_manager));
+                //send to area manager
+                
+                Mail::to($area_manager->email)->send(new PaymentStatusMail($payment, $area_manager));
+                
                 //return redirect('/dashboard')->with('success', 'Invoice notification sent successfully.');
             } catch (\Exception $e) {
                 // Handle the exception
@@ -397,20 +412,14 @@ if ($lastInvoice) {
 
             Storage::delete('public/invoices/invoice_' . $payment->id . '.pdf');
 
-            if ($payment->payment_type == 5) {
+            if ($request->payment_type == 5) {
                 $employer = Employer::findOrFail($payment->employer_id);
                 $employer->update(['inspection_status' => 0]);
             }
 
-           // return redirect()->route('service-applications.index')->with('success', $payment->payment_type == 1 ? 'Registration Payment successful!' : 'Payment successful!');
+           
 
-             //for certificate request, link payment to certificates
-             if ($request->payment_type == 2) {
-                 auth()->user()->certificates()->where('id', $request->certificate_id)->update(['payment_id' => $payment->id]);
-             }
-
-             return redirect()->route('service-applications.index')->with('success', $payment->payment_type == 1 ? 'Application fee Payment successful!' : 'Payment successful!');
-
+             return redirect()->route('service-applications.index')->with('success', $request->payment_type == 1 ? 'Application fee Payment successful!' : 'Payment successful!');
              //redirect to home
 
              /* if ($request->payment_type == 1)
@@ -422,6 +431,7 @@ if ($lastInvoice) {
          } */
 
     }
+
     public function epromotagenerateRemita(Request $request,$id)
     {
 

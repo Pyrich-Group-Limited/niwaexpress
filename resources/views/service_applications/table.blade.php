@@ -80,8 +80,8 @@
                         <span>
                             @if ($app_form_fee)
                                 @if ($application->current_step == 2)
-                                    <a href="{{ route('application_form_payment', $application->id) }}"
-                                        title="Application form payment"><span class="nk-menu-icon text-danger">Pay for
+                                    <a class="btn btn-danger" href="{{ route('application_form_payment', $application->id) }}"
+                                        title="Application form payment"><span class="nk-menu-icon text-white">Pay For
                                             Application form</span>
                                     </a>
                                 @endif
@@ -90,13 +90,13 @@
                             @if ($doc_upload)
                                {{--  @if ($app_fee) --}}
                                     @if ($application->current_step == 41)
-                                        <a href="{{ route('service-applications.documents.index', $application->id) }}"
-                                            title="Documents"><span class="nk-menu-icon text-danger">Add
+                                        <a class="btn btn-danger" href="{{ route('service-applications.documents.index', $application->id) }}"
+                                            title="Documents"><span class="nk-menu-icon text-white">Add
                                                 Documents</span></a>
                                     @endif
                                     @if ($application->current_step == 42)
-                                        <a href="{{ route('service-applications.documents.add', $application->id) }}"
-                                            title="Documents"><span class="nk-menu-icon text-danger">Add
+                                        <a class="btn btn-danger" href="{{ route('service-applications.documents.add', $application->id) }}"
+                                            title="Documents"><span class="nk-menu-icon text-white">Add
                                                 Documents</span></a>
                                     @endif
                                {{--  @endif --}}
@@ -118,10 +118,18 @@
                             {{--  @if ($application->current_step == 4 && !$is_processing_fee_paid) --}}
                             @if ($pro_fee)
                                 @if ($application->current_step == 6)
-                                    <a href="{{ route('processing_fee_payment', $application->id) }}"
-                                        title="Processing fee payment"><span class="nk-menu-icon text-danger">Pay for
-                                            Processing Fee</span>
-                                    </a>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3 mb-md-0"> <!-- Add mb-md-3 to create space on mobile -->
+                                        <a class="btn btn-primary" href="{{ route('processing_fee_payment', $application->id) }}" title="Processing fee payment">
+                                            <span class="nk-menu-icon text-white">Pay For Processing Fee</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn btn-success" href="{{ route('processing_and_inspection_fee_payment', $application->id) }}" title="Processing fee payment">
+                                            <span class="nk-menu-icon text-white">Pay For Processing & Inspection Fee</span>
+                                        </a>
+                                    </div>
+                                </div>
                                 @endif
 
                             @endif
@@ -129,7 +137,7 @@
                             @if ($ins_fee)
                                 @if ($application->current_step == 7)
                                     <a href="{{ route('inspection_fee_payment', $application->id) }}"
-                                        title="Inspection fee payment"><span class="nk-menu-icon text-danger">Pay for
+                                        title="Inspection fee payment"><span class="nk-menu-icon text-danger">Pay For
                                             Inspection Fee</span>
                                     </a>
                                 @endif
@@ -137,15 +145,15 @@
                                @endif
 
                             @if ($application->current_step == 13)
-                                <a href="{{ route('equipment_fee_payment', $application->id) }}"
-                                    title="Equipment fee payment"><span class="nk-menu-icon text-danger">Pay for
+                                <a class="btn btn-danger" href="{{ route('equipment_fee_payment', $application->id) }}"
+                                    title="Equipment fee payment"><span class="nk-menu-icon text-white">Pay For
                                         Equipment and Monitoring Fees</span>
                                 </a>
                             @endif
 
                             @if ($application->current_step == 15)
-                                <a href="{{ route('download_permit', $application->id) }}" title="Download Permit"
-                                    target="_blank"><span class="nk-menu-icon text-secondary">Download Permit</span>
+                                <a href="{{ route('download_permit', $application->id) }}" class="btn btn-success" title="Download Permit"
+                                    target="_blank"><span class="nk-menu-icon text-white">Download Permit</span>
                                 </a>
                             @endif
                         </span>

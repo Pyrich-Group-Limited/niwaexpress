@@ -46,11 +46,50 @@
             color: red;
             font-size: 1rem !important;
         }
+
+        .loader-container {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7); /* Adjust opacity as needed */
+    z-index: 9999;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 6px solid #f3f3f3; /* Light grey */
+    border-top: 6px solid #392C70; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.dash-widget-info > h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
     </style>
 </head>
 
 <body>
     <div class="main-wrapper">
+        <div id="loader" class="loader-container">
+            <div class="loader"></div>
+        </div>
+
         @include('layouts.navbar')
 
 
@@ -369,9 +408,22 @@
     <script src="./assets/js/bundle.js?ver=3.1.3"></script>
     <script src="./assets/js/scripts.js?ver=3.1.3"></script>
 
+    <script>
+        document.onreadystatechange = function () {
+            if (document.readyState === 'complete') {
+                // Hide loader when page is fully loaded
+                document.getElementById('loader').style.display = 'none';
+            } else {
+                // Show loader while page is loading
+                document.getElementById('loader').style.display = 'block';
+            }
+        };
+    </script>
+    
+
     @stack('scripts')
 
-    @if (env('APP_ENV') == 'production')
+   {{--  @if (env('APP_ENV') == 'production')
         <!--Start of Tawk.to Script-->
         <script type="text/javascript">
             var Tawk_API = Tawk_API || {},
@@ -387,7 +439,7 @@
             })();
         </script>
         <!--End of Tawk.to Script-->
-    @endif
+    @endif --}}
 </body>
 
 </html>

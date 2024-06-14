@@ -2,13 +2,13 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="js">
 
 <head>
-    <base href="../../../">
-    <meta charset="utf-8">
+     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="author" content="PGL - Ben Onabe">
+    <meta name="author" content="PGL">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
-        content="Nigerian Social Insurance Trust Fund (NSITF), Employer Self Service Portal (ESSP).">
+        content="National Inland Waterways Authority">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,7 +16,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}">
     <!-- Page Title  -->
-    <title>Invoice | {{ env('APP_NAME') }}</title>
+    <title>Invoice | National Inland Waterways Authority</title>
     <!-- StyleSheets  -->
     @if ($pid ?? '')
         @include('payments.style1')
@@ -45,19 +45,20 @@
             <hr>
             <div class="invoice-brand text-center">
                 @if ($pid ?? '')
-                    <img style="width: 125px !important;height: 125px !important;max-height: 125px !important;"
-                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/images/logo.png'))) }}"
-                        srcset="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/images/logo.png'))) }} 2x"
-                        alt="">
-                @else
-                    <img style="width: 125px !important;height: 125px !important;max-height: 125px !important;"
-                        src="{{ asset('assets/images/logo.png') }}" srcset="{{ asset('assets/images/logo.png 2x') }}"
-                        alt="">
-                @endif
+    <img style="width: 100%;height: auto;"
+        src="data:image/png;base64,{{ base64_encode(file_get_contents(url('assets/images/logo.png'))) }}"
+        srcset="data:image/png;base64,{{ base64_encode(file_get_contents(url('assets/images/logo.png'))) }} 2x"
+        alt="NIWA logo">
+@else
+    <img style="width: 100%;height: auto;"
+        src="{{ url('assets/images/logo.png') }}"
+        srcset="{{ url('assets/images/logo.png') }} 2x"
+        alt="NIWA logo">
+@endif
             </div>
             <div class="nk-block-head mb-3">
                 <div class="nk-block-head-content">
-                    <h4 class="nk-block-title text-center">NIWA<br />EROM</h4>
+                    <h4 class="nk-block-title text-center">NIWA<br />EXPRESS</h4>
                 </div>
             </div>
             @php
@@ -112,12 +113,11 @@
             <br />
             <div class="invoice-bills">
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table width="100%" class="table table-striped">
                         <thead>
                             <tr>
-                                <th class="w-150px">Item ID</th>
-                                <th class="w-60">Description</th>
-                                <th>Price</th>
+                                <th class="">Item ID</th>
+                                <th class="w-150px">Description</th>
                                 <th>Qty</th>
                                 <th>Amount</th>
                             </tr>
@@ -125,8 +125,7 @@
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>{{ $payment->payment_type == 1 ? 'ECS Registration Fee' : ($payment->payment_type == 2 ? 'Certificate Request' : 'ECS Payment') }}
-                                <td>₦{{ number_format($payment->amount, 2) }}</td>
+                                <td>{{ enum_payment_types()[$payment->payment_type] }}
                                 <td>1</td>
                                 <td>₦{{ number_format($payment->amount, 2) }}</td>
                             </tr>
@@ -146,7 +145,7 @@
     </div><!-- .invoice -->
 </div><!-- .nk-block -->
 <div class="nk-block-content text-center" style="position: fixed; bottom: 0;left:0;right:0;">
-    <p class="text-soft">&copy; 2023 {{ env('APP_NAME') }}. All Rights Reserved.</p>
+    <p class="text-soft">&copy; <?php echo date('Y'); ?> {{ env('APP_NAME') }}. All Rights Reserved.</p>
 </div>
 <script>
     function printPromot() {

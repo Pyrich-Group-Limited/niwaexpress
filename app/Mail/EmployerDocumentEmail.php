@@ -13,16 +13,18 @@ class EmployerDocumentEmail extends Mailable
 
     public $employerDocuments;
     public $user;
+    public $areaManager;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($employerDocuments, $user)
+    public function __construct($employerDocuments, $user, $areaManager)
     {
         $this->employerDocuments = $employerDocuments;
         $this->user = $user;
+        $this->areaManager = $areaManager;
     }
 
     /**

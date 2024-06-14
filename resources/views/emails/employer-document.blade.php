@@ -3,25 +3,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Applicant Documents</title>
+    <title>Client Documents</title>
 </head>
 <body>
-    <p>Dear Applicant,</p>
+    <p>Dear {{$areaManager->first_name}},</p>
 
-    <p>This is to notify you of a new client document from NIWA portal.</p>
+    <p>This is to notify you of a new client document from NIWA express portal.</p>
 
     <p>Details of a new client document:</p>
     <ul>
-        <li>Employer Name: {{ $user->contact_firstname.' '.$user->contact_surname }}</li>
+        <li>Client Name: {{ $user->contact_firstname.' '.$user->contact_surname }}</li>
         <li>Branch Name: {{ $user->branch->branch_name }}</li>
-        <li>Document Name: {{ $employerDocuments->title }}</li>
-        <li><a href="{{ {{ asset('storage/'.$employerDocuments->file_path) }} }}" target="_blank" class="text-dark">Open PDF Document</a></li>
-        <!-- Add more details as needed -->
+        @foreach($employerDocuments as $document)
+            <li>Document Name: {{ $document->name }}</li>
+            <li><a href="{{ url('storage/'.$document->path) }}" target="_blank" class="text-dark">Open PDF Document</a></li>
+            <!-- Add more details as needed -->
+        @endforeach
     </ul>
 
     <p>Visit the url below to follow up on the client documents and approve when necessary</p>
 
-    <p><a href="https://ebs.eniwa.com.ng/documents/index">View Documents Status</a></p>
+    <p><a href="http://optima.eniwa.com.ng/serviceApplications">View Documents Status</a></p>
 
     <p>Best regards,</p>
     <p>NIWA Express Portal</p>

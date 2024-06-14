@@ -23,6 +23,11 @@ use Illuminate\Http\Request as Requests;
 use App\Models\Axis;
 use Illuminate\Support\Facades\Session;
 use App\Models\DeclinedDocument;
+use App\Mail\EmployerDocumentEmail;
+use App\Mail\IncomingAndServiceEmail;
+use Illuminate\Support\Facades\Mail;
+
+
 
 
 class ServiceApplicationController extends Controller
@@ -117,7 +122,7 @@ $document_input['document_url'] = $path . "/" . $file_name;
 
 // Create IncomingDocument
 //IncomingDocuments::create($document_input);
-DB::table('incoming_documents_manager')->insert($document_input);
+$inserted = DB::table('incoming_documents_manager')->insert($document_input);
 
 // start
 $userID = Auth::user()->id;
@@ -142,6 +147,26 @@ $serviceApplication = ServiceApplication::create($input);
 $employer = Employer::findOrFail($userID);
 $employer->branch_id = $input['branch_id']; // Assuming branch_id is one of the session values
 $employer->save();
+
+ //send to area manager
+ $area_manager = DB::table('staff')
+ ->join('users', 'staff.user_id', '=', 'users.id')
+ ->where('staff.branch_id', auth()->user()->branch_id)
+ ->where('users.level_id', 3)
+ ->select('users.first_name', 'users.email') // Select both first_name and email
+ ->first();
+ $incoming = 1;
+
+         try {
+             
+             $user = Auth::user();
+             Mail::to($area_manager->email)->send(new IncomingAndServiceEmail($incoming, $user, $area_manager, $serviceApplication, $document_input));
+
+             //return redirect('/dashboard')->with('success', 'Invoice notification sent successfully.');
+         } catch (\Exception $e) {
+             // Handle the exception
+             //return redirect('/dashboard')->with('error', 'Failed to send invoice notification: ' . $e->getMessage());
+         }
 
 Session::forget('branch_id');
 Session::forget('service_id');
@@ -409,13 +434,52 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
             // Store the file path in the array
             $filePaths[$request->title_document[$index]] = $filePath;
 
-            ServiceApplicationDocument::create([
+           $service_doc = ServiceApplicationDocument::create([
                 'service_application_id' => $service_application->id,
                 'name' => $request->title_document[$index],
                 'path' => $filePath,
             ]);
 
+            
+
         }
+
+        //send to area manager
+        $area_manager = DB::table('staff')
+        ->join('users', 'staff.user_id', '=', 'users.id')
+        ->where('staff.branch_id', auth()->user()->branch_id)
+        ->where('users.level_id', 3)
+        ->select('users.first_name', 'users.email') // Select both first_name and email
+        ->first();
+    
+                $declined_documents = DB::table('declined_documents')
+        ->join('service_applications_documents', 'declined_documents.service_id', '=', 'service_applications_documents.service_application_id')
+        ->where('declined_documents.service_id', $service_application->id)
+        ->where('declined_documents.user_id', auth()->user()->id)
+        ->select('service_applications_documents.name', 'service_applications_documents.path')
+        ->get();
+    
+    
+                try {
+                    
+                    $user = Auth::user();
+                    Mail::to($area_manager->email)->send(new EmployerDocumentEmail($declined_documents, $user, $area_manager));
+    
+                    //return redirect('/dashboard')->with('success', 'Invoice notification sent successfully.');
+                } catch (\Exception $e) {
+                    // Handle the exception
+                    //return redirect('/dashboard')->with('error', 'Failed to send invoice notification: ' . $e->getMessage());
+                }
+                
+                $declined_documents1 = DeclinedDocument::where('user_id', auth()->user()->id)
+    ->where('service_id', $service_application->id)
+    ->get();
+
+if ($declined_documents1->count() > 0) {
+    foreach ($declined_documents1 as $document) {
+        $document->delete();
+    }
+}
 
         // Save the user ID to the input data
         $input['user_id'] = $userID;
@@ -430,7 +494,7 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
         } */
 
         // Update the current step of the service application
-        $service_application->status_summary = 'Waiting for document and payment verification';
+        $service_application->status_summary = 'Waiting for documents verification and approval';
         $service_application->current_step = 5;
         $service_application->save();
 
@@ -591,6 +655,21 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
 
         return view('service_applications.inspection_fee_payment', compact('payments', 'pending_payment', 'service_application', 'service_application_id'));
     }
+
+    public function processingInspectionFeePayment($service_application_id)
+    {
+        $payments = auth()->user()->payments()->orderBy('created_at', 'DESC')->get();
+
+        $pending_payment = auth()->user()->payments()
+            ->where('payment_type', 2)
+            ->where('payment_status', 0)
+            ->get()->last();
+
+        $service_application = ServiceApplication::findOrFail($service_application_id);
+
+        return view('service_applications.processing_inspection_fee_payment', compact('payments', 'pending_payment', 'service_application', 'service_application_id'));
+    }
+
     public function epromotainspectionFeePayment($service_application_id, $user_id)
     {
         // Fetch the user
@@ -697,6 +776,27 @@ return redirect(route('service-applications.index'))->with('success', 'Document 
         $employer = Employer::findOrFail($userID);
         $employer->branch_id = $input['branch_id'];
         $employer->save();
+
+        //send to area manager
+ $area_manager = DB::table('staff')
+ ->join('users', 'staff.user_id', '=', 'users.id')
+ ->where('staff.branch_id', auth()->user()->branch_id)
+ ->where('users.level_id', 3)
+ ->select('users.first_name', 'users.email') // Select both first_name and email
+ ->first();
+ $incoming = 0;
+
+         try {
+             
+             $user = Auth::user();
+             $document_input = [];
+             Mail::to($area_manager->email)->send(new IncomingAndServiceEmail($incoming, $user, $area_manager, $serviceApplication, $document_input));
+
+             //return redirect('/dashboard')->with('success', 'Invoice notification sent successfully.');
+         } catch (\Exception $e) {
+             // Handle the exception
+             //return redirect('/dashboard')->with('error', 'Failed to send invoice notification: ' . $e->getMessage());
+         }
 
         return redirect(route('service-applications.index'))->with('success', 'Application created successfully.');
 
