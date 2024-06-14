@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\RegistrationFee;
 use App\Models\ServiceApplication;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {

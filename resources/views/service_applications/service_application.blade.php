@@ -206,7 +206,7 @@
                                                         </div>
                                                         <div class="form-control-wrap form-check">
                                                             <input name="show-coordinates" class="form-check-input"
-                                                                type="radio" name="toggle" value="hide"
+                                                                type="radio" name="toggle" value="hide" checked
                                                                 id="hideCoordinates">
                                                             <p>No</p>
 
@@ -285,6 +285,7 @@
     <script>
         $(document).ready(function() {
             $('#service_id1').change(function() {
+                document.getElementById('loader').style.display = 'block';
                 var serviceId = $(this).val();
                 if (serviceId) {
                     $.ajax({
@@ -301,6 +302,7 @@
                                 $('#service_type_id1').append(
                                     '<option value="none">No result</option>');
                             }
+                            document.getElementById('loader').style.display = 'none';
                         }
                     });
                 } else {
@@ -315,6 +317,7 @@
 
             $('#service_id2').change(function() {
                 var serviceId = $(this).val();
+                document.getElementById('loader').style.display = 'block';
                 if (serviceId) {
                     $.ajax({
                         type: "GET",
@@ -330,6 +333,7 @@
                                 $('#service_type_id2').append(
                                     '<option value="0">No result</option>');
                             }
+                            document.getElementById('loader').style.display = 'none';
                         }
                     });
                 } else {

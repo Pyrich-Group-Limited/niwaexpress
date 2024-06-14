@@ -16,6 +16,11 @@ class ServiceApplication extends Model
         'expiry_date','promotacode', 'user_id', 'service_id', 'branch_id', 'application_form_payment_status', 'date_of_inspection', 'service_type_id', 'status_summary', 'current_step', 'approval_status', 'latitude1', 'longitude1', 'latitude2', 'longitude2','axis_id',
     ];
 
+    public function axis()
+    {
+        return $this->belongsTo(Axis::class,'axis_id', 'id');
+    }
+    
     public function service()
     {
         return $this->belongsTo(Service::class, 'service_id');

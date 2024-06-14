@@ -16,12 +16,15 @@ class PaymentStatusMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $areaManager;
+
     /**
      * Create a new message instance.
      */
-    public function __construct(public Payment $payment,)
+    public function __construct(public Payment $payment, $areaManager)
     {
         //
+        $this->areaManager = $areaManager;
     }
 
     /**
@@ -50,12 +53,12 @@ class PaymentStatusMail extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
+    /* public function attachments(): array
     {
         return [
             Attachment::fromStorage('public/invoices/invoice_' . $this->payment->id . '.pdf')
                 ->as('invoice.pdf')
                 ->withMime('application/pdf'),
         ];
-    }
+    } */
 }

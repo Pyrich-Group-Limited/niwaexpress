@@ -156,6 +156,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('epromota/processing-fee-payment/{id}/{userid}/', [App\Http\Controllers\ServiceApplicationController::class, 'epromotaprocessingFeePayment'])->name('epromota_processing_fee_payment');
 
     Route::get('inspection-fee-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'inspectionFeePayment'])->name('inspection_fee_payment');
+    Route::get('processing-inspection-fee-payment/{id}', [App\Http\Controllers\ServiceApplicationController::class, 'processingInspectionFeePayment'])->name('processing_and_inspection_fee_payment');
+
     // Route::get('epromota/inspection-fee-payment/{id}/{userid/', [App\Http\Controllers\ServiceApplicationController::class, 'epromotainspectionFeePayment'])->name('epromota_inspection_fee_payment');
         Route::get('epromota/inspection-fee-payment/{service_application_id}/{user_id}',
         [App\Http\Controllers\ServiceApplicationController::class, 'epromotainspectionFeePayment']

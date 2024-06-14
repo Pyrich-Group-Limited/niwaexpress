@@ -8,6 +8,7 @@ function enum_payment_types()
     $option[3] = 'Inspection Fee';
     $option[4] = 'Application Form Fee + Processing Fee';
     $option[5] = 'Equipment and Monitoring Fee';
+    $option[23] = 'Processing Fee and Inspection Fee';
 
     return $option;
 }

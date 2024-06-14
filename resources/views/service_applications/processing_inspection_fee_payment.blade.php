@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Application Form Payment')
+@section('title', 'Inspection Fee Payment')
 
 
 @push('styles')
@@ -40,7 +40,7 @@
                             {{-- @if (auth()->user()->employees->count() > 0) --}}
                             <div class="card-title-group">
                                 <div class="card-title">
-                                    <h6 class="title">New Application Form Fees Payment</h6>
+                                    <h6 class="title">New Processing & Inspection Fee Payment</h6>
                                 </div>
                             </div>
                             <div class="data">
@@ -79,28 +79,57 @@
                                                 @csrf
                                                 <div class="row">
                                                     <div class="col-6">
+                                                        @php  $user = Auth::user();
+                                                        $service_app = \App\Models\ServiceApplication::findOrFail($service_application_id);
+                                                        if ($service_app) {
+    $app_form_fee_type = \App\Models\InspectionFee::where("service_id", $service_app->service_id)->where("processing_type_id", $service_app->service_type_id)->first();
+    if ($app_form_fee_type && $app_form_fee_type->processing_type_id != 0) {
+        $app_form_fee = $app_form_fee_type;
+    } else {
+        $app_form_fee = \App\Models\InspectionFee::where("service_id", $service_app->service_id)->first();
+    }
+} else {
+    // Handle the case when the ServiceApplication is not found
+    $app_form_fee = null;
+}
+$app_form_fee1 = \App\Models\ProcessingFee::where("service_id", $service_app->service_id)->where("processing_type_id", $service_app->service_type_id)->first();
+$app_form_fee = $app_form_fee1->amount + $app_form_fee_type->amount;
+                                                       @endphp
 
-
-                                                        <button type="submit" id="generateInvoiceBtn" class="btn btn-secondary btn-lg mt-2" onclick="hideButton()">
-                                                            <em class="icon ni ni-save me-2"></em> Generate Invoice (Remita RR)
-                                                        </button>
+<button type="submit" id="generateInvoiceBtn" class="btn btn-secondary btn-lg mt-2" onclick="hideButton()">
+    <em class="icon ni ni-save me-2"></em> Generate Invoice (Remita RR)
+</button>
                                                     </div>
                                                     <div class="col-6">
-                                                        @php $user = Auth::user();
-                                                            $service_app = \App\Models\ServiceApplication::findOrFail($service_application_id);
-                                                            $app_form_fee = \App\Models\ApplicationFormFee::where("service_id",$service_app->service_id)->where('processing_type_id', $service_app->service_type_id)->first();
-                                                            @endphp
                                                         <label for="">Payment due for <b>{{ $service_app->service ? $service_app->service->name : 'NILL' }}</b> is:</label><br />
-                                                        <p>Application Form Fee:
+                                                        <p>Processing & Inspection Fee:
                                                             <strong class="fs-3"
-                                                                id="application_form_fee">&#8358;{{ number_format($app_form_fee ? $app_form_fee->amount : '0', 2) }}</strong>
+                                                                    id="inspection_fee">&#8358;{{ number_format($app_form_fee ? $app_form_fee : '0', 2) }}</strong>
+                                                            {{-- @if ($service_application->service_type_id == 'mechanical')
+                                                                <strong class="fs-3"
+                                                                    id="inspection_fee">&#8358;{{ number_format($app_form_fee ? $app_form_fee->amount : '0', 2) }}</strong>
+                                                            @else
+                                                                <strong class="fs-3"
+                                                                    id="inspection_fee">&#8358;{{ number_format(7500.0, 2) }}</strong>
+                                                            @endif --}}
                                                         </p>
                                                         <input type="hidden" name="payment_type" id="payment_type"
-                                                            value="1">
-
-                                                        <input type="hidden" name="amount" id="amount" value="{{ $app_form_fee->amount }}">
+                                                            value="23">
+                                                            <input type="hidden" name="amount" id="amount"
+                                                                value="{{ $app_form_fee }}">
+                                                                <input type="hidden" name="p_amount" id="p_amount"
+                                                                value="{{ $app_form_fee1->amount }}">
+                                                                <input type="hidden" name="i_amount" id="i_amount"
+                                                                value="{{ $app_form_fee_type->amount }}">
+                                                        {{-- @if ($service_application->service_type_id == 'mechanical')
+                                                            <input type="hidden" name="amount" id="amount"
+                                                                value="150000">
+                                                        @else
+                                                            <input type="hidden" name="amount" id="amount"
+                                                                value="7500">
+                                                        @endif --}}
                                                         <input type="hidden" name="service_application_id"
-                                                            value="{{ $service_application_id }}">
+                                                            value="{{ $service_application->id }}">
                                                     </div>
                                                 </div>
 
@@ -134,7 +163,7 @@
     <!-- JavaScript -->
     <script src="./assets/js/libs/datatable-btns.js?ver=3.1.3"></script>
 
-    {{-- <script type="text/javascript" src="https://demo.remita.net/payment/v1/remita-pay-inline.bundle.js"></script> --}}
+   {{--  <script type="text/javascript" src="https://demo.remita.net/payment/v1/remita-pay-inline.bundle.js"></script> --}}
     <script>
         var cUrl = "{{ route('payment.callback') }}?";
         var pubKey = "{{ env('REMITA_PUBLIC_KEY') }}";
@@ -142,11 +171,11 @@
         function makePayment() {
     var form = document.querySelector("#payment-form");
     var tidParam = '';
-
+    
     @if(!empty($pending_payment) && $pending_payment->id)
         tidParam = '&tid={{ $pending_payment->id }}';
     @endif
-
+    
     window.location.href = cUrl + 'ref=' + form.querySelector('input[name="rrr"]').value + tidParam;
 }
          /* function makePaymentOld() {
@@ -178,10 +207,9 @@
                 }
             });
             paymentEngine.showPaymentWidget();
-        }  */
+        } */
         /* window.onload = function() {
             //setDemoData();
         }; */
     </script>
-
 @endpush

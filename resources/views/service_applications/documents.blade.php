@@ -119,6 +119,7 @@
             <script>
                document.getElementById("uploadForm").addEventListener("submit", function (e) {
     e.preventDefault();
+    document.getElementById('loader').style.display = 'block';
     var formData = new FormData(this);
     var xhr = new XMLHttpRequest();
     var progressBar = document.getElementById("progressBar");
@@ -130,7 +131,9 @@
             // On Success
             progressWrapper.style.display = "none";
             console.log(xhr.responseText);
-            location.reload(); // Reload the page
+            //location.reload(); // Reload the page
+            // Redirect to service-applications route page
+            window.location.href = "{{ route('service-applications.index') }}";
         }
     };
     xhr.upload.onprogress = function (event) {

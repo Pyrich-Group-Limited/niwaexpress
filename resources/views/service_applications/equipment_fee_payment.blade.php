@@ -70,10 +70,11 @@
                                                             <input type="hidden" class="form-control" id="js-rrr"
                                                             name="payment_id" value="{{ $pending_payment->id }}"
                                                             placeholder="Enter RRR" />
-                                                        <button type="button" onclick="makePayment()"
+                                                        <button type="button"id="generateInvoiceBtn" onclick="makePayment()"
                                                             class="btn btn-primary btn-lg mt-2"><em
                                                                 class="icon ni ni-send me-2"></em> Click to pay online
                                                             now!</button>
+                                                            
                                                     </form>
                                                 </div>
                                             </div>
@@ -108,6 +109,8 @@
         var pubKey = "{{ env('REMITA_PUBLIC_KEY') }}";
 
         function makePayment() {
+            document.getElementById("generateInvoiceBtn").style.display = "none";
+            document.getElementById('loader').style.display = 'block';
     var form = document.querySelector("#payment-form");
     var tidParam = '';
     
